@@ -1,5 +1,5 @@
 <template>
-  <h1>NavBar</h1>
+  <h1>PageFooter</h1>
 </template>
 
 <script setup lang='ts'>
