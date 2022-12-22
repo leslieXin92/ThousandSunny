@@ -20,8 +20,18 @@ import PageHeader from '@/components/PageHeader/PageHeader.vue'
 </script>
 
 <style lang='less' scoped>
-.el-main {
-  min-height: calc(100vh - 60px);
+.el-container {
+  min-width: 1000px;
+  max-width: 1920px;
+  margin: 0 auto;
+
+  .el-header {
+    height: 100px;
+  }
+
+  .el-main {
+    min-height: calc(100vh - 100px);
+  }
 }
 </style>
 
