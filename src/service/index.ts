@@ -11,7 +11,7 @@ export default new JRequest({
       return error
     },
     responseInterceptor: (res) => {
-      return res
+      return res.data
     },
     responseInterceptorCatch: (error) => {
       return error

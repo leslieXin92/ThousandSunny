@@ -5,7 +5,7 @@ export interface IData<T = any> {
 }
 
 export interface IGetBlogListParams {
-  type: 'public' | 'private',
+  type: 'public' | 'private'
   pageNum: number
   pageSize: number
 }
