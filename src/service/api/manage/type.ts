@@ -10,6 +10,14 @@ export interface ILoginParams {
 }
 
 export interface ILoginRes {
+  username: string
+}
+
+export interface ILogoutParams {
+  username: string
+}
+
+export interface ILogoutRes {
 }
 
 export interface ICreateBlogParams {
@@ -31,4 +39,5 @@ export interface IEditBlogParams {
 export interface IEditBlogRes {
 }
 
-export interface IDeleteBlogRes {}
+export interface IDeleteBlogRes {
+}

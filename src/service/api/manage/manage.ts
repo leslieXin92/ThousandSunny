@@ -3,6 +3,8 @@ import {
   IData,
   ILoginParams,
   ILoginRes,
+  ILogoutParams,
+  ILogoutRes,
   ICreateBlogParams,
   ICreateBlogRes,
   IEditBlogParams,
@@ -14,6 +16,14 @@ import {
 export function login(userInfo: ILoginParams) {
   return JRequest.post<IData<ILoginRes>>({
     url: '/login',
+    data: userInfo,
+    showLoading: true
+  })
+}
+
+export function logout(userInfo: ILogoutParams) {
+  return JRequest.post<IData<ILogoutRes>>({
+    url: '/logout',
     data: userInfo,
     showLoading: true
   })
@@ -39,6 +49,6 @@ export function editBlog(blogInfo: IEditBlogParams) {
 // 删除博客
 export function deleteBlog(blogId: number) {
   return JRequest.delete<IData<IDeleteBlogRes>>({
-    url: `/blog/${ blogId }`
+    url: `/blog/${blogId}`
   })
 }
