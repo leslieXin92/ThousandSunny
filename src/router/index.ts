@@ -30,4 +30,10 @@ const router = createRouter({
   ]
 })
 
+router.beforeEach(to => {
+  if (to.path === '/admin') {
+    return '/NotFound'
+  }
+})
+
 export default router

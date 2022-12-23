@@ -1,9 +1,20 @@
 <template>
   <ul class='PageHeader'>
-    <el-popover trigger='contextmenu' placement='bottom-start' :showArrow='false' ref='popover'>
-      <div class='popoverContent'>
-        <el-button @click='openDialog' size='small' text>{{ curCase }}</el-button>
-      </div>
+    <el-popover
+      trigger='contextmenu'
+      placement='bottom-start'
+      :showArrow='false'
+      ref='popover'
+    >
+      <el-button
+        @click='openDialog'
+        type='primary'
+        size='small'
+        text
+        style='margin-left: 35px'
+      >
+        {{ curCase }}
+      </el-button>
       <template #reference>
         <li class='logo'>Leslie</li>
       </template>
@@ -67,8 +78,10 @@ const skipMenu = (label: string) => {
 }
 
 const handleConfirm = () => {
-  isLogin.value = !isLogin.value
   dialogVisible.value = false
+  setTimeout(() => {
+    isLogin.value = !isLogin.value
+  }, 1000)
 }
 </script>
 
@@ -90,12 +103,6 @@ const handleConfirm = () => {
     flex: 1;
     font-size: 34px;
     font-weight: bold;
-  }
-
-  .popper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 }
 </style>
