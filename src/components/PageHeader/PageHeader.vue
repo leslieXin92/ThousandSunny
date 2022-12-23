@@ -81,7 +81,7 @@ const handleConfirm = () => {
   dialogVisible.value = false
   setTimeout(() => {
     isLogin.value = !isLogin.value
-  }, 1000)
+  }, 200)
 }
 </script>
 

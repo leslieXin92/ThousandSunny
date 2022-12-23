@@ -1,4 +1,4 @@
-import { onMounted, Ref } from 'vue'
+import { onMounted, onUnmounted, Ref } from 'vue'
 import { getBlogList } from '@/service/api/portal/portal'
 import { IGetBlogListParams, BlogItem } from '@/service/api/portal/type'
 
@@ -24,5 +24,9 @@ export const useLoadBlogList = (props: IProps) => {
   onMounted(async () => {
     await loadMore()
     window.addEventListener('scroll', loadMore)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', loadMore)
   })
 }
