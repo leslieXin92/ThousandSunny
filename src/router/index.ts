@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { sessionCache } from '@/utils/cache'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,7 +32,8 @@ const router = createRouter({
 })
 
 router.beforeEach(to => {
-  if (to.path === '/admin') {
+  const userInfo = sessionCache.getCache('username')
+  if (to.path === '/admin' && userInfo === undefined) {
     return '/NotFound'
   }
 })

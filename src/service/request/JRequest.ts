@@ -1,19 +1,22 @@
 import axios, { AxiosInstance } from 'axios'
-import { ElLoading } from 'element-plus'
+import { ElLoading, ElMessage } from 'element-plus'
 import { IJRequestConfig, IJRequestInterceptors } from './type'
 
 const DEFAULT_LOADING = false
+const DEFAULT_SHOW_MESSAGE = false
 
 class JRequest {
   instance: AxiosInstance
   interceptors?: IJRequestInterceptors
   showLoading: boolean
   isLoading: any
+  showMsg: boolean
 
   constructor(config: IJRequestConfig) {
     this.instance = axios.create(config)
     this.interceptors = config.interceptors
     this.showLoading = config.showLoading ?? DEFAULT_LOADING
+    this.showMsg = config.showMsg ?? DEFAULT_SHOW_MESSAGE
 
     // 从config中取出拦截器 - 实例的拦截器
     this.instance.interceptors.request.use(
@@ -43,6 +46,12 @@ class JRequest {
     )
     this.instance.interceptors.response.use(
       (res) => {
+        if (this.showMsg && !res.data.code) {
+          ElMessage({
+            type: 'success',
+            message: res.data.meg
+          })
+        }
         setTimeout(() => {
           this.isLoading?.close()
         }, 300)

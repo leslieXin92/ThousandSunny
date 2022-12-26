@@ -44,12 +44,17 @@
 <script setup lang='ts'>
 import { computed, Ref, ref, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/useUserStore'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 
 const popover: Ref = ref(null)
 
-const isLogin = shallowRef(false)
+const userStore = useUserStore()
+const { isLogin } = storeToRefs(userStore)
+const { handleLogin, handleLogout } = userStore
+
 const dialogVisible = ref(false)
 
 const curCase = computed(() => {
@@ -79,9 +84,7 @@ const skipMenu = (label: string) => {
 
 const handleConfirm = () => {
   dialogVisible.value = false
-  setTimeout(() => {
-    isLogin.value = !isLogin.value
-  }, 200)
+  isLogin.value ? handleLogout() : handleLogin({ username: '', password: '' })
 }
 </script>
 

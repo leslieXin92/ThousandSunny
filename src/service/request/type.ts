@@ -10,4 +10,5 @@ export interface IJRequestInterceptors<T = AxiosResponse> {
 export interface IJRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
   interceptors?: IJRequestInterceptors<T>
   showLoading?: boolean
+  showMsg?: boolean
 }

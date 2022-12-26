@@ -17,7 +17,8 @@ export function login(userInfo: ILoginParams) {
   return JRequest.post<IData<ILoginRes>>({
     url: '/login',
     data: userInfo,
-    showLoading: true
+    showLoading: true,
+    showMsg: true
   })
 }
 
@@ -25,7 +26,8 @@ export function logout(userInfo: ILogoutParams) {
   return JRequest.post<IData<ILogoutRes>>({
     url: '/logout',
     data: userInfo,
-    showLoading: true
+    showLoading: true,
+    showMsg: true
   })
 }
 

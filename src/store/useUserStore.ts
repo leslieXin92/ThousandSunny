@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, Ref, ref } from 'vue'
+import { Ref, ref } from 'vue'
 import { ILoginParams } from '@/service/api/manage/type'
 import { login, logout } from '@/service/api/manage/manage'
 import { sessionCache } from '@/utils/cache'
@@ -9,23 +9,25 @@ export const useUserStore = defineStore('user', () => {
 
   const user: Ref<UserType> = ref(null)
 
-  const isLogin = computed(() => {
-    return user.value
-  })
+  const isLogin = ref(false)
 
   const handleLogin = async (userInfo: ILoginParams) => {
-    const res = await login(userInfo)
-    console.log(res)
-    sessionCache.setCache('username', res)
+    const { data } = await login(userInfo)
+    sessionCache.setCache('username', data)
+    isLogin.value = true
   }
 
   const handleLogout = async () => {
     const username = sessionCache.getCache('username')
     await logout({ username })
+    sessionCache.deleteCache('username')
+    isLogin.value = false
   }
 
   return {
     user,
-    handleLogin
+    isLogin,
+    handleLogin,
+    handleLogout
   }
 })
