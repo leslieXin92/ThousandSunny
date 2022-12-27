@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Ref, ref } from 'vue'
+import { ref } from 'vue'
 import { ILoginParams, ILogoutParams } from '@/service/api/manage/type'
 import { login, logout } from '@/service/api/manage/manage'
 
@@ -8,7 +8,7 @@ export const useUserStore = defineStore(
   () => {
     type UserInfoType = { username: string } | null
 
-    const userInfo: Ref<UserInfoType> = ref(null)
+    const userInfo = ref<UserInfoType>(null)
 
     const isLogin = ref(false)
 

@@ -8,11 +8,11 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, Ref } from 'vue'
+import { ref } from 'vue'
 import { useLoadBlogList } from '@/hooks/useLoadBlogList'
 import { BlogItem } from '@/service/api/portal/type'
 
-const blogList: Ref<Omit<BlogItem, 'content'>[]> = ref([])
+const blogList = ref<Omit<BlogItem, 'content'>[]>([])
 
 const params = {
   type: 'public' as 'public' | 'private',
