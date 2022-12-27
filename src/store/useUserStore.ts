@@ -13,14 +13,14 @@ export const useUserStore = defineStore('user', () => {
 
   const handleLogin = async (userInfo: ILoginParams) => {
     const { data } = await login(userInfo)
-    sessionCache.setCache('username', data)
+    sessionCache.setCache('userInfo', data)
     isLogin.value = true
   }
 
   const handleLogout = async () => {
-    const username = sessionCache.getCache('username')
-    await logout({ username })
-    sessionCache.deleteCache('username')
+    const userInfo = sessionCache.getCache('userInfo')
+    await logout(userInfo)
+    sessionCache.deleteCache('userInfo')
     isLogin.value = false
   }
 

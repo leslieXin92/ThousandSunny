@@ -21,11 +21,13 @@
 </template>
 
 <script setup lang='ts'>
-import { onUnmounted, reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { FormInstance } from 'element-plus'
+import { ISchema } from './type'
 
 interface IProps {
-  schema: any[]
-  defaultFormData?: object
+  schema: ISchema[]
+  defaultFormData?: object // TODO - 类型
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -35,7 +37,9 @@ const props = withDefaults(defineProps<IProps>(), {
   }
 })
 
-const model: any = reactive({ ...props.defaultFormData }) // TODO - data类型
+const formRef = ref<FormInstance>()
+
+const model: any = reactive({ ...props.defaultFormData }) // TODO - 类型
 
 // 获取表单数据
 const getFormData = () => {
@@ -47,10 +51,14 @@ const setFormData = (key: string, value: any) => {
   model[key] = value
 }
 
+// 重置表单
 const reset = () => {
+  formRef.value!.resetFields()
 }
 
-const validate = () => {
+// 表单验证
+const validate = async () => {
+  return await formRef.value!.validate()
 }
 
 defineExpose({
@@ -60,6 +68,3 @@ defineExpose({
   validate
 })
 </script>
-
-<style scoped lang='less'>
-</style>
