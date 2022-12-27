@@ -30,8 +30,8 @@
     </li>
   </ul>
 
-  <el-dialog v-model='dialogVisible' :title='curCase' width='40%' center>
-    <span>1111</span>
+  <el-dialog v-if='dialogVisible' v-model='dialogVisible' :title='curCase' width='40%' center>
+    <JForm ref='JFormRef' :schema='schema' />
     <template #footer>
       <div>
         <el-button @click='dialogVisible = false'>Cancel</el-button>
@@ -42,14 +42,16 @@
 </template>
 
 <script setup lang='ts'>
-import { computed, Ref, ref, shallowRef } from 'vue'
+import { computed, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
+import JForm from '@/components/JForm/JForm.vue'
 
 const router = useRouter()
 
 const popover: Ref = ref(null)
+const JFormRef: Ref = ref(null)
 
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
@@ -82,10 +84,40 @@ const skipMenu = (label: string) => {
   })
 }
 
+const a = () => {
+  // console.log(JFormRef.value)
+  handleLogout()
+}
+const b = () => {
+  const loginFormData = JFormRef.value.getFormData()
+  handleLogin(loginFormData)
+}
+
 const handleConfirm = () => {
   dialogVisible.value = false
-  isLogin.value ? handleLogout() : handleLogin({ username: '', password: '' })
+  isLogin.value ? a() : b()
 }
+
+const schema = [
+  {
+    component: 'el-input',
+    key: 'username',
+    itemAttrs: { label: '账号' },
+    attrs: {
+      type: 'text',
+      disabled: true
+    }
+  },
+  {
+    component: 'el-input',
+    key: 'password',
+    itemAttrs: { label: '密码' },
+    attrs: {
+      type: 'password',
+      showPassword: true
+    }
+  }
+]
 </script>
 
 <style scoped lang='less'>
