@@ -32,7 +32,7 @@ const router = createRouter({
 })
 
 router.beforeEach(to => {
-  const userInfo = sessionCache.getCache('username')
+  const userInfo = sessionCache.getCache('userInfo')
   if (to.path === '/admin' && userInfo === undefined) {
     return '/NotFound'
   }
