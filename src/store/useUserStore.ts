@@ -1,34 +1,31 @@
 import { defineStore } from 'pinia'
 import { Ref, ref } from 'vue'
-import { ILoginParams } from '@/service/api/manage/type'
+import { ILoginParams, ILogoutParams } from '@/service/api/manage/type'
 import { login, logout } from '@/service/api/manage/manage'
-import { sessionCache } from '@/utils/cache'
 
 export const useUserStore = defineStore(
   'user',
   () => {
-    type UserType = { username: string } | null
+    type UserInfoType = { username: string } | null
 
-    const user: Ref<UserType> = ref(null)
+    const userInfo: Ref<UserInfoType> = ref(null)
 
     const isLogin = ref(false)
 
-    const handleLogin = async (userInfo: ILoginParams) => {
-      const { data } = await login(userInfo)
-      user.value = data
-      sessionCache.setCache('userInfo', data)
+    const handleLogin = async (loginParams: ILoginParams) => {
+      const { data } = await login(loginParams)
+      userInfo.value = data
       isLogin.value = true
     }
 
     const handleLogout = async () => {
-      const userInfo = sessionCache.getCache('userInfo')
-      await logout(userInfo)
-      sessionCache.deleteCache('userInfo')
+      await logout(userInfo.value as ILogoutParams)
+      userInfo.value = null
       isLogin.value = false
     }
 
     return {
-      user,
+      userInfo,
       isLogin,
       handleLogin,
       handleLogout
