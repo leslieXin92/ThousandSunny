@@ -10,7 +10,9 @@ import {
   ElDialog,
   ElForm,
   ElFormItem,
-  ElInput
+  ElInput,
+  ElTable,
+  ElTableColumn
 } from 'element-plus'
 
 const components = [
@@ -23,7 +25,9 @@ const components = [
   ElDialog,
   ElForm,
   ElFormItem,
-  ElInput
+  ElInput,
+  ElTable,
+  ElTableColumn
 ]
 
 export default function(app: App<Element>): void {

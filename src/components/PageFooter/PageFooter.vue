@@ -1,9 +1,4 @@
 <template>
-  <h1>PageFooter</h1>
+  <div class='pageFooter'>备案号：xxxxxxxxxx</div>
+  <div class='pageFooter'>要记得开心</div>
 </template>
-
-<script setup lang='ts'>
-</script>
-
-<style scoped lang='less'>
-</style>

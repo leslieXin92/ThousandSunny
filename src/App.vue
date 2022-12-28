@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>
+    <el-header v-show='isNotFound'>
       <PageHeader />
     </el-header>
 
@@ -8,15 +8,23 @@
       <RouterView />
     </el-main>
 
-    <!--<el-footer>-->
-    <!--  <PageFooter />-->
-    <!--</el-footer>-->
+    <el-footer>
+      <PageFooter />
+    </el-footer>
   </el-container>
 </template>
 
 <script setup lang='ts'>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
-// import PageFooter from '@/components/PageFooter/PageFooter.vue'
+import PageFooter from '@/components/PageFooter/PageFooter.vue'
+
+const route = useRoute()
+
+const isNotFound = computed(() => {
+  return route.name !== 'NotFound'
+})
 </script>
 
 <style lang='less' scoped>
@@ -30,7 +38,16 @@ import PageHeader from '@/components/PageHeader/PageHeader.vue'
   }
 
   .el-main {
-    min-height: calc(100vh - 100px);
+    min-height: calc(100vh - 150px);
+  }
+
+  .el-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    font-size: 14px;
+    color: #bcbcbc;
   }
 }
 </style>
