@@ -30,11 +30,23 @@
     </li>
   </ul>
 
-  <el-dialog v-if='dialogVisible' v-model='dialogVisible' :title='curCase' width='40%' center>
-    <JForm v-if="!isLogin" ref='JFormRef' :schema='schema' />
+  <el-dialog
+    v-model='dialogVisible'
+    :title='curCase'
+    width='500px'
+    center
+    destroyOnClose
+    style='border-radius: 10px'
+  >
+    <JForm
+      v-if='!isLogin'
+      ref='JFormRef'
+      :schema='schema'
+      :rules='rules'
+    />
     <div v-else>Are you sure logout ?</div>
     <template #footer>
-      <el-button @click='dialogVisible = false'>Cancel</el-button>
+      <el-button @click='hideDialog'>Cancel</el-button>
       <el-button type='primary' @click='handleConfirm'>{{ curCase }}</el-button>
     </template>
   </el-dialog>
@@ -46,27 +58,26 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
 import JForm from '@/components/JForm/JForm.vue'
-import { PopoverInstance } from 'element-plus'
+import { FormRules, PopoverInstance } from 'element-plus'
 import { IJFrom, ISchema } from '@/components/JForm/type'
+import { ILoginParams } from '@/service/api/manage/type'
 
 const schema: ISchema[] = [
   {
-    component: 'el-input',
+    component: 'input',
     key: 'username',
     itemAttrs: {
-      label: '账号',
-      required: true
+      label: 'username'
     },
     attrs: {
       type: 'text'
     }
   },
   {
-    component: 'el-input',
+    component: 'input',
     key: 'password',
     itemAttrs: {
-      label: '密码',
-      required: true
+      label: 'password'
     },
     attrs: {
       type: 'password',
@@ -74,6 +85,15 @@ const schema: ISchema[] = [
     }
   }
 ]
+
+const rules: FormRules = {
+  username: [
+    { required: true, message: 'Please input Activity username', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: 'Please input Activity password', trigger: 'blur' }
+  ]
+}
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -105,6 +125,10 @@ const openDialog = () => {
   dialogVisible.value = true
 }
 
+const hideDialog = () => {
+  dialogVisible.value = false
+}
+
 const skipMenu = (label: string) => {
   router.push({
     path: `/${label}`
@@ -116,10 +140,10 @@ const handleConfirm = async () => {
   if (isLogin.value) {
     handleLogout()
   } else {
-    const loginFormData = JFormRef.value!.getFormData()
+    const loginFormData = JFormRef.value!.getFormData() as unknown as ILoginParams
     handleLogin(loginFormData)
   }
-  dialogVisible.value = false
+  hideDialog()
 }
 </script>
 

@@ -3,6 +3,8 @@
     ref='formRef'
     :model='model'
     v-bind='$attrs'
+    labelSuffix=' :'
+    hideRequiredAsterisk
   >
     <el-form-item
       v-for='item in schema'
@@ -11,8 +13,8 @@
       :prop='item.key'
     >
       <component
-        :is='item.component'
-        v-bind='{ ...item.attrs, ...$attrs }'
+        :is='formItemMap[item.component]'
+        v-bind='{ ...item.attrs }'
         v-model='model[item.key]'
         :data='model[item.key]'
       />
@@ -24,10 +26,12 @@
 import { reactive, ref } from 'vue'
 import { FormInstance } from 'element-plus'
 import { ISchema } from './type'
+import { formItemMap } from './config'
+import { cloneDeep } from 'lodash'
 
 interface IProps {
   schema: ISchema[]
-  defaultFormData?: object // TODO - 类型
+  defaultFormData?: Record<string, unknown>
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -39,7 +43,7 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const formRef = ref<FormInstance>()
 
-const model: any = reactive({ ...props.defaultFormData }) // TODO - 类型
+const model: Record<string, unknown> = reactive(cloneDeep(props.defaultFormData))
 
 // 获取表单数据
 const getFormData = () => {
@@ -47,7 +51,7 @@ const getFormData = () => {
 }
 
 // 修改表单数据
-const setFormData = (key: string, value: any) => {
+const setFormData = (key: keyof typeof model, value: unknown) => {
   model[key] = value
 }
 
@@ -68,3 +72,17 @@ defineExpose({
   validate
 })
 </script>
+
+<style scoped lang='less'>
+.el-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 10px;
+  background-color: #fff;
+
+  .el-form-item {
+    margin: 15px;
+  }
+}
+</style>

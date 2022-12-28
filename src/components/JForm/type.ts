@@ -1,13 +1,18 @@
+import { formItemMap, SchemaAttrsType } from './config'
+import { FormItemProps } from 'element-plus'
+
+type SchemaComType = keyof typeof formItemMap
+
 export interface ISchema {
-  component: string
+  component: SchemaComType
   key: string
-  itemAttrs?: object // TODO - 类型
-  attrs?: object // TODO - 类型
+  itemAttrs?: Partial<FormItemProps>
+  attrs?: SchemaAttrsType[SchemaComType]
 }
 
 export interface IJFrom {
-  getFormData: () => any // TODO - 类型
-  setFormData: (key: string, value: any) => void
+  getFormData: () => Record<string, unknown>
+  setFormData: (key: string, value: unknown) => void
   reset: () => void
   validate: () => Promise<boolean>
 }

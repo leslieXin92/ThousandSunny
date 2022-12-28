@@ -9,7 +9,7 @@ class JRequest {
   instance: AxiosInstance
   interceptors?: IJRequestInterceptors
   showLoading: boolean
-  isLoading: any
+  isLoading: any // TODo - 类型
   showMsg: boolean
 
   constructor(config: IJRequestConfig) {
