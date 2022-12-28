@@ -140,7 +140,7 @@ const handleConfirm = async () => {
   if (isLogin.value) {
     handleLogout()
   } else {
-    const loginFormData = JFormRef.value!.getFormData() as unknown as ILoginParams
+    const loginFormData = JFormRef.value!.getFormData() as ILoginParams
     handleLogin(loginFormData)
   }
   hideDialog()

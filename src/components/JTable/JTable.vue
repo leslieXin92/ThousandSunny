@@ -32,10 +32,10 @@
 </template>
 
 <script setup lang='ts'>
-import { IJTableHeader, JTableDataType } from '@/components/JTable/type'
+import { JTableHeaderType, JTableDataType } from './type'
 
 interface IProps {
-  tableHeader: IJTableHeader
+  tableHeader: JTableHeaderType
   tableData?: JTableDataType
 }
 
