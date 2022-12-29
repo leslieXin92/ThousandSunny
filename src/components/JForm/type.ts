@@ -11,7 +11,7 @@ export interface ISchema {
 }
 
 export interface IJFrom {
-  getFormData: () => Record<string, unknown>
+  getFormData: () => Record<string, any>
   setFormData: (key: string, value: unknown) => void
   reset: () => void
   validate: () => Promise<boolean>
