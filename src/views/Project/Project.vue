@@ -1,12 +1,9 @@
 <template>
-  <div>404</div>
+  <h1>Project</h1>
 </template>
 
 <script setup lang='ts'>
 </script>
 
 <style scoped lang='less'>
-h1 {
-  margin: 100px auto;
-}
 </style>

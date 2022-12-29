@@ -14,9 +14,19 @@ const router = createRouter({
       component: () => import('@/views/Home/Home.vue')
     },
     {
-      path: '/blogList',
-      name: 'blogList',
-      component: () => import('@/views/BlogList/BlogList.vue')
+      path: '/blog',
+      name: 'blog',
+      component: () => import('@/views/Blog/Blog.vue')
+    },
+    {
+      path: '/project',
+      name: 'project',
+      component: () => import('@/views/Project/Project.vue')
+    },
+    {
+      path: '/mirror',
+      name: 'mirror',
+      component: () => import('@/views/Mirror/Mirror.vue')
     },
     {
       path: '/admin',

@@ -18,14 +18,16 @@ import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
 
 const router = useRouter()
+
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
 
 const menuList = ref([
   { label: 'Leslie', routePath: '/home', condition: true },
-  { label: 'home', routePath: '/home', condition: true },
-  { label: 'blogList', routePath: '/blogList', condition: true },
-  { label: 'admin', routePath: '/admin', condition: isLogin }
+  { label: 'Blog', routePath: '/blog', condition: true },
+  { label: 'Project', routePath: '/project', condition: true },
+  { label: 'Mirror', routePath: '/mirror', condition: true },
+  { label: 'Admin', routePath: '/admin', condition: isLogin }
 ])
 
 const showMenuList = computed(() => {

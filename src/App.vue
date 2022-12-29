@@ -1,7 +1,7 @@
 <template>
   <el-container>
-    <el-header v-show='isNotFound'>
-      <PageHeader />
+    <el-header>
+      <PageHeader v-show='isNotFound' />
     </el-header>
 
     <el-main>
