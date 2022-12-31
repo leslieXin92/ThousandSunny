@@ -1,9 +1,45 @@
 <template>
-  <div>admin</div>
+  <div class="admin">
+    <AdminMenu
+      class="menu"
+      :subMenuList="subMenuList"
+      :defaultActive="curComponentName"
+      @changeMenu="changeMenu"
+    />
+    <Component :is="curComponent" class="curComponent" />
+  </div>
 </template>
 
 <script setup lang='ts'>
+import { computed, ref } from 'vue'
+import AdminMenu from '@/components/AdminMenu/AdminMenu.vue'
+import { subMenuList, componentMap } from './config'
+import { CurComponentNameType } from '@/views/Admin/type'
+
+const curComponentName = ref<CurComponentNameType>('createBlog')
+
+const curComponent = computed(() => {
+  return componentMap[curComponentName.value]
+})
+
+const changeMenu = (menu: CurComponentNameType) => {
+  curComponentName.value = menu
+}
 </script>
 
 <style scoped lang='less'>
+.admin {
+  display: flex;
+  min-height: calc(100vh - 190px);
+
+  .menu {
+    max-width: 250px;
+  }
+
+  .curComponent {
+    flex: 1;
+    padding: 20px;
+    //border: 1px solid red;
+  }
+}
 </style>
