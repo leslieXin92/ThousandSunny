@@ -3,6 +3,7 @@
     ref='tableRef'
     v-bind='$attrs'
     :data='tableData'
+    align='center'
   >
     <el-table-column
       v-for='item in tableHeader'
@@ -46,6 +47,8 @@ withDefaults(defineProps<IProps>(), {
 
 <style scoped lang='less'>
 .el-table {
+  width: 100%;
+  margin: 15px auto;
   border-radius: 10px;
 }
 </style>

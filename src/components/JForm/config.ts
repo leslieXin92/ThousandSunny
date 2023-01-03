@@ -1,8 +1,9 @@
+import JSelect from '@/components/JFormItem/JSelect/JSelect.vue'
 import { InputProps, ISelectProps, SwitchProps } from 'element-plus'
 
 export const formItemMap = {
   'input': 'el-input',
-  'select': 'el-select',
+  'select': JSelect,
   'switch': 'el-switch'
 }
 

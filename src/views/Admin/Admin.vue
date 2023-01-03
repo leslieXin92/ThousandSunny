@@ -6,7 +6,10 @@
       :defaultActive='curComponentName'
       @changeMenu='changeMenu'
     />
-    <Component :is='curComponent' class='curComponent' />
+
+    <div class='curComponent'>
+      <Component :is='curComponent' />
+    </div>
   </div>
 </template>
 

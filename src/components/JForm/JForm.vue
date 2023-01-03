@@ -75,9 +75,8 @@ defineExpose({
 
 <style scoped lang='less'>
 .el-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  width: 100%;
+  margin: 15px auto;
   border-radius: 10px;
   background-color: #fff;
 
