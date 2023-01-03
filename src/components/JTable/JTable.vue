@@ -3,12 +3,12 @@
     ref='tableRef'
     v-bind='$attrs'
     :data='tableData'
-    align='center'
   >
     <el-table-column
       v-for='item in tableHeader'
       :key='item.attrs.prop'
       v-bind='item.attrs'
+      align="center"
     >
       <template #header='scope' v-if="item.attrs.type !== 'selection'">
         <template v-if='item.customHeader'>
@@ -20,7 +20,10 @@
       </template>
 
       <template v-slot='scope' v-if="item.attrs.type !== 'selection'">
-        <template v-if='item.custom === true'>
+        <template v-if="item.attrs.type === 'serialNumber'">
+          {{ scope.$index }}
+        </template>
+        <template v-else-if='item.custom === true'>
           <slot :name='item.attrs.prop' :scope='scope'></slot>
         </template>
         <template v-else>
