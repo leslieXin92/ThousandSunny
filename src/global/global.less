@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Georgia, "Microsoft YaHei", serif;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+/* 滚动条相关 */
+// 滚动条有滑块的轨道部分
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+  border-radius: 0;
+}
+
+// 整个滚动条
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  display: block;
+}
+
+// 滚动条竖向滑块
+::-webkit-scrollbar-thumb:vertical {
+  background-color: #999;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: #666;
+    border-radius: 4px;
+  }
+}
+
+// 滚动条横向滑块
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: #999;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: #666;
+    border-radius: 4px;
+  }
+}
+
+// 同时有垂直和水平滚动条时交汇的部分
+::-webkit-scrollbar-corner {
+  display: block; // 修复交汇时出现的白块
+}

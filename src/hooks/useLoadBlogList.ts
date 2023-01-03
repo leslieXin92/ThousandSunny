@@ -3,7 +3,7 @@ import { getBlogList } from '@/service/api/portal/portal'
 import { IGetBlogListParams, BlogItem } from '@/service/api/portal/type'
 
 interface IProps {
-  params: IGetBlogListParams
+  params: Ref<IGetBlogListParams>
   originData: Ref<Omit<BlogItem, 'content'>[]>
 }
 
@@ -15,9 +15,9 @@ export const useLoadBlogList = (props: IProps) => {
     const clientHeight = document.documentElement.clientHeight
     const scrollHeight = document.documentElement.scrollHeight
     if (scrollTop + clientHeight >= scrollHeight) {
-      const { data: { blogList } } = await getBlogList(params)
+      const { data: { blogList } } = await getBlogList(params.value)
       originData.value.push(...blogList)
-      params.pageNum++
+      params.value.pageNum++
     }
   }
 

@@ -1,12 +1,12 @@
 <template>
-  <div class="admin">
+  <div class='admin'>
     <AdminMenu
-      class="menu"
-      :subMenuList="subMenuList"
-      :defaultActive="curComponentName"
-      @changeMenu="changeMenu"
+      class='menu'
+      :subMenuList='subMenuList'
+      :defaultActive='curComponentName'
+      @changeMenu='changeMenu'
     />
-    <Component :is="curComponent" class="curComponent" />
+    <Component :is='curComponent' class='curComponent' />
   </div>
 </template>
 
@@ -14,7 +14,7 @@
 import { computed, ref } from 'vue'
 import AdminMenu from '@/components/AdminMenu/AdminMenu.vue'
 import { subMenuList, componentMap } from './config'
-import { CurComponentNameType } from '@/views/Admin/type'
+import { CurComponentNameType } from './type'
 
 const curComponentName = ref<CurComponentNameType>('createBlog')
 
@@ -33,13 +33,12 @@ const changeMenu = (menu: CurComponentNameType) => {
   min-height: calc(100vh - 190px);
 
   .menu {
-    max-width: 250px;
+    width: 250px;
   }
 
   .curComponent {
     flex: 1;
     padding: 20px;
-    //border: 1px solid red;
   }
 }
 </style>

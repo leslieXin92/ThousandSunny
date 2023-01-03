@@ -2,15 +2,13 @@
   <el-popover
     ref='popoverRef'
     trigger='contextmenu'
-    placement='bottom-start'
     :showArrow='false'
   >
     <el-button
+      class='popoverBtn'
       @click='openDialog'
-      type='primary'
       size='small'
       text
-      style='margin-left: 35px'
     >
       {{ curCase }}
     </el-button>
@@ -36,7 +34,7 @@
     <div v-else>Are you sure logout ?</div>
     <template #footer>
       <el-button @click='hideDialog'>Cancel</el-button>
-      <el-button type='primary' @click='handleConfirm'>{{ curCase }}</el-button>
+      <el-button color='#008b8b' @click='handleConfirm'>{{ curCase }}</el-button>
     </template>
   </el-dialog>
 </template>
@@ -118,4 +116,8 @@ const handleConfirm = async () => {
 </script>
 
 <style scoped lang='less'>
+.popoverBtn {
+  margin-left: 35px;
+  color: #008b8b;
+}
 </style>

@@ -1,21 +1,27 @@
 <template>
-  <el-menu activeTextColor="#009999" :defaultActive="defaultActive">
+  <el-menu
+    activeTextColor='#008b8b'
+    :defaultActive='defaultActive'
+  >
     <el-sub-menu
-      v-for="subMenu in subMenuList"
-      :key="subMenu.key"
-      :index="subMenu.key"
+      v-for='subMenu in subMenuList'
+      :key='subMenu.key'
+      :index='subMenu.key'
     >
       <template #title>
-        <img :src="`/src/assets/${subMenu.icon}.png`" :alt="`${subMenu.icon}_icon`" />
-        <span class="subMenuTitle">{{ subMenu.title }}</span>
+        <img
+          :src='`/src/assets/${subMenu.icon}.png`'
+          :alt='`${subMenu.icon}_icon`'
+        />
+        <span class='subMenuTitle'>{{ subMenu.title }}</span>
       </template>
       <el-menu-item
-        v-for="menuItem in subMenu.menuItemList"
-        :key="menuItem.key"
-        :index="menuItem.key"
-        @click="handleClickMenu(menuItem.key)"
+        v-for='menuItem in subMenu.menuItemList'
+        :key='menuItem.key'
+        :index='menuItem.key'
+        @click='handleClickMenu(menuItem.key)'
       >
-        <span class="menuItemTitle">{{ menuItem.title }}</span>
+        <span class='menuItemTitle'>{{ menuItem.title }}</span>
       </el-menu-item>
     </el-sub-menu>
   </el-menu>

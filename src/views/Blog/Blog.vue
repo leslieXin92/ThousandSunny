@@ -11,14 +11,19 @@
 import { ref } from 'vue'
 import { useLoadBlogList } from '@/hooks/useLoadBlogList'
 import { BlogItem } from '@/service/api/portal/type'
+import { useUserStore } from '@/store/useUserStore'
+import { storeToRefs } from 'pinia'
 
 const blogList = ref<Omit<BlogItem, 'content'>[]>([])
 
-const params = {
-  type: 'public' as 'public' | 'private',
+const userStore = useUserStore()
+const { isLogin } = storeToRefs(userStore)
+
+const params = ref({
+  type: isLogin ? 'private' : 'public' as 'public' | 'private',
   pageNum: 1,
   pageSize: 10
-}
+})
 
 const props = {
   params,

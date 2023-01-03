@@ -3,7 +3,7 @@
     <li
       v-for='item in showMenuList'
       :key='item.label'
-      :class='item.label'
+      :class='{active: curMenu === item.label}'
       @click='skipMenu(item.routePath)'
     >
       {{ item.label }}
@@ -13,16 +13,18 @@
 
 <script setup lang='ts'>
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
+import { IMenuItem } from './type'
 
+const route = useRoute()
 const router = useRouter()
 
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
 
-const menuList = ref([
+const menuList = ref<IMenuItem[]>([
   { label: 'Leslie', routePath: '/home', condition: true },
   { label: 'Blog', routePath: '/blog', condition: true },
   { label: 'Project', routePath: '/project', condition: true },
@@ -32,6 +34,10 @@ const menuList = ref([
 
 const showMenuList = computed(() => {
   return menuList.value.filter(item => item.condition)
+})
+
+const curMenu = computed(() => {
+  return showMenuList.value.find(item => item.routePath === route.path)?.label
 })
 
 const skipMenu = (routePath: string) => {
@@ -45,7 +51,6 @@ const skipMenu = (routePath: string) => {
 .PageHeader {
   display: flex;
   align-items: center;
-  width: 100%;
   height: 100px;
   border-bottom: 1px solid #dedede;
 
@@ -53,12 +58,21 @@ const skipMenu = (routePath: string) => {
     margin: 0 20px;
     cursor: pointer;
     font-size: 20px;
+    font-style: oblique;
 
     &:first-child {
       flex: 1;
       font-size: 34px;
       font-weight: bold;
     }
+
+    &:hover {
+      color: rgba(0, 139, 139, 0.6);
+    }
+  }
+
+  .active {
+    color: #008b8b;
   }
 }
 </style>
