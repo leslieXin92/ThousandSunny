@@ -17,6 +17,7 @@
         v-bind='{ ...item.attrs }'
         v-model='model[item.key]'
         :data='model[item.key]'
+        clearable
       />
     </el-form-item>
   </el-form>

@@ -36,7 +36,22 @@ const schema: ISchema[] = [
       label: 'publish year'
     },
     attrs: {
+      placeholder: 'all',
       options: []
+    }
+  },
+  {
+    component: 'select',
+    key: 'visibility',
+    itemAttrs: {
+      label: 'visibility'
+    },
+    attrs: {
+      placeholder: 'all',
+      options: [
+        { label: 'public', value: 'public' },
+        { label: 'private', value: 'private' }
+      ]
     }
   }
 ]
