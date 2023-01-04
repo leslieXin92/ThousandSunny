@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang='ts'>
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { FormInstance } from 'element-plus'
 import { ISchema } from './type'
 import { formItemMap } from './config'
@@ -34,12 +34,18 @@ interface IProps {
   defaultFormData?: Record<string, unknown>
 }
 
+interface IEmits {
+  (e: 'modelChangeCallback', model: Record<string, unknown>): void
+}
+
 const props = withDefaults(defineProps<IProps>(), {
   defaultFormData: (props) => {
     const { schema } = props
     return schema.reduce((pre, cur) => ({ ...pre, [cur.key]: '' }), {})
   }
 })
+
+const emits = defineEmits<IEmits>()
 
 const formRef = ref<FormInstance>()
 
@@ -64,6 +70,14 @@ const reset = () => {
 const validate = async () => {
   return await formRef.value!.validate()
 }
+
+watch(
+  model,
+  (newVal) => {
+    emits('modelChangeCallback', newVal)
+  },
+  { immediate: true }
+)
 
 defineExpose({
   getFormData,

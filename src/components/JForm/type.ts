@@ -15,4 +15,5 @@ export interface IJFrom {
   setFormData: (key: string, value: unknown) => void
   reset: () => void
   validate: () => Promise<boolean>
+  modelWatcher: () => any
 }

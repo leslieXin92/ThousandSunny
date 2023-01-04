@@ -1,5 +1,5 @@
 import JSelect from '@/components/JFormItem/JSelect/JSelect.vue'
-import { InputProps, ISelectProps, SwitchProps } from 'element-plus'
+import { InputProps, InputEmits, ISelectProps, SwitchProps } from 'element-plus'
 
 export const formItemMap = {
   'input': 'el-input',
@@ -8,7 +8,7 @@ export const formItemMap = {
 }
 
 export type SchemaAttrsType = {
-  'input': Partial<InputProps>
+  'input': Partial<InputProps> & Partial<InputEmits> | any // TODO - type
   'select': Partial<ISelectProps>
   'switch': Partial<SwitchProps>
 }
