@@ -15,7 +15,8 @@ import {
   ElOption,
   ElTable,
   ElTableColumn,
-  ElMenu, ElSubMenu,
+  ElMenu,
+  ElSubMenu,
   ElMenuItemGroup,
   ElMenuItem
 } from 'element-plus'

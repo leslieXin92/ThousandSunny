@@ -1,9 +1,5 @@
 <template>
-  <el-table
-    ref='tableRef'
-    v-bind='$attrs'
-    :data='tableData'
-  >
+  <el-table v-bind='$attrs' :data='tableData'>
     <el-table-column
       v-for='item in tableHeader'
       :key='item.attrs.prop'
@@ -46,8 +42,8 @@
 </template>
 
 <script setup lang='ts'>
-import { JTableHeaderType, JTableDataType } from './type'
 import { Ref } from 'vue'
+import { JTableHeaderType, JTableDataType } from './type'
 
 interface IProps {
   tableHeader: JTableHeaderType

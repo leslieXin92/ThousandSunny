@@ -8,6 +8,7 @@ export interface ISchema {
   key: string
   itemAttrs?: Partial<FormItemProps>
   attrs?: SchemaAttrsType[SchemaComType]
+  custom?: boolean
 }
 
 export interface IJFrom {
@@ -15,5 +16,4 @@ export interface IJFrom {
   setFormData: (key: string, value: unknown) => void
   reset: () => void
   validate: () => Promise<boolean>
-  modelWatcher: () => any
 }

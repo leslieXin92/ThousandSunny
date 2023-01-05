@@ -12,23 +12,28 @@
       v-bind='item.itemAttrs'
       :prop='item.key'
     >
-      <component
-        :is='formItemMap[item.component]'
-        v-bind='{ ...item.attrs }'
-        v-model='model[item.key]'
-        :data='model[item.key]'
-        clearable
-      />
+      <template v-if='item.custom'>
+        <slot :name='item.key'></slot>
+      </template>
+      <template v-else>
+        <component
+          :is='formItemMap[item.component]'
+          v-bind='{ ...item.attrs }'
+          v-model='model[item.key]'
+          :data='model[item.key]'
+          clearable
+        />
+      </template>
     </el-form-item>
   </el-form>
 </template>
 
 <script setup lang='ts'>
-import { reactive, ref, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
+import { cloneDeep, debounce } from 'lodash'
+import { formItemMap } from './config'
 import { FormInstance } from 'element-plus'
 import { ISchema } from './type'
-import { formItemMap } from './config'
-import { cloneDeep } from 'lodash'
 
 interface IProps {
   schema: ISchema[]
@@ -74,9 +79,9 @@ const validate = async () => {
 
 watch(
   model,
-  (newVal) => {
+  debounce((newVal) => {
     emits('modelChangeCallback', newVal)
-  },
+  }, 200),
   { immediate: true }
 )
 
