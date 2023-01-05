@@ -1,5 +1,5 @@
 import JRequest from '@/service'
-import { IData, IGetBlogListParams, IGetBlogListRes, BlogItem } from './type'
+import { IData, IGetBlogListParams, IGetBlogListRes, IBlogItem } from './type'
 
 // 获取博客列表
 export function getBlogList(data: IGetBlogListParams) {
@@ -12,7 +12,7 @@ export function getBlogList(data: IGetBlogListParams) {
 
 // 获取博客详情
 export function getBlogDetail(blogId: number) {
-  return JRequest.get<IData<BlogItem>>({
+  return JRequest.get<IData<IBlogItem>>({
     url: `/blog/${ blogId }`,
     showLoading: true
   })

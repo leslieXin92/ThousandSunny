@@ -10,7 +10,7 @@ export interface IGetBlogListParams {
   pageSize: number
 }
 
-export interface BlogItem {
+export interface IBlogItem {
   id: number
   title: string
   createAt: string
@@ -18,6 +18,6 @@ export interface BlogItem {
 }
 
 export interface IGetBlogListRes {
-  blogList: Omit<BlogItem, 'content'>[]
+  blogList: Omit<IBlogItem, 'content'>[]
   total: number
 }

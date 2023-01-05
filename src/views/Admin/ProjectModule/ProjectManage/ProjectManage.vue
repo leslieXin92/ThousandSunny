@@ -10,7 +10,7 @@
     @editItem='editBlogItem'
     @deleteItem='deleteBlogItem'
   >
-    <template #onlineAddress="{scope}">
+    <template #onlineAddress='{scope}'>
       <el-button link>{{ scope.row.onlineAddress }}</el-button>
     </template>
   </JTable>

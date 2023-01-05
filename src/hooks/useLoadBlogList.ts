@@ -1,10 +1,10 @@
 import { onMounted, onUnmounted, Ref } from 'vue'
 import { getBlogList } from '@/service/api/portal/portal'
-import { IGetBlogListParams, BlogItem } from '@/service/api/portal/type'
+import { IGetBlogListParams, IBlogItem } from '@/service/api/portal/type'
 
 interface IProps {
   params: Ref<IGetBlogListParams>
-  originData: Ref<Omit<BlogItem, 'content'>[]>
+  originData: Ref<Omit<IBlogItem, 'content'>[]>
 }
 
 export const useLoadBlogList = (props: IProps) => {
