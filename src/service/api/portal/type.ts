@@ -13,8 +13,10 @@ export interface IGetBlogListParams {
 export interface IBlogItem {
   id: number
   title: string
-  createAt: string
+  createAt: number
   content: string
+  showYear?: boolean
+  newYear?: number
 }
 
 export interface IGetBlogListRes {
