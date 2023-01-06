@@ -19,7 +19,8 @@ import {
   ElSubMenu,
   ElMenuItemGroup,
   ElMenuItem,
-  ElCalendar
+  ElCalendar,
+  ElCard
 } from 'element-plus'
 
 const components = [
@@ -41,10 +42,11 @@ const components = [
   ElSubMenu,
   ElMenuItemGroup,
   ElMenuItem,
-  ElCalendar
+  ElCalendar,
+  ElCard
 ]
 
-export default function(app: App<Element>): void {
+export default function (app: App<Element>): void {
   for (const cpn of components) {
     app.component(cpn.name, cpn)
   }

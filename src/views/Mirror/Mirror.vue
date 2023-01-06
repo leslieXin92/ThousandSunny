@@ -27,7 +27,8 @@ import MirrorTaskBoard from '@/components/MirrorTaskBoard/MirrorTaskBoard.vue'
     width: 400px;
     height: 450px;
     margin-left: 50px;
-    background: #ccc;
+    border-radius: 20px;
+    overflow: scroll;
   }
 }
 </style>
