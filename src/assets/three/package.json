@@ -1,7 +1,0 @@
-{
-  "name": "three",
-  "version": "1.0.0",
-  "dependencies": {
-    "three": "^0.148.0"
-  }
-}

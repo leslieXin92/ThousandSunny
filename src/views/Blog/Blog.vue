@@ -38,8 +38,8 @@ const props = {
 useLoadBlogList(props)
 
 const skipBlogDetail = (id: number) => {
-  console.log(id)
   window.getSelection()!.removeAllRanges()
+  console.log(id)
 }
 </script>
 
