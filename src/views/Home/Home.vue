@@ -149,7 +149,7 @@ const render = () => {
 <style scoped lang='less'>
 #three {
   width: calc(100vw - 40px);
-  height: calc(100vh - 190px);
+  height: calc(100vh - 196px);
   overflow: visible;
 }
 </style>
