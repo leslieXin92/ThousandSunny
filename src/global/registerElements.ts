@@ -5,7 +5,6 @@ import {
   ElHeader,
   ElMain,
   ElFooter,
-  ElPopover,
   ElButton,
   ElDialog,
   ElForm,
@@ -20,7 +19,7 @@ import {
   ElMenuItemGroup,
   ElMenuItem,
   ElCalendar,
-  ElCard
+  ElCard, ElTooltip
 } from 'element-plus'
 
 const components = [
@@ -28,7 +27,6 @@ const components = [
   ElHeader,
   ElMain,
   ElFooter,
-  ElPopover,
   ElButton,
   ElDialog,
   ElForm,
@@ -43,7 +41,8 @@ const components = [
   ElMenuItemGroup,
   ElMenuItem,
   ElCalendar,
-  ElCard
+  ElCard,
+  ElTooltip
 ]
 
 export default function (app: App<Element>): void {

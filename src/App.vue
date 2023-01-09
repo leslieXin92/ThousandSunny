@@ -5,7 +5,11 @@
     </el-header>
 
     <el-main>
-      <RouterView />
+      <router-view v-slot='{ Component }'>
+        <Transition>
+          <component :is='Component' />
+        </Transition>
+      </router-view>
     </el-main>
 
     <el-footer>
@@ -49,5 +53,15 @@ const isNotFound = computed(() => {
     font-size: 14px;
     color: #bcbcbc;
   }
+}
+
+.v-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>

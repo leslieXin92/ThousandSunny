@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow='hover'>
+  <el-card>
     <template #header>
       <div class='boardHeader'>
         <div class='date'>{{ date }}</div>
@@ -7,16 +7,10 @@
       </div>
     </template>
 
-    <section class='section'>
-      <div>个人网站：</div>
-      <div>1、home页面注入three</div>
-      <div>2、mirror页面开发</div>
-    </section>
-    <section class='section'>
-      <div>node：</div>
-      <div>1、http模块</div>
-      <div>2、url模块</div>
-    </section>
+    <div v-for='item in taskList' :key='item.taskId' class='taskGroup'>
+      <div class='taskName'>{{ item.taskName }} :</div>
+      <div v-for='(i, idx) in item.task' :key='i' class='taskItem'>{{ idx + 1 }}、{{ i }}</div>
+    </div>
   </el-card>
 </template>
 
@@ -24,6 +18,15 @@
 import { onBeforeUnmount, ref, watch } from 'vue'
 import emitter from '@/utils/mitt'
 import dayjs from 'dayjs'
+
+const taskList = [
+  { taskId: 0, taskName: '个人网站', task: ['home页面注入three', 'mirror页面开发'] },
+  { taskId: 1, taskName: 'node', task: ['http模块', 'url模块'] },
+  { taskId: 0, taskName: '个人网站', task: ['home页面注入three', 'mirror页面开发'] },
+  { taskId: 1, taskName: 'node', task: ['http模块', 'url模块'] },
+  { taskId: 0, taskName: '个人网站', task: ['home页面注入three', 'mirror页面开发'] },
+  { taskId: 1, taskName: 'node', task: ['http模块', 'url模块'] }
+]
 
 const weekMap = {
   0: '星期日',
@@ -58,32 +61,31 @@ onBeforeUnmount(() => {
   &::-webkit-scrollbar {
     display: none;
   }
-}
 
-:deep(.el-card__header) {
-  position: sticky;
-  top: 0;
-  background: #fff;
-}
+  :deep(.el-card__header) {
+    position: sticky;
+    top: 0;
+    background: #fff;
 
-.boardHeader {
-  display: flex;
-  justify-content: space-between;
-}
+    .boardHeader {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 
-.section {
-  margin-left: 10px;
-
-  div {
-    margin: 10px 20px;
+  .taskGroup {
+    margin: 30px 20px;
 
     &:first-child {
-      font-size: 18px;
-      margin: 0;
+      margin-top: 10px;
     }
 
-    &:last-child {
-      margin-bottom: 30px;
+    .taskName {
+      font-size: 18px;
+    }
+
+    .taskItem {
+      margin: 10px 20px;
     }
   }
 }
