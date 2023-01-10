@@ -1,21 +1,23 @@
 <template>
-  <el-popover
-    ref='popoverRef'
+  <el-tooltip
+    ref='tooltipRef'
     trigger='contextmenu'
+    effect='light'
     :showArrow='false'
   >
-    <el-button
-      class='popoverBtn'
-      @click='openDialog'
-      size='small'
-      text
-    >
-      {{ curCase }}
-    </el-button>
-    <template #reference>
-      <slot></slot>
+    <slot></slot>
+    <template #content>
+      <el-button
+        class='popoverBtn'
+        size='small'
+        style='color: darkcyan'
+        link
+        @click='openDialog'
+      >
+        {{ curCase }}
+      </el-button>
     </template>
-  </el-popover>
+  </el-tooltip>
 
   <el-dialog
     v-model='dialogVisible'
@@ -81,7 +83,7 @@ const rules: FormRules = {
   ]
 }
 
-const popoverRef = ref<PopoverInstance>()
+const tooltipRef = ref<PopoverInstance>()
 const JFormRef = ref<IJFrom>()
 
 const dialogVisible = ref(false)
@@ -95,7 +97,7 @@ const curCase = computed(() => {
 })
 
 const openDialog = () => {
-  popoverRef.value!.hide()
+  tooltipRef.value!.hide()
   dialogVisible.value = true
 }
 
@@ -114,10 +116,3 @@ const handleConfirm = async () => {
   hideDialog()
 }
 </script>
-
-<style scoped lang='less'>
-.popoverBtn {
-  margin-left: 35px;
-  color: #008b8b;
-}
-</style>

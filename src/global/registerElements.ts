@@ -5,7 +5,6 @@ import {
   ElHeader,
   ElMain,
   ElFooter,
-  ElPopover,
   ElButton,
   ElDialog,
   ElForm,
@@ -13,6 +12,7 @@ import {
   ElInput,
   ElSelect,
   ElOption,
+  ElDatePicker,
   ElTable,
   ElTableColumn,
   ElMenu,
@@ -21,7 +21,7 @@ import {
   ElMenuItem,
   ElCalendar,
   ElCard,
-  ElDatePicker
+  ElTooltip
 } from 'element-plus'
 
 const components = [
@@ -29,7 +29,6 @@ const components = [
   ElHeader,
   ElMain,
   ElFooter,
-  ElPopover,
   ElButton,
   ElDialog,
   ElForm,
@@ -46,6 +45,7 @@ const components = [
   ElCalendar,
   ElCard,
   ElDatePicker
+  ElTooltip
 ]
 
 export default function (app: App<Element>): void {

@@ -1,5 +1,5 @@
 <template>
-  <el-calendar ref='calendarRef' class='calendar' v-model='curSelectDay'>
+  <el-calendar ref='calendarRef' v-model='curSelectDay'>
     <template #header='{ date }'>
       <div class='headerDate'>{{ date }}</div>
       <div>
@@ -10,8 +10,9 @@
           @click='changeMonth(item.key)'
         >
           <img
-            :src='`/src/assets/${item.icon}.png`'
-            :alt='`${item.icon}_icon`'
+            :src='`/src/assets/${item.icon}`'
+            :alt='`${item.icon}`'
+            style='width: 30px'
           />
         </el-button>
       </div>
@@ -48,9 +49,9 @@ onMounted(() => {
 })
 
 const calendarBtnList = [
-  { key: 'prev-month', icon: 'left' },
-  { key: 'today', icon: 'today' },
-  { key: 'next-month', icon: 'right' }
+  { key: 'prev-month', icon: 'left.png' },
+  { key: 'today', icon: 'today.gif' },
+  { key: 'next-month', icon: 'right.png' }
 ]
 
 const changeMonth = (val: string) => {
@@ -82,39 +83,45 @@ watch(
 </script>
 
 <style scoped lang='less'>
-.headerDate {
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 30px;
-  color: #444;
-}
+.el-calendar {
+  border-radius: 15px;
+  box-shadow: 0 0 20px 5px #efefef;
+  //box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
 
-.dateCell {
-  font-size: 50px;
-  font-weight: bold;
-  color: #aaa;
-}
+  .headerDate {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 30px;
+    color: #444;
+  }
 
-.laterMonth {
-  color: #eee;
-}
+  .dateCell {
+    font-size: 50px;
+    font-weight: bold;
+    color: #aaa;
+  }
 
-.learn {
-  color: darkcyan;
-}
+  .laterMonth {
+    color: #eee;
+  }
 
-.rest {
-  color: orangered;
-}
+  .learn {
+    color: darkcyan;
+  }
 
-:deep(.el-calendar-day) {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90px;
-}
+  .rest {
+    color: orangered;
+  }
 
-:deep(th) {
-  font-style: oblique;
+  :deep(.el-calendar-day) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px;
+  }
+
+  :deep(th) {
+    font-style: oblique;
+  }
 }
 </style>
