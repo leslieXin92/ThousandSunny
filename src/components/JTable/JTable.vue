@@ -39,10 +39,13 @@
     </el-table-column>
 
   </el-table>
+
+  <JDialog title='111' :visible='visible' @changeVisible='changeVisible'></JDialog>
 </template>
 
 <script setup lang='ts'>
-import { Ref } from 'vue'
+import { ref, Ref } from 'vue'
+import JDialog from '@/components/JDialog/JDialog.vue'
 import { JTableHeaderType, JTableDataType } from './type'
 
 interface IProps {
@@ -62,12 +65,20 @@ withDefaults(defineProps<IProps>(), {
 
 const emits = defineEmits<IEmits>()
 
+const visible = ref(false)
+
 const editItem = (id: number) => {
   emits('editItem', id)
+  visible.value = true
 }
 
 const deleteItem = (id: number) => {
   emits('deleteItem', id)
+  visible.value = true
+}
+
+const changeVisible = (newVisible: boolean) => {
+  visible.value = newVisible
 }
 </script>
 
