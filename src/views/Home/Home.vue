@@ -44,7 +44,7 @@ const initThree = () => {
   const width = threeEl.offsetWidth <= 1040 ? 960 : threeEl.offsetWidth
   renderer.setSize(width, threeEl.offsetHeight)
 
-  // threeEl.appendChild(renderer.domElement)
+  threeEl.appendChild(renderer.domElement)
 
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = PCFSoftShadowMap

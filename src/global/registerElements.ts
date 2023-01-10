@@ -44,7 +44,7 @@ const components = [
   ElMenuItem,
   ElCalendar,
   ElCard,
-  ElDatePicker
+  ElDatePicker,
   ElTooltip
 ]
 
