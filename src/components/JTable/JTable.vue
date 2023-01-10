@@ -29,7 +29,7 @@
         <!--操作-->
         <template v-else-if="item.attrs.type === 'operate'">
           <el-button type='primary' size='small' link @click='editItem(scope.row.id)'>edit</el-button>
-          <el-button type='primary' size='small' link @click='deleteItem(scope.row.id)'>delete</el-button>
+          <el-button type='danger' size='small' link @click='deleteItem(scope.row.id)'>delete</el-button>
         </template>
         <!--正常-->
         <template v-else>

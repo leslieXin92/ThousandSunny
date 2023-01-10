@@ -47,7 +47,7 @@ const schema: ISchema[] = [
 ]
 
 const tableHeader: JTableHeaderType = [
-  { attrs: { type: 'serialNumber', label: 'Serial Number' } },
+  { attrs: { type: 'serialNumber', label: 'Serial Number', width: 130 } },
   { attrs: { prop: 'projectName', label: 'Project Name' } },
   { attrs: { prop: 'startTime', label: 'Start Time' } },
   { attrs: { prop: 'endTime', label: 'End Time' } },
