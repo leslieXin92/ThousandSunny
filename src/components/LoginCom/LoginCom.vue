@@ -19,13 +19,11 @@
     </template>
   </el-tooltip>
 
-  <el-dialog
-    v-model='dialogVisible'
+  <JDialog
     :title='curCase'
-    width='500px'
-    center
-    destroyOnClose
-    style='border-radius: 10px'
+    :visible='dialogVisible'
+    @changeVisible='changeVisible'
+    @operate='operate'
   >
     <JForm
       v-if='!isLogin'
@@ -34,21 +32,19 @@
       :rules='rules'
     />
     <div v-else>Are you sure logout ?</div>
-    <template #footer>
-      <el-button @click='hideDialog'>Cancel</el-button>
-      <el-button color='#008b8b' @click='handleConfirm'>{{ curCase }}</el-button>
-    </template>
-  </el-dialog>
+  </JDialog>
 </template>
 
 <script setup lang='ts'>
 import { ref, computed } from 'vue'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
+import JDialog from '@/components/JDialog/JDialog.vue'
 import JForm from '@/components/JForm/JForm.vue'
 import { FormRules, PopoverInstance } from 'element-plus'
 import { IJFrom, ISchema } from '@/components/JForm/type'
 import { ILoginParams } from '@/service/api/manage/type'
+import { OperateType } from '@/components/JDialog/type'
 
 const schema: ISchema[] = [
   {
@@ -96,6 +92,10 @@ const curCase = computed(() => {
   return isLogin.value ? 'Logout' : 'Login'
 })
 
+const changeVisible = (newVisible: boolean) => {
+  dialogVisible.value = newVisible
+}
+
 const openDialog = () => {
   tooltipRef.value!.hide()
   dialogVisible.value = true
@@ -105,14 +105,12 @@ const hideDialog = () => {
   dialogVisible.value = false
 }
 
-const handleConfirm = async () => {
+const operate = async (type: OperateType) => {
+  if (type === 'cancel') return hideDialog()
   if (JFormRef.value && !await JFormRef.value.validate()) return
-  if (isLogin.value) {
-    handleLogout()
-  } else {
-    const loginFormData = JFormRef.value!.getFormData() as ILoginParams
-    handleLogin(loginFormData)
-  }
+  isLogin.value
+    ? handleLogout()
+    : handleLogin(JFormRef.value!.getFormData() as ILoginParams)
   hideDialog()
 }
 </script>

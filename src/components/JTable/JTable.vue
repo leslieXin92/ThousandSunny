@@ -40,13 +40,48 @@
 
   </el-table>
 
-  <JDialog title='111' :visible='visible' @changeVisible='changeVisible'></JDialog>
+  <JDialog
+    :title='dialogTitle'
+    :visible='visible'
+    @changeVisible='changeVisible'
+    @operate='operate'
+  >
+    <JForm v-if="dialogTitle === 'Edit'" :schema='schema' />
+    <div v-else>Are you sure delete it ?</div>
+  </JDialog>
 </template>
 
 <script setup lang='ts'>
 import { ref, Ref } from 'vue'
 import JDialog from '@/components/JDialog/JDialog.vue'
+import JForm from '@/components/JForm/JForm.vue'
 import { JTableHeaderType, JTableDataType } from './type'
+import { ISchema } from '@/components/JForm/type'
+import { OperateType } from '@/components/JDialog/type'
+
+const schema: ISchema[] = [
+  {
+    component: 'input',
+    key: 'username',
+    itemAttrs: {
+      label: 'username'
+    },
+    attrs: {
+      type: 'text'
+    }
+  },
+  {
+    component: 'input',
+    key: 'password',
+    itemAttrs: {
+      label: 'password'
+    },
+    attrs: {
+      type: 'password',
+      showPassword: true
+    }
+  }
+]
 
 interface IProps {
   tableHeader: JTableHeaderType
@@ -65,20 +100,31 @@ withDefaults(defineProps<IProps>(), {
 
 const emits = defineEmits<IEmits>()
 
+const dialogTitle = ref('')
 const visible = ref(false)
 
 const editItem = (id: number) => {
+  dialogTitle.value = 'Edit'
   emits('editItem', id)
   visible.value = true
 }
 
 const deleteItem = (id: number) => {
+  dialogTitle.value = 'Delete'
   emits('deleteItem', id)
   visible.value = true
 }
 
 const changeVisible = (newVisible: boolean) => {
   visible.value = newVisible
+}
+
+const operate = (type: OperateType) => {
+  if (type === 'cancel') {
+    visible.value = false
+  } else {
+    console.log('confirm')
+  }
 }
 </script>
 
