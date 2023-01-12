@@ -86,6 +86,8 @@ const schema: ISchema[] = [
 interface IProps {
   tableHeader: JTableHeaderType
   tableData?: Ref<JTableDataType> | JTableDataType
+  editConfirm?: () => void
+  deleteConfirm?: () => void
 }
 
 interface IEmits {
@@ -94,8 +96,10 @@ interface IEmits {
   (e: 'deleteItem', id: number): void
 }
 
-withDefaults(defineProps<IProps>(), {
-  tableData: () => []
+const props = withDefaults(defineProps<IProps>(), {
+  tableData: () => [],
+  editConfirm: () => {},
+  deleteConfirm: () => {}
 })
 
 const emits = defineEmits<IEmits>()
@@ -110,6 +114,7 @@ const editItem = (id: number) => {
 }
 
 const deleteItem = (id: number) => {
+  console.log(id)
   dialogTitle.value = 'Delete'
   emits('deleteItem', id)
   visible.value = true
@@ -123,7 +128,9 @@ const operate = (type: OperateType) => {
   if (type === 'cancel') {
     visible.value = false
   } else {
-    console.log('confirm')
+    dialogTitle.value === 'Edit'
+      ? props.editConfirm()
+      : props.deleteConfirm()
   }
 }
 </script>

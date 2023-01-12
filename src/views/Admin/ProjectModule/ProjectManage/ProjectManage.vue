@@ -7,8 +7,9 @@
   <JTable
     :tableHeader='tableHeader'
     :tableData='tableData'
-    @editItem='editBlogItem'
-    @deleteItem='deleteBlogItem'
+    @editItem='editProject'
+    :editConfirm='editConfirm'
+    :deleteConfirm='deleteConfirm'
   >
     <template #onlineAddress='{scope}'>
       <el-button link>{{ scope.row.onlineAddress }}</el-button>
@@ -91,18 +92,27 @@ const originTableData = ref([
   }
 ])
 
-const tableData = cloneDeep(originTableData)
+const tableData = ref()
 
 const modelChangeCallback = (model: Record<string, unknown>) => {
-  console.log(model)
+  // query interface and change tableDate
+  tableData.value = cloneDeep(originTableData.value)
 }
 
-const editBlogItem = (id: number) => {
-  console.log('edit', id)
+const editProject = (id: number) => {
+  console.log('editProject', id)
 }
 
-const deleteBlogItem = (id: number) => {
-  console.log('delete', id)
+const deleteProject = (id: number) => {
+  console.log('deleteProject', id)
+}
+
+const editConfirm = () => {
+  console.log('editProjectConfirm')
+}
+
+const deleteConfirm = () => {
+  console.log('deleteProjectConfirm')
 }
 </script>
 
