@@ -4,23 +4,54 @@
     @modelChangeCallback='modelChangeCallback'
     inline
   />
-  <JTable
-    :tableHeader='tableHeader'
-    :tableData='tableData'
-    @editItem='editProject'
-    :editConfirm='editConfirm'
-    :deleteConfirm='deleteConfirm'
-  >
+
+  <JTable :tableHeader='tableHeader' :tableData='tableData'>
     <template #onlineAddress='{scope}'>
-      <el-button link>{{ scope.row.onlineAddress }}</el-button>
+      <el-button
+        type='primary'
+        size='small'
+        link
+        @click='viewProject(scope.row.onlineAddress)'
+      >
+        view
+      </el-button>
+    </template>
+
+    <template #operate='{scope}'>
+      <el-button
+        type='primary'
+        size='small'
+        link
+        @click="editProject('Edit',scope.row.id)"
+      >
+        edit
+      </el-button>
+      <el-button
+        type='danger'
+        size='small'
+        link
+        @click="deleteProject('Delete',scope.row.id)"
+      >
+        delete
+      </el-button>
     </template>
   </JTable>
+
+  <JDialog
+    :title='curDialogType'
+    :visible='visible'
+    @changeVisible='changeVisible'
+    @operate='operate'
+  >
+    <div>Are you sure {{ curDialogType }} it ?</div>
+  </JDialog>
 </template>
 
 <script setup lang='ts'>
 import { ref } from 'vue'
 import JForm from '@/components/JForm/JForm.vue'
 import JTable from '@/components/JTable/JTable.vue'
+import JDialog from '@/components/JDialog/JDialog.vue'
 import { cloneDeep } from 'lodash'
 import { ISchema } from '@/components/JForm/type'
 import { JTableHeaderType } from '@/components/JTable/type'
@@ -99,20 +130,40 @@ const modelChangeCallback = (model: Record<string, unknown>) => {
   tableData.value = cloneDeep(originTableData.value)
 }
 
-const editProject = (id: number) => {
+const visible = ref(false)
+const curDialogType = ref('')
+
+const changeVisible = (newVisible: boolean) => {
+  visible.value = newVisible
+}
+
+// 查看
+const viewProject = (onlineAddress: string) => {
+  window.open(onlineAddress)
+}
+
+// 编辑
+const editProject = (type: string, id: number) => {
+  curDialogType.value = type
+  visible.value = true
   console.log('editProject', id)
 }
 
-const deleteProject = (id: number) => {
+// 删除
+const deleteProject = (type: string, id: number) => {
+  curDialogType.value = type
+  visible.value = true
   console.log('deleteProject', id)
 }
 
-const editConfirm = () => {
-  console.log('editProjectConfirm')
-}
-
-const deleteConfirm = () => {
-  console.log('deleteProjectConfirm')
+// 弹窗确认
+const operate = async (type: 'cancel' | 'confirm') => {
+  if (type === 'cancel') return visible.value = false
+  const data = curDialogType.value === 'Edit'
+    ? 'edit success!'
+    : 'delete success!'
+  console.log(data)
+  visible.value = false
 }
 </script>
 
