@@ -13,7 +13,7 @@
       :prop='item.key'
     >
       <template v-if='item.custom'>
-        <slot :name='item.key'></slot>
+        <slot :name='item.key' />
       </template>
       <template v-else>
         <component

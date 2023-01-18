@@ -3,13 +3,14 @@
     <el-table-column
       v-for='item in tableHeader'
       :key='item.attrs.prop'
-      v-bind='item.attrs'
+      min-width='150'
       align='center'
+      v-bind='item.attrs'
     >
       <!--table header-->
       <template #header='scope' v-if="item.attrs.type !== 'selection'">
         <template v-if='item.customHeader'>
-          <slot :name='`${item.attrs.prop}Header`' :scope='scope'></slot>
+          <slot :name='`${item.attrs.prop}Header`' :scope='scope' />
         </template>
         <template v-else>
           <span>{{ item.attrs.label }}</span>
@@ -19,19 +20,24 @@
       <!--table body-->
       <template v-slot='scope' v-if="item.attrs.type !== 'selection'">
         <!--插槽-->
-        <template v-if='item.custom === true'>
-          <slot :name='item.attrs.prop ?? item.attrs.type' :scope='scope'></slot>
+        <template v-if="item.custom === true || item.attrs.type === 'operate'">
+          <slot :name='item.attrs.prop ?? item.attrs.type' :scope='scope' />
+        </template>
+        <!--filterMap-->
+        <template v-else-if='item.filterMap'>
+          {{ item.filterMap[scope.row[item.attrs.prop]] }}
+        </template>
+        <!--filterFn-->
+        <template v-else-if='item.filterFn'>
+          {{ item.filterFn(scope.row[item.attrs.prop]) }}
         </template>
         <!--序号-->
         <template v-else-if="item.attrs.type === 'serialNumber'">
           {{ scope.$index }}
         </template>
-        <template v-else-if="item.attrs.type === 'operate'">
-          <slot name='operate' :scope='scope'></slot>
-        </template>
-        <!--正常-->
+        <!--默认-->
         <template v-else>
-          <span>{{ scope.row[item.attrs.prop] }}</span>
+          {{ scope.row[item.attrs.prop] }}
         </template>
       </template>
     </el-table-column>

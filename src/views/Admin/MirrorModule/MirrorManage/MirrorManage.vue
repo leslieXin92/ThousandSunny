@@ -5,28 +5,52 @@
     inline
   />
 
-  <JTable
-    :tableHeader='tableHeader'
-    :tableData='tableData'
-    @editItem='editBlogItem'
-    @deleteItem='deleteBlogItem'
-  >
+  <JTable :tableHeader='tableHeader' :tableData='tableData'>
     <template #taskDetails='{scope}'>
       <el-button
         type='primary'
         link
-        @click='viewTaskDetails(scope.row.id)'
+        @click='viewShard(scope.row.id)'
       >
         view
       </el-button>
     </template>
+
+    <template #operate='{scope}'>
+      <el-button
+        type='primary'
+        size='small'
+        link
+        @click="editShard('Edit',scope.row.id)"
+      >
+        edit
+      </el-button>
+      <el-button
+        type='danger'
+        size='small'
+        link
+        @click="deleteShard('Delete',scope.row.id)"
+      >
+        delete
+      </el-button>
+    </template>
   </JTable>
+
+  <JDialog
+    :title='curDialogType'
+    :visible='visible'
+    @changeVisible='changeVisible'
+    @operate='operate'
+  >
+    <div>Are you sure {{ curDialogType }} it ?</div>
+  </JDialog>
 </template>
 
 <script setup lang='ts'>
 import { ref } from 'vue'
 import JForm from '@/components/JForm/JForm.vue'
 import JTable from '@/components/JTable/JTable.vue'
+import JDialog from '@/components/JDialog/JDialog.vue'
 import { cloneDeep } from 'lodash'
 import { ISchema } from '@/components/JForm/type'
 import { JTableHeaderType } from '@/components/JTable/type'
@@ -56,7 +80,7 @@ const schema: ISchema[] = [
 ]
 
 const tableHeader: JTableHeaderType = [
-  { attrs: { type: 'serialNumber', label: 'Serial Number', width: 130 } },
+  { attrs: { type: 'serialNumber', label: 'Serial Number', width: 150 } },
   { attrs: { prop: 'date', label: 'Date' } },
   { attrs: { prop: 'taskName', label: 'Task Name' } },
   { attrs: { prop: 'taskDetails', label: 'Task Details' }, custom: true },
@@ -77,7 +101,15 @@ const modelChangeCallback = (model: Record<string, unknown>) => {
   tableData.value = originTableData.value.filter(item => item.taskName.indexOf(taskName as string) !== -1)
 }
 
-const viewTaskDetails = (id: number) => {
+const visible = ref(false)
+const curDialogType = ref('')
+
+const changeVisible = (newVisible: boolean) => {
+  visible.value = newVisible
+}
+
+// 查看
+const viewShard = (id: number) => {
   const res = {
     1: [{ name: 'node', list: ['http模块', 'url模块'] }, { name: '个人项目', list: ['calender页面开发'] }],
     2: [{ name: 'webpack', list: ['loader'] }],
@@ -88,12 +120,28 @@ const viewTaskDetails = (id: number) => {
   console.log(details)
 }
 
-const editBlogItem = (id: number) => {
-  console.log('edit', id)
+// 编辑
+const editShard = (type: string, id: number) => {
+  curDialogType.value = type
+  visible.value = true
+  console.log('editShard', id)
 }
 
-const deleteBlogItem = (id: number) => {
-  console.log('delete', id)
+// 删除
+const deleteShard = (type: string, id: number) => {
+  curDialogType.value = type
+  visible.value = true
+  console.log('deleteShard', id)
+}
+
+// 弹窗确认
+const operate = async (type: 'cancel' | 'confirm') => {
+  if (type === 'cancel') return visible.value = false
+  const data = curDialogType.value === 'Edit'
+    ? 'edit success!'
+    : 'delete success!'
+  console.log(data)
+  visible.value = false
 }
 </script>
 

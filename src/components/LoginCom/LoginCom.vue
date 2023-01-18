@@ -5,7 +5,7 @@
     effect='light'
     :showArrow='false'
   >
-    <slot></slot>
+    <slot />
     <template #content>
       <el-button
         class='popoverBtn'

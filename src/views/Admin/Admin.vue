@@ -19,8 +19,7 @@ import AdminMenu from '@/components/AdminMenu/AdminMenu.vue'
 import { subMenuList, componentMap } from './config'
 import { CurComponentNameType } from './type'
 
-// const curComponentName = ref<CurComponentNameType>('createBlog')
-const curComponentName = ref<CurComponentNameType>('projectManage')
+const curComponentName = ref<CurComponentNameType>('mirrorManage')
 
 const curComponent = computed(() => {
   return componentMap[curComponentName.value]

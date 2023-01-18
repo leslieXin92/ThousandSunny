@@ -12,6 +12,8 @@ type JTableHeaderItemType = {
   attrs: JTableHeaderItemAttrsType
   custom?: boolean
   customHeader?: boolean
+  filterMap?: Record<any, any>
+  filterFn?: (data: any) => any
 }
 
 export type JTableHeaderType = JTableHeaderItemType[]

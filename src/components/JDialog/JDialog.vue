@@ -9,7 +9,7 @@
     @open='open'
     @close='close'
   >
-    <slot></slot>
+    <slot />
 
     <template #footer>
       <slot name='footer'>

@@ -7,6 +7,7 @@ import CreateShard from './MirrorModule/CreateShard/CreateShard.vue'
 import MirrorManage from './MirrorModule/MirrorManage/MirrorManage.vue'
 import { ISubMenuList } from '@/components/AdminMenu/type'
 import { CurComponentNameType } from './type'
+import { JTableHeaderType } from '@/components/JTable/type'
 
 export const subMenuList: ISubMenuList[] = [
   {
@@ -46,3 +47,34 @@ export const componentMap: Record<CurComponentNameType, VueElement> = {
   createShard: CreateShard,
   mirrorManage: MirrorManage
 }
+
+// 序号、名称、发布日期、类别、隐私、操作
+const blogTableHeader: JTableHeaderType = [
+  { attrs: { type: 'serialNumber', label: 'Serial Number', width: 130 } },
+  { attrs: { prop: 'blogName', label: 'Blog Name' } },
+  { attrs: { prop: 'publishTime', label: 'Publish Time' } },
+  { attrs: { prop: 'category', label: 'Category' } },
+  { attrs: { prop: 'visibility', label: 'Visibility' }, filterMap: { 0: 'public', 1: 'private' } },
+  { attrs: { type: 'operate', label: 'Operation' } }
+]
+
+// 序号、名称、技术栈、开始时间、结束时间、用时、操作
+const projectTableHeader: JTableHeaderType = [
+  { attrs: { type: 'serialNumber', label: 'Serial Number', width: 130 } },
+  { attrs: { prop: 'projectName', label: 'Project Name' } },
+  { attrs: { prop: 'technologyStack', label: 'Technology Stack' } },
+  { attrs: { prop: 'startTime', label: 'Start Time' } },
+  { attrs: { prop: 'endTime', label: 'End Time' } },
+  { attrs: { prop: 'timeSpent', label: 'Time Spent' } },
+  { attrs: { prop: 'onlineAddress', label: 'Online Address' }, custom: true },
+  { attrs: { type: 'operate', label: 'Operation' } }
+]
+
+// 序号、日期、任务名称、任务详情、操作
+const tableHeader: JTableHeaderType = [
+  { attrs: { type: 'serialNumber', label: 'Serial Number', width: 130 } },
+  { attrs: { prop: 'date', label: 'Date' } },
+  { attrs: { prop: 'taskName', label: 'Task Name' } },
+  { attrs: { prop: 'taskDetails', label: 'Task Details' }, custom: true },
+  { attrs: { type: 'operate', label: 'Operation' } }
+]

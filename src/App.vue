@@ -33,7 +33,7 @@ const isNotFound = computed(() => {
 
 <style lang='less' scoped>
 .el-container {
-  min-width: 1000px;
+  //min-width: 1000px;
   max-width: 1920px;
   margin: 0 auto;
 

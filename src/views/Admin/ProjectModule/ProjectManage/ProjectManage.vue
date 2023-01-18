@@ -79,8 +79,9 @@ const schema: ISchema[] = [
 ]
 
 const tableHeader: JTableHeaderType = [
-  { attrs: { type: 'serialNumber', label: 'Serial Number', width: 130 } },
+  { attrs: { type: 'serialNumber', label: 'Serial Number' } },
   { attrs: { prop: 'projectName', label: 'Project Name' } },
+  { attrs: { prop: 'technologyStack', label: 'Technology Stack' } },
   { attrs: { prop: 'startTime', label: 'Start Time' } },
   { attrs: { prop: 'endTime', label: 'End Time' } },
   { attrs: { prop: 'timeSpent', label: 'Time Spent' } },
@@ -92,6 +93,7 @@ const originTableData = ref([
   {
     id: 1,
     projectName: 'Blog NO 1',
+    technologyStack: 'Koa2',
     startTime: '2023-01-03',
     endTime: '2023-01-03',
     timeSpent: '30',
@@ -100,6 +102,7 @@ const originTableData = ref([
   {
     id: 2,
     projectName: 'Blog NO 2',
+    technologyStack: 'Koa2',
     startTime: '2023-01-04',
     endTime: '2023-01-04',
     timeSpent: '30',
@@ -108,6 +111,7 @@ const originTableData = ref([
   {
     id: 3,
     projectName: 'Blog NO 1',
+    technologyStack: 'Koa2',
     startTime: '2023-01-03',
     endTime: '2023-01-03',
     timeSpent: '30',
@@ -116,6 +120,7 @@ const originTableData = ref([
   {
     id: 4,
     projectName: 'Blog NO 1',
+    technologyStack: 'Koa2',
     startTime: '2023-01-03',
     endTime: '2023-01-03',
     timeSpent: '30',
