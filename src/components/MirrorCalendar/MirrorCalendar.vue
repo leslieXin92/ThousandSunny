@@ -20,12 +20,12 @@
 
     <template #date-cell='{ data }'>
       <div
-        class='dateCell'
         :class='{
-          laterMonth: judgeIsLaterMonth(data),
-          learn: judgeIsLearn(data),
-          rest: judgeIsRest(data)
+          learn: isLearn(data),
+          lazy: isLazy(data),
+          notBelongCurMonth: isNotBelongCurMonth(data)
         }'
+        class='dateCell'
       >
         {{ data.day.split('-')[2] }}
       </div>
@@ -58,16 +58,29 @@ const changeMonth = (val: string) => {
   calendarRef.value!.selectDate(val)
 }
 
-const judgeIsLaterMonth = (data: IDateCell) => {
-  return dayjs(data.date) > dayjs(new Date()) && dayjs(new Date()).month() < dayjs(data.date).month()
+// 学习
+const isLearn = (data: IDateCell) => {
+  const dateDataArr = [
+    '2023-01-03', '2023-01-04', '2023-01-05', '2023-01-06', '2023-01-07',
+    '2023-01-09', '2023-01-10', '2023-01-11', '2023-01-12', '2023-01-13',
+    '2023-01-14', '2023-01-15', '2023-01-16', '2023-01-17', '2023-01-18',
+    '2023-01-19', '2023-01-20'
+  ]
+  return dateDataArr.indexOf(dayjs(data.date).format('YYYY-MM-DD')) !== -1
 }
 
-const judgeIsLearn = (data: IDateCell) => {
-  return dayjs(data.date).isBefore(dayjs(new Date()).startOf('day')) && dayjs(data.date).date() % 2 !== 0
+// 未学习
+const isLazy = (data: IDateCell) => {
+  const dateDataArr = [
+    '2023-01-01', '2023-01-02', '2023-01-08'
+  ]
+  return dateDataArr.indexOf(dayjs(data.date).format('YYYY-MM-DD')) !== -1
 }
 
-const judgeIsRest = (data: IDateCell) => {
-  return dayjs(data.date).isBefore(dayjs(new Date()).startOf('day')) && dayjs(data.date).date() % 2 === 0
+// 不属于当前显示月份的
+const isNotBelongCurMonth = (data: IDateCell) => {
+  return dayjs(data.date).isAfter(dayjs(curSelectDay.value).endOf('month'))
+    || dayjs(data.date).isBefore(dayjs(curSelectDay.value).startOf('month'))
 }
 
 watch(
@@ -86,7 +99,6 @@ watch(
 .el-calendar {
   border-radius: 15px;
   box-shadow: 0 0 20px 5px #efefef;
-  //box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
 
   .headerDate {
     font-size: 18px;
@@ -101,16 +113,16 @@ watch(
     color: #aaa;
   }
 
-  .laterMonth {
-    color: #eee;
-  }
-
   .learn {
     color: darkcyan;
   }
 
-  .rest {
-    color: orangered;
+  .lazy {
+    color: #F55050;
+  }
+
+  .notBelongCurMonth {
+    opacity: 0.3;
   }
 
   :deep(.el-calendar-day) {

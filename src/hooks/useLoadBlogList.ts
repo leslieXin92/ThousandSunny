@@ -38,8 +38,10 @@ const useLoadBlogList = (props: IProps) => {
     const clientHeight = document.documentElement.clientHeight
     const scrollHeight = document.documentElement.scrollHeight
     if (scrollTop + clientHeight >= scrollHeight) {
-      // const { data: { blogList } } = await getBlogList(params.value)
-      // originData.value.push(...blogList)
+      /*
+        const { data: { blogList } } = await getBlogList(params.value)
+        originData.value.push(...blogList)
+      */
       const newList = list.reduce((pre: Omit<IBlogItem, 'content'>[], cur) => {
         const preYear = new Date(pre[pre.length - 1]?.createAt).getFullYear()
         const curYear = new Date(cur.createAt).getFullYear()
@@ -54,12 +56,14 @@ const useLoadBlogList = (props: IProps) => {
     }
   }
 
+  // TODO - remove
   watch(
     originData,
     (newValue) => {
       console.log(newValue)
     },
-    { deep: true })
+    { deep: true }
+  )
 
   onMounted(async () => {
     await loadMore()

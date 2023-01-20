@@ -3,7 +3,7 @@
     <template #header>
       <div class='boardHeader'>
         <div class='date'>{{ date }}</div>
-        <div class='week'>{{ weekMap[dayjs(date).day()] }}</div>
+        <div class='week'>{{ dayMap[dayjs(date).day()] }}</div>
       </div>
     </template>
 
@@ -18,25 +18,12 @@
 import { onBeforeUnmount, ref, watch } from 'vue'
 import emitter from '@/utils/mitt'
 import dayjs from 'dayjs'
+import { dayMap } from './config'
 
 const taskList = [
   { taskId: 0, taskName: '个人网站', task: ['home页面注入three', 'mirror页面开发'] },
-  { taskId: 1, taskName: 'node', task: ['http模块', 'url模块'] },
-  { taskId: 0, taskName: '个人网站', task: ['home页面注入three', 'mirror页面开发'] },
-  { taskId: 1, taskName: 'node', task: ['http模块', 'url模块'] },
-  { taskId: 0, taskName: '个人网站', task: ['home页面注入three', 'mirror页面开发'] },
   { taskId: 1, taskName: 'node', task: ['http模块', 'url模块'] }
 ]
-
-const weekMap = {
-  0: '星期日',
-  1: '星期一',
-  2: '星期二',
-  3: '星期三',
-  4: '星期四',
-  5: '星期五',
-  6: '星期六'
-}
 
 const date = ref()
 
