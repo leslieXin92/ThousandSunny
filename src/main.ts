@@ -4,7 +4,7 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedState from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import { globalRegister } from './global'
-import { useLogChar } from '@/hooks/useLogChar'
+import useLogChar from '@/hooks/useLogChar'
 import '@/global/global.less'
 
 const pinia = createPinia()

@@ -46,26 +46,15 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue'
 import JForm from '@/components/JForm/JForm.vue'
 import JTable from '@/components/JTable/JTable.vue'
 import JDialog from '@/components/JDialog/JDialog.vue'
+import useQueryTableData from '@/hooks/useQueryTableData'
+import useTableOperate from '@/hooks/useTableOperate'
 import { schema, tableHeader } from './config'
-import { JTableDataType } from '@/components/JTable/type'
-import { useTableOperate } from '@/hooks/useTableOperate'
+import { mockQueryTableData } from './mock'
 
-const tableData = ref<JTableDataType>([])
-
-const modelChangeCallback = (model: Record<string, unknown>) => {
-  console.log(`\n`, model)
-  console.log(`接口刷新tableData`)
-  tableData.value = [
-    { id: 1, date: '2023-01-03', taskName: 'node' },
-    { id: 2, date: '2023-01-04', taskName: 'webpack' },
-    { id: 3, date: '2023-01-03', taskName: 'mini-vue3' },
-    { id: 4, date: '2023-01-03', taskName: 'react' }
-  ]
-}
+const { tableData, modelChangeCallback } = useQueryTableData(mockQueryTableData)
 
 const viewShard = (id: number) => {
   const res = {
@@ -79,24 +68,15 @@ const viewShard = (id: number) => {
 }
 
 const editShard = () => {
-  console.log(curId.value)
-  return new Promise((resolve) => {
-    resolve({ code: 0 })
-  })
+  console.log('editShard', curId.value)
 }
 
 const editConfirm = () => {
-  console.log(curId.value)
-  return new Promise((resolve) => {
-    Math.random() * 10 > 5 ? resolve({ code: 0 }) : resolve({ code: 1 })
-  })
+  console.log('editConfirm', curId.value)
 }
 
 const deleteConfirm = () => {
-  console.log(curId.value)
-  return new Promise((resolve) => {
-    Math.random() * 10 > 5 ? resolve({ code: 0 }) : resolve({ code: 1 })
-  })
+  console.log('deleteConfirm', curId.value)
 }
 
 const { title, visible, curId, operate, openDialog } = useTableOperate(editShard, editConfirm, deleteConfirm)

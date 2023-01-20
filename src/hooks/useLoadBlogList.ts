@@ -7,7 +7,7 @@ interface IProps {
   originData: Ref<Omit<IBlogItem, 'content'>[]>
 }
 
-export const useLoadBlogList = (props: IProps) => {
+const useLoadBlogList = (props: IProps) => {
   const { params, originData } = props
 
   const list: Omit<IBlogItem, 'content'>[] = [
@@ -70,3 +70,5 @@ export const useLoadBlogList = (props: IProps) => {
     window.removeEventListener('scroll', loadMore)
   })
 }
+
+export default useLoadBlogList

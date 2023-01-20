@@ -1,7 +1,7 @@
 <template>
   <div class='blogList'>
     <template v-for='item in blogList' :key='item.id'>
-      <div class='year' v-if="item.showYear">{{ item.newYear }}</div>
+      <div class='year' v-if='item.showYear'>{{ item.newYear }}</div>
       <div class='blogItem'>
         <div class='blogTitle' @click='skipBlogDetail(item.id)'>{{ item.title }}</div>
         <div class='dot'></div>
@@ -16,7 +16,7 @@ import { ref } from 'vue'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
 import dayjs from 'dayjs'
-import { useLoadBlogList } from '@/hooks/useLoadBlogList'
+import useLoadBlogList from '@/hooks/useLoadBlogList'
 import { IBlogItem } from '@/service/api/portal/type'
 
 const blogList = ref<Omit<IBlogItem, 'content'>[]>([])

@@ -47,82 +47,30 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue'
 import JForm from '@/components/JForm/JForm.vue'
 import JTable from '@/components/JTable/JTable.vue'
 import JDialog from '@/components/JDialog/JDialog.vue'
-import { useTableOperate } from '@/hooks/useTableOperate'
+import useQueryTableData from '@/hooks/useQueryTableData'
+import useTableOperate from '@/hooks/useTableOperate'
 import { schema, tableHeader } from './config'
-import { JTableDataType } from '@/components/JTable/type'
+import { mockQueryTableData } from './mock'
 
-const tableData = ref<JTableDataType>([])
-
-const modelChangeCallback = (model: Record<string, unknown>) => {
-  console.log(`\n`, model)
-  console.log(`接口刷新tableData`)
-  tableData.value = [
-    {
-      id: 1,
-      projectName: 'Blog NO 1',
-      technologyStack: 'Koa2',
-      startTime: '2023-01-03',
-      endTime: '2023-01-03',
-      timeSpent: '30',
-      onlineAddress: 'https://www.baidu.com'
-    },
-    {
-      id: 2,
-      projectName: 'Blog NO 2',
-      technologyStack: 'Koa2',
-      startTime: '2023-01-04',
-      endTime: '2023-01-04',
-      timeSpent: '30',
-      onlineAddress: 'https://www.baidu.com'
-    },
-    {
-      id: 3,
-      projectName: 'Blog NO 1',
-      technologyStack: 'Koa2',
-      startTime: '2023-01-03',
-      endTime: '2023-01-03',
-      timeSpent: '30',
-      onlineAddress: 'https://www.baidu.com'
-    },
-    {
-      id: 4,
-      projectName: 'Blog NO 1',
-      technologyStack: 'Koa2',
-      startTime: '2023-01-03',
-      endTime: '2023-01-03',
-      timeSpent: '30',
-      onlineAddress: 'https://www.baidu.com'
-    }
-  ]
-}
+const { tableData, modelChangeCallback } = useQueryTableData(mockQueryTableData)
 
 const viewProject = (onlineAddress: string) => {
   window.open(onlineAddress)
 }
 
 const editProject = () => {
-  console.log(curId.value)
-  return new Promise((resolve) => {
-    resolve({ code: 0 })
-  })
+  console.log('editProject', curId.value)
 }
 
 const editConfirm = () => {
-  console.log(curId.value)
-  return new Promise((resolve) => {
-    Math.random() * 10 > 5 ? resolve({ code: 0 }) : resolve({ code: 1 })
-  })
+  console.log('editConfirm', curId.value)
 }
 
 const deleteConfirm = () => {
-  console.log(curId.value)
-  return new Promise((resolve) => {
-    Math.random() * 10 > 5 ? resolve({ code: 0 }) : resolve({ code: 1 })
-  })
+  console.log('deleteConfirm', curId.value)
 }
 
 const { title, visible, curId, operate, openDialog } = useTableOperate(editProject, editConfirm, deleteConfirm)

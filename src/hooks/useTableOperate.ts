@@ -2,10 +2,10 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { capitalize } from 'lodash'
 
-export const useTableOperate = (
-  editOpen: () => Promise<any>,
-  editConfirm: () => Promise<any>,
-  deleteConfirm: () => Promise<any>
+const useTableOperate = (
+  editOpen: () => void,
+  editConfirm: () => void,
+  deleteConfirm: () => void
 ) => {
 
   const title = ref('')
@@ -23,20 +23,18 @@ export const useTableOperate = (
   }
 
   // 弹窗确认
-  const operate = async (type: 'confirm' | 'cancel') => {
+  const operate = (type: 'confirm' | 'cancel') => {
     if (type === 'cancel') return visible.value = false
-    const { code } = title.value === 'Edit'
-      ? await editConfirm()
-      : await deleteConfirm()
-    if (!code) {
-      visible.value = false
-      title.value = ''
-      curId.value = undefined
-    }
+    title.value === 'Edit'
+      ? editConfirm()
+      : deleteConfirm()
     ElMessage({
-      type: code ? 'error' : 'success',
-      message: `${title.value} ${code ? 'Failure ' : 'Success '}!`
+      type: 'success',
+      message: `${title.value} Success !`
     })
+    visible.value = false
+    title.value = ''
+    curId.value = undefined
   }
 
   return {
@@ -47,3 +45,5 @@ export const useTableOperate = (
     operate
   }
 }
+
+export default useTableOperate

@@ -1,5 +1,7 @@
 import { leslie } from '@/assets/char'
 
-export const useLogChar = () => {
+const useLogChar = () => {
   console.log(leslie)
 }
+
+export default useLogChar
