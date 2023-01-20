@@ -6,17 +6,12 @@
   />
 
   <JTable :tableHeader='tableHeader' :tableData='tableData'>
-    <template #visibility='{scope}'>
-      {{ scope.row.visibility }}
-      {{ scope.row.visibility }}
-    </template>
-
     <template #operate='{scope}'>
       <el-button
         type='primary'
         size='small'
         link
-        @click="editBlog('Edit',scope.row.id)"
+        @click="openDialog('edit', scope.row.id)"
       >
         edit
       </el-button>
@@ -24,7 +19,7 @@
         type='danger'
         size='small'
         link
-        @click="deleteBlog('Delete',scope.row.id)"
+        @click="openDialog('delete', scope.row.id)"
       >
         delete
       </el-button>
@@ -32,12 +27,11 @@
   </JTable>
 
   <JDialog
-    :title='curDialogType'
+    :title='title'
     :visible='visible'
-    @changeVisible='changeVisible'
     @operate='operate'
   >
-    <div>Are you sure {{ curDialogType }} it ?</div>
+    <div>Are you sure {{ title }} it ?</div>
   </JDialog>
 </template>
 
@@ -46,16 +40,15 @@ import { ref } from 'vue'
 import JForm from '@/components/JForm/JForm.vue'
 import JTable from '@/components/JTable/JTable.vue'
 import JDialog from '@/components/JDialog/JDialog.vue'
+import { useTableOperate } from '@/hooks/useTableOperate'
 import { schema, tableHeader } from './config.ts'
 import { JTableDataType } from '@/components/JTable/type'
-import { useTableOperate } from '@/hooks/useTableOperate'
 
 const tableData = ref<JTableDataType>([])
 
 const modelChangeCallback = (model: Record<string, unknown>) => {
-  console.log(model)
-  console.log(`已刷新tableData`)
-  console.log('')
+  console.log(`\n`, model)
+  console.log(`接口刷新tableData`)
   tableData.value = [
     { id: 1, blogName: 'Blog NO 1', category: 'Node', publishTime: '2023-01-03', visibility: 0 },
     { id: 2, blogName: 'Blog NO 2', category: 'Node', publishTime: '2023-01-04', visibility: 1 },
@@ -64,30 +57,28 @@ const modelChangeCallback = (model: Record<string, unknown>) => {
   ]
 }
 
-const visible = ref(false)
-const curDialogType = ref('')
-
-const editOpen = () => {
-  console.log('edit open')
+const editBlog = () => {
+  console.log(curId.value)
+  return new Promise((resolve) => {
+    resolve({ code: 0 })
+  })
 }
 
-const deleteOpen = () => {
-  console.log('edit open')
+const editConfirm = () => {
+  console.log(curId.value)
+  return new Promise((resolve) => {
+    Math.random() * 10 > 5 ? resolve({ code: 0 }) : resolve({ code: 1 })
+  })
 }
 
-const dialogConfirm = () => {
-  console.log('confirm')
-}
-const dialogCancel = () => {
-  console.log('cancel')
+const deleteConfirm = () => {
+  console.log(curId.value)
+  return new Promise((resolve) => {
+    Math.random() * 10 > 5 ? resolve({ code: 0 }) : resolve({ code: 1 })
+  })
 }
 
-const {
-  changeVisible,
-  editItem: editBlog,
-  deleteItem: deleteBlog,
-  operate
-} = useTableOperate(curDialogType, visible, editOpen, deleteOpen, dialogConfirm, dialogCancel)
+const { title, visible, curId, operate, openDialog } = useTableOperate(editBlog, editConfirm, deleteConfirm)
 </script>
 
 <style scoped lang='less'>

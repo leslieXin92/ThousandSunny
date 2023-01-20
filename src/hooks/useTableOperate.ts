@@ -1,51 +1,49 @@
-import { Ref } from 'vue'
-
-interface IProps {
-  title: Ref<string>
-  visible: Ref<boolean>
-  dialogConfirmCb: () => void
-  dialogCancelCb: () => void
-}
+import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { capitalize } from 'lodash'
 
 export const useTableOperate = (
-  title: Ref<string>,
-  visible: Ref<boolean>,
-  editOpen: () => void,
-  deleteOpen: () => void,
-  editConfirm: () => void,
-  deleteConfirm: () => void
+  editOpen: () => Promise<any>,
+  editConfirm: () => Promise<any>,
+  deleteConfirm: () => Promise<any>
 ) => {
-  const changeVisible = (newVisible: boolean) => {
-    visible.value = newVisible
-  }
 
-  // 编辑
-  const editItem = (type: string, id: number) => {
-    title.value = type
-    visible.value = true
-    editOpen()
-  }
+  const title = ref('')
+  const visible = ref(false)
+  const curId = ref<number>()
 
-  // 删除
-  const deleteItem = (type: string, id: number) => {
-    title.value = type
+  // 打开弹窗
+  const openDialog = (type: 'edit' | 'delete', id: number) => {
+    title.value = capitalize(type)
+    curId.value = id
     visible.value = true
-    deleteOpen()
+    type === 'edit'
+      ? editOpen()
+      : null
   }
 
   // 弹窗确认
-  const operate = async (type: 'cancel' | 'confirm') => {
+  const operate = async (type: 'confirm' | 'cancel') => {
     if (type === 'cancel') return visible.value = false
-    title.value === 'Edit'
-      ? editConfirm()
-      : deleteConfirm()
-    visible.value = false
+    const { code } = title.value === 'Edit'
+      ? await editConfirm()
+      : await deleteConfirm()
+    if (!code) {
+      visible.value = false
+      title.value = ''
+      curId.value = undefined
+    }
+    ElMessage({
+      type: code ? 'error' : 'success',
+      message: `${title.value} ${code ? 'Failure ' : 'Success '}!`
+    })
   }
 
   return {
-    changeVisible,
-    editItem,
-    deleteItem,
+    title,
+    visible,
+    curId,
+    openDialog,
     operate
   }
 }

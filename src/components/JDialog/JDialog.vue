@@ -3,6 +3,7 @@
     :modelValue='dialogVisible'
     :title='title'
     :width='width'
+    :showClose='false'
     style='border-radius: 10px'
     center
     destroyOnClose
