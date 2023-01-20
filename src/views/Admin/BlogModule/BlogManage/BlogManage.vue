@@ -48,7 +48,7 @@ import JTable from '@/components/JTable/JTable.vue'
 import JDialog from '@/components/JDialog/JDialog.vue'
 import { schema, tableHeader } from './config.ts'
 import { JTableDataType } from '@/components/JTable/type'
-import { useDialog } from '@/hooks/useDialog'
+import { useTableOperate } from '@/hooks/useTableOperate'
 
 const tableData = ref<JTableDataType>([])
 
@@ -66,6 +66,15 @@ const modelChangeCallback = (model: Record<string, unknown>) => {
 
 const visible = ref(false)
 const curDialogType = ref('')
+
+const editOpen = () => {
+  console.log('edit open')
+}
+
+const deleteOpen = () => {
+  console.log('edit open')
+}
+
 const dialogConfirm = () => {
   console.log('confirm')
 }
@@ -73,35 +82,12 @@ const dialogCancel = () => {
   console.log('cancel')
 }
 
-const { editBlog } = useDialog(visible, dialogConfirm, dialogCancel)
-
-const changeVisible = (newVisible: boolean) => {
-  visible.value = newVisible
-}
-
-// 编辑
-// const editBlog = (type: string, id: number) => {
-//   curDialogType.value = type
-//   visible.value = true
-//   console.log('editBlog', id)
-// }
-
-// 删除
-const deleteBlog = (type: string, id: number) => {
-  curDialogType.value = type
-  visible.value = true
-  console.log('deleteBlog', id)
-}
-
-// 弹窗确认
-const operate = async (type: 'cancel' | 'confirm') => {
-  if (type === 'cancel') return visible.value = false
-  const data = curDialogType.value === 'Edit'
-    ? 'edit success!'
-    : 'delete success!'
-  console.log(data)
-  visible.value = false
-}
+const {
+  changeVisible,
+  editItem: editBlog,
+  deleteItem: deleteBlog,
+  operate
+} = useTableOperate(curDialogType, visible, editOpen, deleteOpen, dialogConfirm, dialogCancel)
 </script>
 
 <style scoped lang='less'>
