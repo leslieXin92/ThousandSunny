@@ -46,53 +46,9 @@ import { ref } from 'vue'
 import JForm from '@/components/JForm/JForm.vue'
 import JTable from '@/components/JTable/JTable.vue'
 import JDialog from '@/components/JDialog/JDialog.vue'
-import { ISchema } from '@/components/JForm/type'
-import { JTableHeaderType, JTableDataType } from '@/components/JTable/type'
-
-const schema: ISchema[] = [
-  {
-    component: 'input',
-    key: 'blogName',
-    itemAttrs: {
-      label: 'blog name'
-    },
-    attrs: {}
-  },
-  {
-    component: 'select',
-    key: 'publishYear',
-    itemAttrs: {
-      label: 'publish year'
-    },
-    attrs: {
-      placeholder: 'all',
-      options: []
-    }
-  },
-  {
-    component: 'select',
-    key: 'visibility',
-    itemAttrs: {
-      label: 'visibility'
-    },
-    attrs: {
-      placeholder: 'all',
-      options: [
-        { label: 'public', value: 0 },
-        { label: 'private', value: 1 }
-      ]
-    }
-  }
-]
-
-const tableHeader: JTableHeaderType = [
-  { attrs: { type: 'serialNumber', label: 'Serial Number', width: 130 } },
-  { attrs: { prop: 'blogName', label: 'Blog Name' } },
-  { attrs: { prop: 'category', label: 'Category' } },
-  { attrs: { prop: 'publishTime', label: 'Publish Time' } },
-  { attrs: { prop: 'visibility', label: 'Visibility' }, filterMap: { 0: 'public', 1: 'private' } },
-  { attrs: { type: 'operate', label: 'Operation' } }
-]
+import { schema, tableHeader } from './config.ts'
+import { JTableDataType } from '@/components/JTable/type'
+import { useDialog } from '@/hooks/useDialog'
 
 const tableData = ref<JTableDataType>([])
 
@@ -110,17 +66,25 @@ const modelChangeCallback = (model: Record<string, unknown>) => {
 
 const visible = ref(false)
 const curDialogType = ref('')
+const dialogConfirm = () => {
+  console.log('confirm')
+}
+const dialogCancel = () => {
+  console.log('cancel')
+}
+
+const { editBlog } = useDialog(visible, dialogConfirm, dialogCancel)
 
 const changeVisible = (newVisible: boolean) => {
   visible.value = newVisible
 }
 
 // 编辑
-const editBlog = (type: string, id: number) => {
-  curDialogType.value = type
-  visible.value = true
-  console.log('editBlog', id)
-}
+// const editBlog = (type: string, id: number) => {
+//   curDialogType.value = type
+//   visible.value = true
+//   console.log('editBlog', id)
+// }
 
 // 删除
 const deleteBlog = (type: string, id: number) => {
