@@ -3,7 +3,7 @@
     <template v-for='item in blogList' :key='item.id'>
       <div class='year' v-if='item.showYear'>{{ item.newYear }}</div>
       <div class='blogItem'>
-        <div class='blogTitle' @click='skipBlogDetail(item.id)'>{{ item.title }}</div>
+        <div class='blogTitle' @click='skipBlogItem(item.id)'>{{ item.title }}</div>
         <div class='dot'></div>
         <div class='time'>{{ dayjs(item.createAt).format('YYYY-MM-DD') }}</div>
       </div>
@@ -13,16 +13,19 @@
 
 <script setup lang='ts'>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
 import dayjs from 'dayjs'
 import useLoadBlogList from '@/hooks/useLoadBlogList'
 import { IBlogItem } from '@/service/api/portal/type'
 
-const blogList = ref<Omit<IBlogItem, 'content'>[]>([])
+const router = useRouter()
 
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
+
+const blogList = ref<Omit<IBlogItem, 'content'>[]>([])
 
 const params = ref({
   type: isLogin ? 'private' : 'public' as 'public' | 'private',
@@ -37,9 +40,9 @@ const props = {
 
 useLoadBlogList(props)
 
-const skipBlogDetail = (id: number) => {
+const skipBlogItem = (id: number) => {
   window.getSelection()!.removeAllRanges()
-  console.log(id)
+  router.push(`/blog/${id}`)
 }
 </script>
 

@@ -37,7 +37,7 @@ const showMenuList = computed(() => {
 })
 
 const curMenu = computed(() => {
-  return showMenuList.value.find(item => item.routePath === route.path)?.label
+  return showMenuList.value.find(item => item.routePath === `/${route.path.split('/')[1]}`)?.label
 })
 
 const skipMenu = (routePath: string) => {
