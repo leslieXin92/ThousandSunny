@@ -72,7 +72,8 @@ const isLearn = (data: IDateCell) => {
 // 未学习
 const isLazy = (data: IDateCell) => {
   const dateDataArr = [
-    '2023-01-01', '2023-01-02', '2023-01-08'
+    '2023-01-01', '2023-01-02', '2023-01-08', '2023-01-21', '2023-01-22',
+    '2023-01-23', '2023-01-24', '2023-01-25', '2023-01-26', '2023-01-27'
   ]
   return dateDataArr.indexOf(dayjs(data.date).format('YYYY-MM-DD')) !== -1
 }
