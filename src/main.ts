@@ -7,6 +7,7 @@ import { globalRegister } from './global'
 import useLogChar from '@/hooks/useLogChar'
 import '@/global/global.less'
 import highlight from '@highlightjs/vue-plugin'
+import 'github-markdown-css'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)

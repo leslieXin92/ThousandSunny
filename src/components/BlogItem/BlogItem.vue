@@ -1,5 +1,5 @@
 <template>
-  <article class='blogItem'>
+  <article class='blogItem markdown-body'>
     <div class='header'>
       <el-page-header @back='goBack'>
         <template #content>
@@ -8,7 +8,7 @@
       </el-page-header>
     </div>
 
-    <div class='markdown-body' v-html='blogDetail.content'></div>
+    <div class='content' v-html='blogDetail.content'></div>
   </article>
 </template>
 
@@ -47,22 +47,18 @@ const goBack = () => {
 
 <style scoped lang='less'>
 .blogItem {
-  width: 1000px;
-  min-height: 1000px;
+  width: 900px;
   margin: 0 auto;
 
   .header {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
-    height: 80px;
-    padding: 0 50px;
-    border-bottom: 1px solid #eee;
-    background-color: #fff;
+    height: 60px;
 
     .el-page-header {
       font-weight: bold;
+      text-shadow: 2px 2px rgba(0, 139, 139, 0.1);
       color: darkcyan;
 
       :deep(.el-page-header__title) {
@@ -76,23 +72,15 @@ const goBack = () => {
     }
   }
 
-  .markdown-body {
-    padding: 0 50px;
+  .content {
+    padding: 0 10px;
 
     :deep(*) {
-      line-height: 40px;
+      line-height: 35px;
     }
 
-    :deep(h1) {
-      margin: 20px 0;
-    }
-
-    :deep(h2) {
-      margin: 20px 0;
-    }
-
-    :deep(h3) {
-      margin: 10px 0;
+    :deep(li) {
+      list-style: initial;
     }
   }
 }

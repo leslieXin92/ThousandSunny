@@ -59,6 +59,7 @@ const skipMenu = (routePath: string) => {
     cursor: pointer;
     font-size: 20px;
     font-style: oblique;
+    text-shadow: 1px 1px #ccc;
 
     &:first-child {
       flex: 1;
@@ -67,12 +68,14 @@ const skipMenu = (routePath: string) => {
     }
 
     &:hover {
+      text-shadow: 1px 1px rgba(0, 139, 139, 0.1);
       color: rgba(0, 139, 139, 0.6);
     }
   }
 
   .active {
-    color: #008b8b;
+    text-shadow: 1px 1px rgba(0, 139, 139, 0.1);
+    color: darkcyan;
   }
 }
 </style>
