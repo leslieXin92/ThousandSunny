@@ -6,6 +6,7 @@ import App from './App.vue'
 import { globalRegister } from './global'
 import useLogChar from '@/hooks/useLogChar'
 import '@/global/global.less'
+import highlight from '@highlightjs/vue-plugin'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)
@@ -14,6 +15,7 @@ const app = createApp(App)
 app.use(router)
 app.use(pinia)
 app.use(globalRegister)
+app.use(highlight)
 app.mount('#app')
 
 useLogChar()

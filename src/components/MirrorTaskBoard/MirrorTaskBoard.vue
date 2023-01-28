@@ -52,7 +52,7 @@ onBeforeUnmount(() => {
   :deep(.el-card__header) {
     position: sticky;
     top: 0;
-    background: #fff;
+    background-color: #fff;
 
     .boardHeader {
       display: flex;

@@ -7,7 +7,9 @@
     <el-main>
       <router-view v-slot='{ Component }'>
         <Transition>
-          <component :is='Component' />
+          <KeepAlive include="Blog">
+            <component :is='Component' />
+          </KeepAlive>
         </Transition>
       </router-view>
     </el-main>

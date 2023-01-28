@@ -1,8 +1,14 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteLocationNormalized } from 'vue-router'
 import { sessionCache } from '@/utils/cache'
+
+const scrollBehavior = (to: RouteLocationNormalized, from: RouteLocationNormalized, savedPosition: any) => {
+  if (savedPosition && to.meta.keepAlive) return savedPosition
+  return { left: 0, top: 0 }
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior,
   routes: [
     {
       path: '/',

@@ -87,7 +87,7 @@ const skipBlogItem = (id: number) => {
       height: 12px;
       border-radius: 50%;
       transform: translateX(-9.5px);
-      background: darkcyan;
+      background-color: darkcyan;
     }
 
     .time {

@@ -37,6 +37,7 @@ const useLoadBlogList = (props: IProps) => {
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
     const clientHeight = document.documentElement.clientHeight
     const scrollHeight = document.documentElement.scrollHeight
+
     if (scrollTop + clientHeight >= scrollHeight) {
       /*
         const { data: { blogList } } = await getBlogList(params.value)
