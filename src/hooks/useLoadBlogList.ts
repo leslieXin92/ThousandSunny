@@ -33,28 +33,31 @@ const useLoadBlogList = (props: IProps) => {
     { id: 19, title: '浅谈node之koa', createAt: 1609430400000 }
   ]
 
-  const loadMore = async () => {
+  // const load = async () => {
+  //   const { data: { blogList } } = await getBlogList(params.value)
+  //   originData.value.push(...blogList)
+  //   params.value.pageNum++
+  // }
+
+  const load = () => {
+    const newList = list.reduce((pre: Omit<IBlogItem, 'content'>[], cur) => {
+      const preYear = new Date(pre[pre.length - 1]?.createAt).getFullYear()
+      const curYear = new Date(cur.createAt).getFullYear()
+      if (curYear !== preYear) {
+        cur.showYear = true
+        cur.newYear = curYear
+      }
+      return pre.concat([cur])
+    }, [])
+    originData.value.push(...newList)
+    params.value.pageNum++
+  }
+
+  const loadOnReachBottom = async () => {
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
     const clientHeight = document.documentElement.clientHeight
     const scrollHeight = document.documentElement.scrollHeight
-
-    if (scrollTop + clientHeight >= scrollHeight) {
-      /*
-        const { data: { blogList } } = await getBlogList(params.value)
-        originData.value.push(...blogList)
-      */
-      const newList = list.reduce((pre: Omit<IBlogItem, 'content'>[], cur) => {
-        const preYear = new Date(pre[pre.length - 1]?.createAt).getFullYear()
-        const curYear = new Date(cur.createAt).getFullYear()
-        if (curYear !== preYear) {
-          cur.showYear = true
-          cur.newYear = curYear
-        }
-        return pre.concat([cur])
-      }, [])
-      originData.value.push(...newList)
-      params.value.pageNum++
-    }
+    if (scrollTop + clientHeight >= scrollHeight) await load()
   }
 
   // TODO - remove
@@ -67,12 +70,12 @@ const useLoadBlogList = (props: IProps) => {
   )
 
   onMounted(async () => {
-    await loadMore()
-    window.addEventListener('scroll', loadMore)
+    await load()
+    window.addEventListener('scroll', loadOnReachBottom)
   })
 
   onUnmounted(() => {
-    window.removeEventListener('scroll', loadMore)
+    window.removeEventListener('scroll', loadOnReachBottom)
   })
 }
 

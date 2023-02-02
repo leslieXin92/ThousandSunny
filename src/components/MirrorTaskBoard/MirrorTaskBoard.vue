@@ -21,8 +21,9 @@ import dayjs from 'dayjs'
 import { dayMap } from './config'
 
 const taskList = [
-  { taskId: 0, taskName: '个人网站', task: ['home页面注入three', 'mirror页面开发'] },
-  { taskId: 1, taskName: 'node', task: ['http模块', 'url模块'] }
+  { taskId: 0, taskName: 'mysql', task: ['多表查询'] },
+  { taskId: 1, taskName: 'node', task: ['mysql2的使用', 'ORM之sequelize'] },
+  { taskId: 2, taskName: 'coderhub', task: ['封装errorType'] },
 ]
 
 const date = ref()
