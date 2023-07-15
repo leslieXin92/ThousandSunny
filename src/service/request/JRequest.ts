@@ -20,7 +20,7 @@ class JRequest {
 
     // 从config中取出拦截器 - 实例的拦截器
     this.instance.interceptors.request.use(
-      this.interceptors?.requestInterceptor,
+      this.interceptors?.requestInterceptor as any, // TODO - 类型
       this.interceptors?.requestInterceptorCatch
     )
     this.instance.interceptors.response.use(

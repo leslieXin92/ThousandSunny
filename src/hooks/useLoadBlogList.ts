@@ -1,6 +1,6 @@
 import { onMounted, onUnmounted, Ref, watch } from 'vue'
-import { getBlogList } from '@/service/api/portal/portal'
-import { IGetBlogListParams, IBlogItem } from '@/service/api/portal/type'
+import { getBlogList } from '@/service/api/blog'
+import { IGetBlogListParams, IBlogItem } from '@/service/api/blog/type'
 
 interface IProps {
   params: Ref<IGetBlogListParams>

@@ -18,7 +18,7 @@ import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
 import dayjs from 'dayjs'
 import useLoadBlogList from '@/hooks/useLoadBlogList'
-import { IBlogItem } from '@/service/api/portal/type'
+import { IBlogItem } from '@/service/api/blog/type'
 
 const router = useRouter()
 

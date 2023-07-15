@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { ILoginParams, ILogoutParams } from '@/service/api/manage/type'
-import { login, logout } from '@/service/api/manage/manage'
+import { ILoginParams, ILogoutParams } from '@/service/api/user/type'
+import { login, logout } from '@/service/api/user'
 
 export const useUserStore = defineStore(
   'user',

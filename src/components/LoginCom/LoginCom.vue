@@ -43,7 +43,7 @@ import JDialog from '@/components/JDialog/JDialog.vue'
 import JForm from '@/components/JForm/JForm.vue'
 import { FormRules, PopoverInstance } from 'element-plus'
 import { IJFrom, ISchema } from '@/components/JForm/type'
-import { ILoginParams } from '@/service/api/manage/type'
+import { ILoginParams } from '@/service/api/user/type'
 import { OperateType } from '@/components/JDialog/type'
 
 const schema: ISchema[] = [
