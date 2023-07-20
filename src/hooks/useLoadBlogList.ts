@@ -1,6 +1,8 @@
 import { onMounted, onUnmounted, Ref, watch } from 'vue'
 import { getBlogList } from '@/service/api/blog'
 import { IGetBlogListParams, IBlogItem } from '@/service/api/blog/type'
+import { ElMessage } from 'element-plus'
+import dayjs from 'dayjs'
 
 interface IProps {
   params: Ref<IGetBlogListParams>
@@ -33,16 +35,25 @@ const useLoadBlogList = (props: IProps) => {
     { id: 19, title: '浅谈node之koa', createAt: 1609430400000 }
   ]
 
-  // const load = async () => {
-  //   const { data: { blogList } } = await getBlogList(params.value)
-  //   originData.value.push(...blogList)
+  // const load = () => {
+  //   const newList = list.reduce((pre: Omit<IBlogItem, 'content'>[], cur) => {
+  //     const preYear = new Date(pre[pre.length - 1]?.createAt).getFullYear()
+  //     const curYear = new Date(cur.createAt).getFullYear()
+  //     if (curYear !== preYear) {
+  //       cur.showYear = true
+  //       cur.newYear = curYear
+  //     }
+  //     return pre.concat([cur])
+  //   }, [])
+  //   originData.value.push(...newList)
   //   params.value.pageNum++
   // }
 
-  const load = () => {
-    const newList = list.reduce((pre: Omit<IBlogItem, 'content'>[], cur) => {
-      const preYear = new Date(pre[pre.length - 1]?.createAt).getFullYear()
-      const curYear = new Date(cur.createAt).getFullYear()
+  const load = async () => {
+    const { data: { blogList, total } } = await getBlogList(params.value)
+    const newList = blogList.reduce((pre: Omit<IBlogItem, 'content'>[], cur) => {
+      const preYear = dayjs(pre[pre.length - 1]?.createAt).year()
+      const curYear = dayjs(cur.createAt).year()
       if (curYear !== preYear) {
         cur.showYear = true
         cur.newYear = curYear
@@ -50,7 +61,14 @@ const useLoadBlogList = (props: IProps) => {
       return pre.concat([cur])
     }, [])
     originData.value.push(...newList)
+    console.log(params.value.pageNum)
     params.value.pageNum++
+    if (originData.value.length !== total) return
+    ElMessage({
+      type: 'warning',
+      message: '已经到底了'
+    })
+    window.removeEventListener('scroll', loadOnReachBottom)
   }
 
   const loadOnReachBottom = async () => {
@@ -60,18 +78,10 @@ const useLoadBlogList = (props: IProps) => {
     if (scrollTop + clientHeight >= scrollHeight) await load()
   }
 
-  // TODO - remove
-  watch(
-    originData,
-    (newValue) => {
-      console.log(newValue)
-    },
-    { deep: true }
-  )
-
   onMounted(async () => {
     await load()
     window.addEventListener('scroll', loadOnReachBottom)
+    // load()
   })
 
   onUnmounted(() => {

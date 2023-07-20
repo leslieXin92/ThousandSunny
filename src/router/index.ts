@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory, RouteLocationNormalized } from 'vue-router'
+import { createRouter, createWebHistory, RouterScrollBehavior } from 'vue-router'
 import { sessionCache } from '@/utils/cache'
 
-const scrollBehavior = (to: RouteLocationNormalized, from: RouteLocationNormalized, savedPosition: any) => {
+const scrollBehavior: RouterScrollBehavior = (to, from, savedPosition) => {
   if (savedPosition && to.meta.keepAlive) return savedPosition
   return { left: 0, top: 0 }
 }
@@ -22,7 +22,10 @@ const router = createRouter({
     {
       path: '/blog',
       name: 'blog',
-      component: () => import('@/views/Blog/Blog.vue')
+      component: () => import('@/views/Blog/Blog.vue'),
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/blog/:id',

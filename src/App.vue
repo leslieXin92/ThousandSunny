@@ -7,7 +7,9 @@
     <el-main>
       <router-view v-slot='{ Component }'>
         <Transition>
-          <component :is='Component' />
+          <keep-alive include='Blog'>
+            <component :is='Component' />
+          </keep-alive>
         </Transition>
       </router-view>
     </el-main>
@@ -33,8 +35,7 @@ const isNotFound = computed(() => {
 
 <style lang='less' scoped>
 .el-container {
-  //min-width: 1000px;
-  max-width: 1920px;
+  min-width: 1000px;
   margin: 0 auto;
 
   .el-header {

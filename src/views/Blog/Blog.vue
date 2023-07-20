@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
@@ -26,19 +26,20 @@ const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
 
 const blogList = ref<Omit<IBlogItem, 'content'>[]>([])
-
 const params = ref({
   type: isLogin ? 'private' : 'public' as 'public' | 'private',
   pageNum: 1,
   pageSize: 10
 })
 
-const props = {
+watch(params, () => {
+  console.log('params', params.value)
+})
+
+useLoadBlogList({
   params,
   originData: blogList
-}
-
-useLoadBlogList(props)
+})
 
 const skipBlogItem = (id: number) => {
   window.getSelection()!.removeAllRanges()
