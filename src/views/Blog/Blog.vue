@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
@@ -32,13 +32,9 @@ const params = ref({
   pageSize: 10
 })
 
-watch(params, () => {
-  console.log('params', params.value)
-})
-
 useLoadBlogList({
   params,
-  originData: blogList
+  originList: blogList
 })
 
 const skipBlogItem = (id: number) => {
