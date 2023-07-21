@@ -41,8 +41,8 @@ const useLoadBlog = (props: IProps) => {
 
   const hasLoadAll = () => {
     ElMessage({
-      type: 'warning',
-      message: '已经到底了'
+      type: 'success',
+      message: "that\'s all"
     })
     window.removeEventListener('scroll', loadOnReachBottom)
   }
