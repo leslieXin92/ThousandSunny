@@ -1,4 +1,5 @@
-import { onMounted, onUnmounted, ref, Ref, shallowRef } from 'vue'
+import { onMounted, ref, Ref, shallowRef, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { getBlogList } from '@/service/api/blog'
 import { IGetBlogListParams, IBlogItem } from '@/service/api/blog/type'
 import { ElMessage } from 'element-plus'
@@ -12,6 +13,8 @@ interface IProps {
 
 const useLoadBlog = (props: IProps) => {
   const { params, originList } = props
+
+  const route = useRoute()
 
   const isFetching = ref(false)
   const totalCount = shallowRef<number>()
@@ -42,7 +45,7 @@ const useLoadBlog = (props: IProps) => {
   const hasLoadAll = () => {
     ElMessage({
       type: 'success',
-      message: "that\'s all"
+      message: 'that\'s all'
     })
     window.removeEventListener('scroll', loadOnReachBottom)
   }
@@ -52,16 +55,22 @@ const useLoadBlog = (props: IProps) => {
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
     const clientHeight = document.documentElement.clientHeight
     const scrollHeight = document.documentElement.scrollHeight
-    if (scrollTop + clientHeight >= scrollHeight) await load()
+    if (scrollHeight - scrollTop - clientHeight <= 800) await load()
   }, 200)
+
+  watch(
+    () => route.path,
+    path => {
+      if (path.includes('/blog'))
+        window.addEventListener('scroll', loadOnReachBottom)
+      else
+        window.removeEventListener('scroll', loadOnReachBottom)
+    },
+    { immediate: true }
+  )
 
   onMounted(async () => {
     await load()
-    window.addEventListener('scroll', loadOnReachBottom)
-  })
-
-  onUnmounted(() => {
-    window.removeEventListener('scroll', loadOnReachBottom)
   })
 }
 
