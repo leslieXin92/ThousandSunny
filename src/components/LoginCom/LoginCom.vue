@@ -1,18 +1,18 @@
 <template>
   <el-tooltip
-    ref='tooltipRef'
-    trigger='contextmenu'
-    effect='light'
-    :showArrow='false'
+      ref='tooltipRef'
+      trigger='contextmenu'
+      effect='light'
+      :showArrow='false'
   >
     <slot />
     <template #content>
       <el-button
-        class='popoverBtn'
-        size='small'
-        style='color: darkcyan'
-        link
-        @click='openDialog'
+          class='popoverBtn'
+          size='small'
+          style='color: darkcyan'
+          link
+          @click='openDialog'
       >
         {{ curCase }}
       </el-button>
@@ -20,16 +20,16 @@
   </el-tooltip>
 
   <JDialog
-    :title='curCase'
-    :visible='dialogVisible'
-    @changeVisible='changeVisible'
-    @operate='operate'
+      :title='curCase'
+      :visible='dialogVisible'
+      @changeVisible='changeVisible'
+      @operate='operate'
   >
     <JForm
-      v-if='!isLogin'
-      ref='JFormRef'
-      :schema='schema'
-      :rules='rules'
+        v-if='!isLogin'
+        ref='JFormRef'
+        :schema='schema'
+        :rules='rules'
     />
     <div v-else>Are you sure logout ?</div>
   </JDialog>
@@ -72,10 +72,18 @@ const schema: ISchema[] = [
 
 const rules: FormRules = {
   username: [
-    { required: true, message: 'Please input Activity username', trigger: 'blur' }
+    {
+      required: true,
+      message: 'Please input Activity username',
+      trigger: 'blur'
+    }
   ],
   password: [
-    { required: true, message: 'Please input Activity password', trigger: 'blur' }
+    {
+      required: true,
+      message: 'Please input Activity password',
+      trigger: 'blur'
+    }
   ]
 }
 
@@ -109,8 +117,8 @@ const operate = async (type: OperateType) => {
   if (type === 'cancel') return hideDialog()
   if (JFormRef.value && !await JFormRef.value.validate()) return
   isLogin.value
-    ? handleLogout()
-    : handleLogin(JFormRef.value!.getFormData() as ILoginParams)
+      ? await handleLogout()
+      : await handleLogin(JFormRef.value!.getFormData() as ILoginParams)
   hideDialog()
 }
 </script>

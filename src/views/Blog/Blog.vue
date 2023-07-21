@@ -1,7 +1,7 @@
 <template>
   <div class='blogList'>
     <template v-for='item in blogList' :key='item.id'>
-      <div class='year' v-if='item.showYear'>{{ item.newYear }}</div>
+      <div class='year' v-if='item.showYear'>{{ dayjs(item.createAt).year() }}</div>
       <div class='blogItem'>
         <div class='blogTitle' @click='skipBlogItem(item.id)'>{{ item.title }}</div>
         <div class='dot'></div>
@@ -17,7 +17,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
 import dayjs from 'dayjs'
-import useLoadBlogList from '@/hooks/useLoadBlogList'
+import useLoadBlog from '@/hooks/useLoadBlog'
 import { IBlogItem } from '@/service/api/blog/type'
 
 const router = useRouter()
@@ -32,7 +32,7 @@ const params = ref({
   pageSize: 10
 })
 
-useLoadBlogList({
+useLoadBlog({
   params,
   originList: blogList
 })

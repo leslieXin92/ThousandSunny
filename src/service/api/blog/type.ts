@@ -10,7 +10,6 @@ export interface IBlogItem {
   createAt: number
   content: string
   showYear?: boolean
-  newYear?: number
 }
 
 export interface ICreateBlogParams {
