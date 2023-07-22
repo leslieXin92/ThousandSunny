@@ -21,36 +21,29 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 const useThree = () => {
   const threeRef = ref<HTMLDivElement>()
 
-  let
-    renderer: WebGLRenderer,
-    scene: Scene,
-    camera: PerspectiveCamera,
-    spotLight: SpotLight,
-    lightHelper: SpotLightHelper
+  const renderer = new WebGLRenderer({ antialias: true })
+  const scene = new Scene()
+  const camera = new PerspectiveCamera(35, 1.8, 1, 1000)
+  const spotLight = new SpotLight(0xffffff, 5)
+  const lightHelper = new SpotLightHelper(spotLight)
 
   const initThree = () => {
-    renderer = new WebGLRenderer({ antialias: true })
     renderer.setPixelRatio(window.devicePixelRatio)
 
     const width = Math.max(threeRef.value?.offsetWidth || 960, 960)
     const height = threeRef.value?.offsetHeight || 0
+
     renderer.setSize(width, height)
 
     threeRef.value?.appendChild(renderer.domElement)
 
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = PCFSoftShadowMap
-
     renderer.outputEncoding = sRGBEncoding
-
     renderer.toneMapping = ACESFilmicToneMapping
     renderer.toneMappingExposure = 1
-
     renderer.setAnimationLoop(render)
 
-    scene = new Scene()
-
-    camera = new PerspectiveCamera(35, width / height, 1, 1000)
     camera.position.set(70, 50, 10)
 
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -63,16 +56,16 @@ const useThree = () => {
     const ambient = new HemisphereLight(0xffffff, 0x444444, 0.05)
     scene.add(ambient)
 
-    const loader = new TextureLoader().setPath('three/')
+    new TextureLoader()
+      .setPath('three/')
+      .loadAsync('disturb.jpg')
+      .then(texture => {
+        texture.minFilter = LinearFilter
+        texture.magFilter = LinearFilter
+        texture.encoding = sRGBEncoding
+        spotLight.map = texture
+      })
 
-    loader.loadAsync('disturb.jpg').then(texture => {
-      texture.minFilter = LinearFilter
-      texture.magFilter = LinearFilter
-      texture.encoding = sRGBEncoding
-      spotLight.map = texture
-    })
-
-    spotLight = new SpotLight(0xffffff, 5)
     spotLight.position.set(25, 50, 25)
     spotLight.angle = Math.PI / 6
     spotLight.penumbra = 1
@@ -84,9 +77,8 @@ const useThree = () => {
     spotLight.shadow.camera.near = 10
     spotLight.shadow.camera.far = 200
     spotLight.shadow.focus = 1
-    scene.add(spotLight)
 
-    lightHelper = new SpotLightHelper(spotLight)
+    scene.add(spotLight)
     scene.add(lightHelper)
 
     const geometry = new PlaneGeometry(1000, 1000)
@@ -103,7 +95,6 @@ const useThree = () => {
       geometry.computeVertexNormals()
 
       const material = new MeshLambertMaterial()
-
       const mesh = new Mesh(geometry, material)
       mesh.rotation.y = -Math.PI / 2
       mesh.position.y = 18
