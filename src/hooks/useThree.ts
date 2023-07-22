@@ -23,7 +23,7 @@ const useThree = () => {
 
   const renderer = new WebGLRenderer({ antialias: true })
   const scene = new Scene()
-  const camera = new PerspectiveCamera(35, 1.8, 1, 1000)
+  const camera = new PerspectiveCamera(35, 0, 1, 1000)
   const spotLight = new SpotLight(0xffffff, 5)
   const lightHelper = new SpotLightHelper(spotLight)
 
@@ -44,7 +44,9 @@ const useThree = () => {
     renderer.toneMappingExposure = 1
     renderer.setAnimationLoop(render)
 
+    camera.aspect = width / height
     camera.position.set(70, 50, 10)
+    camera.updateProjectionMatrix()
 
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.minDistance = 20
