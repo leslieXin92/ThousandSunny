@@ -1,11 +1,11 @@
 <template>
-  <div class='container' ref='threeEl'></div>
+  <div class='container' ref='threeRef'></div>
 </template>
 
 <script setup lang='ts'>
 import useThree from '@/hooks/useThree'
 
-const { threeEl } = useThree()
+const { threeRef } = useThree()
 </script>
 
 <style scoped lang='less'>

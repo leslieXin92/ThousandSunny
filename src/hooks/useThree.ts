@@ -19,9 +19,10 @@ import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 const useThree = () => {
-  const threeEl = ref<HTMLDivElement>()
+  const threeRef = ref<HTMLDivElement>()
 
-  let renderer: WebGLRenderer,
+  let
+    renderer: WebGLRenderer,
     scene: Scene,
     camera: PerspectiveCamera,
     spotLight: SpotLight,
@@ -31,11 +32,11 @@ const useThree = () => {
     renderer = new WebGLRenderer({ antialias: true })
     renderer.setPixelRatio(window.devicePixelRatio)
 
-    const width = Number(threeEl.value?.offsetWidth) < 960 ? 960 : Number(threeEl.value?.offsetWidth)
-    const height = Number(threeEl.value?.offsetHeight)
+    const width = Math.max(threeRef.value?.offsetWidth || 960, 960)
+    const height = threeRef.value?.offsetHeight || 0
     renderer.setSize(width, height)
 
-    threeEl.value?.appendChild(renderer.domElement)
+    threeRef.value?.appendChild(renderer.domElement)
 
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = PCFSoftShadowMap
@@ -49,7 +50,7 @@ const useThree = () => {
 
     scene = new Scene()
 
-    camera = new PerspectiveCamera(40, width / height, 1, 1000)
+    camera = new PerspectiveCamera(35, width / height, 1, 1000)
     camera.position.set(70, 50, 10)
 
     const controls = new OrbitControls(camera, renderer.domElement)
@@ -63,18 +64,13 @@ const useThree = () => {
     scene.add(ambient)
 
     const loader = new TextureLoader().setPath('three/')
-    const filenames = ['disturb.jpg', 'colors.png', 'uv_grid_opengl.jpg']
 
-    const textures: { [key: string]: any } = { none: null }
-
-    for (let i = 0; i < filenames.length; i++) {
-      const filename = filenames[i]
-      const texture = loader.load(filename)
+    loader.loadAsync('disturb.jpg').then(texture => {
       texture.minFilter = LinearFilter
       texture.magFilter = LinearFilter
       texture.encoding = sRGBEncoding
-      textures[filename] = texture
-    }
+      spotLight.map = texture
+    })
 
     spotLight = new SpotLight(0xffffff, 5)
     spotLight.position.set(25, 50, 25)
@@ -82,8 +78,6 @@ const useThree = () => {
     spotLight.penumbra = 1
     spotLight.decay = 2
     spotLight.distance = 100
-    spotLight.map = textures['disturb.jpg']
-
     spotLight.castShadow = true
     spotLight.shadow.mapSize.width = 1024
     spotLight.shadow.mapSize.height = 1024
@@ -104,7 +98,7 @@ const useThree = () => {
     mesh.receiveShadow = true
     scene.add(mesh)
 
-    new PLYLoader().load('three/Lucy100k.ply', (geometry) => {
+    new PLYLoader().load('three/LeslieXin.ply', (geometry) => {
       geometry.scale(0.024, 0.024, 0.024)
       geometry.computeVertexNormals()
 
@@ -122,8 +116,8 @@ const useThree = () => {
   }
 
   const onWindowResize = () => {
-    const width = Number(threeEl.value?.offsetWidth) < 960 ? 960 : Number(threeEl.value?.offsetWidth)
-    const height = Number(threeEl.value?.offsetHeight)
+    const width = Math.max(threeRef.value?.offsetWidth || 960, 960)
+    const height = threeRef.value?.offsetHeight || 0
     camera.aspect = width / height
     camera.updateProjectionMatrix()
     renderer.setSize(width, height)
@@ -138,14 +132,14 @@ const useThree = () => {
   }
 
   onMounted(() => {
-    threeEl.value && initThree()
+    threeRef.value && initThree()
   })
 
   onUnmounted(() => {
     window.removeEventListener('resize', onWindowResize)
   })
 
-  return { threeEl }
+  return { threeRef }
 }
 
 export default useThree
