@@ -1,8 +1,7 @@
 <template>
   <el-dialog
     :modelValue='dialogVisible'
-    :title='title'
-    :width='width'
+    :width='props.width'
     :showClose='false'
     style='border-radius: 10px'
     center
@@ -10,6 +9,10 @@
     @open='open'
     @close='close'
   >
+    <template #header>
+      <div class='title' @contextmenu='handleClickTitle'>{{ title }}</div>
+    </template>
+
     <slot />
 
     <template #footer>
@@ -36,6 +39,8 @@ interface IEmits {
   (e: 'changeVisible', newVisible: boolean): void
 
   (e: 'operate', type: OperateType): void
+
+  (e: 'titleClickCallback'): void
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -59,12 +64,25 @@ const close = () => {
   emits('changeVisible', false)
 }
 
+const handleClickTitle = (event: Event) => {
+  event.preventDefault()
+  emits('titleClickCallback')
+}
+
 const handleOperate = (type: OperateType) => {
   emits('operate', type)
 }
 </script>
 
 <style scoped lang='less'>
+.title {
+  width: 100px;
+  margin: 0 auto;
+  font-size: 20px;
+  font-weight: bold;
+  color: darkcyan;
+}
+
 .el-button {
   margin: 0 20px;
 }

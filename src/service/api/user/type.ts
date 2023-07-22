@@ -20,9 +20,9 @@ export interface ILogoutParams {
 export interface IRegisterParams {
   username: string
   password: string
-  confirmPassword: string
+  confirm: string
 }
 
 export interface IRegisterRes {
-    username: string
+  username: string
 }
