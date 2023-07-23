@@ -105,7 +105,7 @@ const hideDialog = () => {
 const operate = async (type: OperateType) => {
   if (type === 'cancel') return hideDialog()
   if (JFormRef.value && !await JFormRef.value.validate()) return
-  await operateMap[curCase.value!]()
   hideDialog()
+  await operateMap[curCase.value!]()
 }
 </script>
