@@ -73,15 +73,28 @@ const goBack = () => {
   }
 
   .content {
-    padding: 0 10px;
-
-    :deep(*) {
-      line-height: 35px;
-    }
+    padding: 10px;
+    line-height: 35px;
 
     :deep(li) {
       list-style: initial;
     }
+
+    :deep(pre) {
+      line-height: 26px;
+    }
   }
 }
 </style>
+
+<!--<template>-->
+<!--  &lt;!&ndash;  <mavon-editor v-model='markdownText' />&ndash;&gt;-->
+<!--  <MDEditor :markdownText='markdownText' />-->
+<!--</template>-->
+
+<!--<script setup lang='ts'>-->
+<!--import { ref } from 'vue'-->
+<!--import MDEditor from '@/components/MDEditor/MDEditor.vue'-->
+
+<!--const markdownText = ref('# Hello, mavonEditor')-->
+<!--</script>-->
