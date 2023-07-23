@@ -49,6 +49,7 @@ const goBack = () => {
 .blogItem {
   width: 900px;
   margin: 0 auto;
+  background-color: #fff;
 
   .header {
     display: flex;

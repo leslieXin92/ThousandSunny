@@ -1,7 +1,5 @@
 <template>
-  <MavonEditor
-    v-model='context'
-  />
+  <MavonEditor v-model='context' />
 </template>
 
 <script lang='ts'>
@@ -34,4 +32,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang='less'>
+:deep(textarea) {
+  background-color: #fff !important;
+}
 </style>
