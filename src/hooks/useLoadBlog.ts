@@ -61,7 +61,7 @@ const useLoadBlog = (props: IProps) => {
   watch(
     () => route.path,
     path => {
-      if (path.includes('/blog'))
+      if (path === '/blog')
         window.addEventListener('scroll', loadOnReachBottom)
       else
         window.removeEventListener('scroll', loadOnReachBottom)
