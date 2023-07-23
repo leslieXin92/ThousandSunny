@@ -86,15 +86,3 @@ const goBack = () => {
   }
 }
 </style>
-
-<!--<template>-->
-<!--  &lt;!&ndash;  <mavon-editor v-model='markdownText' />&ndash;&gt;-->
-<!--  <MDEditor :markdownText='markdownText' />-->
-<!--</template>-->
-
-<!--<script setup lang='ts'>-->
-<!--import { ref } from 'vue'-->
-<!--import MDEditor from '@/components/MDEditor/MDEditor.vue'-->
-
-<!--const markdownText = ref('# Hello, mavonEditor')-->
-<!--</script>-->

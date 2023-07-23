@@ -8,7 +8,6 @@
     <slot />
     <template #content>
       <el-button
-        class='popoverBtn'
         size='small'
         style='color: darkcyan'
         link

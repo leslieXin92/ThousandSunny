@@ -1,18 +1,53 @@
 <template>
-  <ul class='PageHeader'>
-    <li
+  <div class='PageHeader'>
+    <div
       v-for='item in showMenuList'
       :key='item.label'
-      :class='{active: curMenu === item.label}'
+      :class="['menuItem', { active: route.path.includes(item.routePath.toLowerCase()) }]"
       @click='skipMenu(item.routePath)'
+      @contextmenu.prevent='handleContextmenu'
     >
       {{ item.label }}
-    </li>
-  </ul>
+    </div>
+
+    <el-tooltip
+      v-if='curMenuRef && curContextmenuList.length'
+      :visible='visible'
+      :virtualRef='curMenuRef'
+      virtualTriggering
+      trigger='contextmenu'
+      effect='light'
+      :showArrow='false'
+      :popperOptions="{
+        modifiers: [
+          {
+            name: 'computeStyles',
+            options: {
+              adaptive: false,
+              enabled: false,
+            },
+          },
+        ],
+      }"
+    >
+      <template #content>
+        <el-button
+          v-for='i in curContextmenuList'
+          :key='i.label'
+          size='small'
+          style='color: darkcyan'
+          link
+          @click='skipMenu(i.routePath)'
+        >
+          {{ i.label }}
+        </el-button>
+      </template>
+    </el-tooltip>
+  </div>
 </template>
 
 <script setup lang='ts'>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/useUserStore'
 import { storeToRefs } from 'pinia'
@@ -24,20 +59,53 @@ const router = useRouter()
 const userStore = useUserStore()
 const { isLogin } = storeToRefs(userStore)
 
+const curMenuRef = ref<HTMLElement>()
+const visible = ref(false)
+
 const menuList = ref<IMenuItem[]>([
-  { label: 'Leslie', routePath: '/home', condition: true },
-  { label: 'Blog', routePath: '/blog', condition: true },
-  { label: 'Project', routePath: '/project', condition: true },
-  { label: 'Mirror', routePath: '/mirror', condition: true },
-  { label: 'Admin', routePath: '/admin', condition: isLogin }
+  {
+    label: 'Leslie',
+    routePath: '/home',
+    condition: true
+  },
+  {
+    label: 'Blog',
+    routePath: '/blog',
+    condition: true,
+    contextmenuList: [
+      {
+        label: 'Create',
+        routePath: '/blog/create',
+        condition: isLogin
+      }
+    ]
+  },
+  {
+    label: 'Project',
+    routePath: '/project',
+    condition: true
+  },
+  {
+    label: 'Mirror',
+    routePath: '/mirror',
+    condition: true
+  },
+  {
+    label: 'Admin',
+    routePath: '/admin',
+    condition: isLogin
+  }
 ])
 
 const showMenuList = computed(() => {
-  return menuList.value.filter(item => item.condition)
+  return menuList.value.map(item => ({
+    ...item,
+    contextmenuList: item.contextmenuList?.filter(item => item.condition) || []
+  })).filter(item => item.condition)
 })
 
-const curMenu = computed(() => {
-  return showMenuList.value.find(item => item.routePath === `/${route.path.split('/')[1]}`)?.label
+const curContextmenuList = computed(() => {
+  return showMenuList.value.find(item => item.label === curMenuRef.value?.innerText)?.contextmenuList || []
 })
 
 const skipMenu = (routePath: string) => {
@@ -45,6 +113,21 @@ const skipMenu = (routePath: string) => {
     path: routePath
   })
 }
+
+const handleContextmenu = (e: MouseEvent) => {
+  if ((e.currentTarget as HTMLElement).innerText! !== curMenuRef.value?.innerText) {
+    visible.value = false
+  }
+  curMenuRef.value = e.currentTarget as HTMLElement
+  visible.value = !visible.value
+}
+
+watch(visible, (newVisible) => {
+  if (!newVisible) return
+  setTimeout(() => {
+    visible.value = false
+  }, 2000)
+})
 </script>
 
 <style scoped lang='less'>
@@ -54,7 +137,7 @@ const skipMenu = (routePath: string) => {
   height: 100px;
   border-bottom: 1px solid #dedede;
 
-  li {
+  .menuItem {
     margin: 0 20px;
     cursor: pointer;
     font-size: 20px;

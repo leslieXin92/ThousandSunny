@@ -2,11 +2,14 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { ILoginParams, ILogoutParams, IRegisterParams } from '@/service/api/user/type'
 import { login, logout, register } from '@/service/api/user'
+import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore(
   'user',
   () => {
     type UserInfoType = { username: string } | null
+
+    const router = useRouter()
 
     const userInfo = ref<UserInfoType>(null)
 
@@ -28,6 +31,7 @@ export const useUserStore = defineStore(
       await logout(userInfo.value as ILogoutParams)
       userInfo.value = null
       isLogin.value = false
+      await router.push('/home')
     }
 
     return {

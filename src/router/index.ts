@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouterScrollBehavior } from 'vue-router'
 import { sessionCache } from '@/utils/cache'
+import { normalRoutes, authRoutes } from './config'
 
 const scrollBehavior: RouterScrollBehavior = (to, from, savedPosition) => {
   if (savedPosition && to.meta.keepAlive) return savedPosition
@@ -9,58 +10,13 @@ const scrollBehavior: RouterScrollBehavior = (to, from, savedPosition) => {
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior,
-  routes: [
-    {
-      path: '/',
-      redirect: '/home'
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: () => import('@/views/Home/Home.vue')
-    },
-    {
-      path: '/blog',
-      name: 'blog',
-      component: () => import('@/views/Blog/Blog.vue'),
-      meta: {
-        keepAlive: true
-      }
-    },
-    {
-      path: '/blog/:id',
-      name: 'blogItem',
-      component: () => import('@/components/BlogItem/BlogItem.vue')
-    },
-    {
-      path: '/project',
-      name: 'project',
-      component: () => import('@/views/Project/Project.vue')
-    },
-    {
-      path: '/mirror',
-      name: 'mirror',
-      component: () => import('@/views/Mirror/Mirror.vue')
-    },
-    {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('@/views/Admin/Admin.vue')
-    },
-    {
-      path: '/:pathMatch(.*)',
-      name: 'NotFound',
-      component: () => import('@/views/NotFound/NotFound.vue')
-    }
-  ]
+  routes: [...normalRoutes, ...authRoutes]
 })
 
 router.beforeEach(to => {
   const userStore = sessionCache.getCache('userStore') || {}
   const { isLogin } = userStore
-  if (to.path === '/admin' && !isLogin) {
-    return '/NotFound'
-  }
+  if (!isLogin && authRoutes.some(route => route.path === to.path)) return '/NotFound'
 })
 
 export default router
