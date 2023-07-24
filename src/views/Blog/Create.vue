@@ -10,34 +10,89 @@
 
     <MDEditor
       class='MDEditor'
-      :value='context'
+      :value='content'
       @change='changeContext'
     />
 
     <el-button
       type='primary'
-      @click='submit'
       color='darkcyan'
+      @click='submit'
     >
       提交
     </el-button>
   </div>
+
+  <JDialog
+    :title='title'
+    :visible='dialogVisible'
+    @operate='handleOperate'
+  >
+    <JForm
+      ref='JFormRef'
+      :schema='schema'
+      :defaultFormData='defaultFormData'
+    />
+  </JDialog>
 </template>
 
 <script setup lang='ts'>
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 import MDEditor from '@/components/MDEditor/MDEditor.vue'
+import JDialog from '@/components/JDialog/JDialog.vue'
+import JForm from '@/components/JForm/JForm.vue'
+import { createBlog } from '@/service/api/blog'
+import { defaultFormData, schema } from './config'
+import { IJFrom } from '@/components/JForm/type'
+import { OperateType } from '@/components/JDialog/type'
+import { ICreateBlogParams } from '@/service/api/blog/type'
 
-const title = ref<string>()
-const context = ref('## 写在前面\n\n实用性：0/5\n\n有趣程度：5/5\n\n')
+const title = ref('')
+const content = ref('')
+
+const JFormRef = ref<IJFrom>()
+const dialogVisible = ref(false)
 
 const changeContext = (value: string) => {
-  context.value = value
+  content.value = value
 }
 
 const submit = () => {
-  console.log('title', title.value)
-  console.log('context', context.value)
+  if (!title.value) return ElMessage({
+    type: 'error',
+    message: 'Title Cannot be Empty'
+  })
+  if (!content.value) return ElMessage({
+    type: 'error',
+    message: 'Context Cannot be Empty'
+  })
+  dialogVisible.value = true
+}
+
+const handleOperate = async (type: OperateType) => {
+  if (type === 'cancel') return dialogVisible.value = false
+  if (!await JFormRef.value?.validate()) return
+  try {
+    const params = {
+      title: title.value,
+      content: content.value,
+      ...JFormRef.value!.getFormData()
+    }
+    console.log(params)
+    await createBlog(params as ICreateBlogParams)
+    ElMessage({
+      type: 'success',
+      message: 'Create Success'
+    })
+  } catch (error) {
+    ElMessage({
+      type: 'error',
+      message: (error as Error).message
+    })
+  } finally {
+    dialogVisible.value = false
+  }
 }
 </script>
 
@@ -77,5 +132,9 @@ const submit = () => {
     height: 50px;
     border-radius: 10px;
   }
+}
+
+:deep(.el-switch) {
+  --el-switch-on-color: darkcyan !important;
 }
 </style>

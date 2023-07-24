@@ -10,7 +10,7 @@ import {
 
 // 新增博客
 export function createBlog(blogInfo: ICreateBlogParams) {
-  return JRequest.post<IData>({
+  return JRequest.post<IData<{}>>({
     url: '/blog',
     data: blogInfo,
     showLoading: true

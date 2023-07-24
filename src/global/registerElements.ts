@@ -23,7 +23,8 @@ import {
   ElCard,
   ElTooltip,
   ElAffix,
-  ElPageHeader
+  ElPageHeader,
+  ElSwitch
 } from 'element-plus'
 
 const components = [
@@ -49,10 +50,11 @@ const components = [
   ElDatePicker,
   ElTooltip,
   ElAffix,
-  ElPageHeader
+  ElPageHeader,
+  ElSwitch
 ]
 
-export default function (app: App<Element>): void {
+export default function(app: App<Element>): void {
   for (const cpn of components) {
     app.component(cpn.name, cpn)
   }
