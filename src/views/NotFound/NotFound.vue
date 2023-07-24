@@ -1,14 +1,40 @@
 <template>
-  <div class='svg' v-html='svgCode' />
+  <div class='page'>
+    <div class='svg' v-html='svgCode' />
+    <div class='tips'>
+      <div class='title'>404</div>
+      <div class='context1'>OHH! You've lost your way!</div>
+      <div class='context2'>
+        Life is mysterious but easy to get lost.
+        You should be curious but also be cautious.
+        But don't be afraid, there's always a way home.
+      </div>
+      <el-button
+        type='primary'
+        plain
+        color='darkcyan'
+        @click='backToHome'
+      >
+        HOME
+      </el-button>
+    </div>
+  </div>
 </template>
 
 <script setup lang='ts'>
 import { onMounted } from 'vue'
 import gsap from 'gsap'
 import { svgCode } from './config.ts'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const backToHome = () => {
+  router.push('home')
+}
 
 onMounted(() => {
-  gsap.set('svg', { visibility: 'visible' })
+  gsap.set('svg', {})
 
   gsap.to('#headStripe', {
     y: 0.5,
@@ -92,8 +118,46 @@ onMounted(() => {
 </script>
 
 <style scoped lang='less'>
-.svg {
-  width: 1000px;
-  margin: 0 auto;
+.page {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  .svg {
+    width: 700px;
+  }
+
+  .tips {
+    width: 600px;
+
+    .title {
+      font-size: 120px;
+      font-weight: bolder;
+    }
+
+    .context1 {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 40px;
+      letter-spacing: 1px;
+      color: #333;
+    }
+
+    .context2 {
+      font-size: 20px;
+      margin-top: 10px;
+      line-height: 26px;
+      letter-spacing: 1px;
+      color: #666;
+    }
+
+    .el-button {
+      width: 120px;
+      height: 40px;
+      margin-top: 30px;
+    }
+  }
 }
 </style>

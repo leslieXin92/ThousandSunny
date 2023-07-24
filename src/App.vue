@@ -1,7 +1,7 @@
 <template>
   <el-container>
-    <el-header>
-      <PageHeader v-show='isNotFound' />
+    <el-header v-if='isNotFound'>
+      <PageHeader/>
     </el-header>
 
     <el-main>
@@ -14,7 +14,7 @@
       </router-view>
     </el-main>
 
-    <el-footer>
+    <el-footer v-if='isNotFound'>
       <PageFooter />
     </el-footer>
   </el-container>
