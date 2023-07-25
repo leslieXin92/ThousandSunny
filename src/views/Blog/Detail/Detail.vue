@@ -3,42 +3,21 @@
     <div class='header'>
       <el-page-header @back='goBack'>
         <template #content>
-          <div class='title'>{{ blogDetail.title }}</div>
+          <div class='title'>{{ title }}</div>
         </template>
       </el-page-header>
     </div>
 
-    <div class='content' v-html='blogDetail.content'></div>
+    <div class='content' v-html='content' />
   </article>
 </template>
 
 <script setup lang='ts'>
-import { reactive, computed, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useMarkdown2HTML } from '@/hooks/useMarkdown2HTML'
-import { mockQueryBlogItem } from './mock'
+import { useRouter } from 'vue-router'
+import useBlogItem from '@/hooks/useBlogItem'
 
-const route = useRoute()
 const router = useRouter()
-
-const blogDetail = reactive({
-  title: '',
-  content: ''
-})
-
-const id = computed(() => {
-  return Number(route.params.id)
-})
-
-watch(
-  id,
-  async (newValue) => {
-    const blogItem = await mockQueryBlogItem(newValue)
-    blogDetail.content = useMarkdown2HTML(blogItem.content)
-    blogDetail.title = blogItem.title
-  },
-  { immediate: true }
-)
+const { title, content } = useBlogItem('show')
 
 const goBack = () => {
   router.back()

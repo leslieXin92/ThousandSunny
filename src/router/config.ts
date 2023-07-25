@@ -13,7 +13,7 @@ export const normalRoutes: RouteRecordRaw[] = [
   {
     path: '/blog',
     name: 'blog',
-    component: () => import('@/views/Blog/Blog.vue'),
+    component: () => import('@/views/Blog/List/List.vue'),
     meta: {
       keepAlive: true
     }
@@ -21,7 +21,7 @@ export const normalRoutes: RouteRecordRaw[] = [
   {
     path: '/blog/:id',
     name: 'blogItem',
-    component: () => import('@/components/BlogItem/BlogItem.vue')
+    component: () => import('@/views/Blog/Detail/Detail.vue')
   },
   {
     path: '/project',
@@ -44,7 +44,7 @@ export const authRoutes: RouteRecordRaw[] = [
   {
     path: '/blog/create',
     name: 'createBlog',
-    component: () => import('@/views/Blog/Create.vue')
+    component: () => import('@/views/Blog/Create/Create.vue')
   },
   {
     path: '/admin',
