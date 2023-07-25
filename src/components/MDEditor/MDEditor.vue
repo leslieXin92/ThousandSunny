@@ -1,12 +1,16 @@
 <template>
-  <MavonEditor v-model='context' />
+  <MavonEditor
+    ref='mavonEditorRef'
+    v-model='context'
+    @imgAdd='imgAdd'
+  />
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent } from 'vue'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
-import emitter from '@/utils/mitt'
+import { uploadImage } from '@/service/api/upload'
 
 export default defineComponent({
   name: 'MDEditor',
@@ -19,14 +23,25 @@ export default defineComponent({
       default: ''
     }
   },
-  setup(props) {
-    const context = ref<string>(props.value)
-
-    watch(context, (newValue) => {
-      emitter.emit('change', newValue)
-    })
-
-    return { context }
+  data() {
+    return {
+      context: ''
+    }
+  },
+  watch: {
+    value(newValue) {
+      this.context = newValue
+    }
+  },
+  methods: {
+    async imgAdd(position: number, file: any) {
+      // 第一步: 将图片上传到服务器
+      const formData = new FormData()
+      formData.append('image', file)
+      const { data } = await uploadImage(formData);
+      // 第二步: 将返回的url替换到文本原位置
+      (this.$refs.mavonEditorRef as any).$img2Url(position, data.url)
+    }
   }
 })
 </script>
