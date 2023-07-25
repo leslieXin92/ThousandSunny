@@ -47,6 +47,11 @@ export const authRoutes: RouteRecordRaw[] = [
     component: () => import('@/views/Blog/Create/Create.vue')
   },
   {
+    path: '/blog/update/:id',
+    name: 'updateBlog',
+    component: () => import('@/views/Blog/Update/Update.vue')
+  },
+  {
     path: '/admin',
     name: 'admin',
     component: () => import('@/views/Admin/Admin.vue')

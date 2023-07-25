@@ -4,10 +4,13 @@ export interface IData<T = {}> {
   msg: string
 }
 
+type BlogType = 'public' | 'private'
+
 export interface IBlogItem {
   id: number
+  type: BlogType
   title: string
-  createAt: number
+  createAt: string
   content: string
   showYear?: boolean
 }
@@ -15,24 +18,24 @@ export interface IBlogItem {
 export interface ICreateBlogParams {
   title: string
   content: string
-  type: 'public' | 'private'
+  type: BlogType
 }
 
 export interface IEditBlogParams {
   id: number
-  type: 'public' | 'private'
+  type: BlogType
   title: string
   content: string
 }
 
 export interface IGetBlogListParams {
-  type: 'public' | 'private'
+  type: BlogType
   pageNum: number
   pageSize: number
 }
 
 export interface IGetBlogListParams {
-  type: 'public' | 'private'
+  type: BlogType
   pageNum: number
   pageSize: number
 }

@@ -9,6 +9,7 @@ const useBlogItem = (type: 'show' | 'edit') => {
 
   const title = ref('')
   const content = ref('')
+  const blogType = ref('public')
 
   const id = computed(() => {
     return Number(route.params.id)
@@ -20,17 +21,21 @@ const useBlogItem = (type: 'show' | 'edit') => {
       if (!newId) return
       // const { data } = await getBlogDetail(newId)
       // title.value = data.title
+      // blogType.value = data.type
       // content.value = type === 'show' ? useMarkdown2HTML(data.content) : data.content
       const blogItem = await mockQueryBlogItem(newId)
       title.value = blogItem.title
+      blogType.value = blogItem.type
       content.value = type === 'show' ? useMarkdown2HTML(blogItem.content) : blogItem.content
     },
     { immediate: true }
   )
 
   return {
+    id,
     title,
-    content
+    content,
+    type: blogType
   }
 }
 
