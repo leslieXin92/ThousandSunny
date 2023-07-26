@@ -35,20 +35,14 @@ const useBlogList = () => {
       blogList.value.push(...processedBlogList)
       params.value.pageNum++
     } catch (e) {
-      ElMessage({
-        type: 'error',
-        message: (e as Error).message
-      })
+      ElMessage.error((e as Error).message)
     } finally {
       isFetching.value = false
     }
   }
 
   const hasLoadAll = () => {
-    ElMessage({
-      type: 'success',
-      message: 'that\'s all'
-    })
+    ElMessage.success('that\'s all')
     window.removeEventListener('scroll', loadOnReachBottom)
   }
 

@@ -47,10 +47,7 @@ class JRequest {
     this.instance.interceptors.response.use(
       (res) => {
         if (this.showMsg && !res.data.code) {
-          ElMessage({
-            type: 'success',
-            message: res.data.meg
-          })
+          ElMessage.success(res.data.msg)
         }
         setTimeout(() => {
           this.isLoading?.close()

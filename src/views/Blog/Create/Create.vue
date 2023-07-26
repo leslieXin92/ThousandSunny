@@ -10,8 +10,7 @@
 
     <MDEditor
       class='MDEditor'
-      :value='content'
-      @change='changeContext'
+      v-model='content'
     />
 
     <el-button
@@ -31,7 +30,7 @@
     <JForm
       ref='JFormRef'
       :schema='schema'
-      :defaultFormData='defaultFormData'
+      :defaultFormData='formData'
     />
   </JDialog>
 </template>
@@ -42,31 +41,21 @@ import { ElMessage } from 'element-plus'
 import MDEditor from '@/components/MDEditor/MDEditor.vue'
 import JDialog from '@/components/JDialog/JDialog.vue'
 import JForm from '@/components/JForm/JForm.vue'
+import useBlogItem from '@/hooks/useBlogItem'
 import { createBlog } from '@/service/api/blog'
-import { schema, defaultFormData } from './config'
+import { schema } from '../config'
 import { IJFrom } from '@/components/JForm/type'
 import { OperateType } from '@/components/JDialog/type'
 import { ICreateBlogParams } from '@/service/api/blog/type'
 
-const title = ref('')
-const content = ref('')
+const { title, content, formData } = useBlogItem('create')
 
 const JFormRef = ref<IJFrom>()
 const dialogVisible = ref(false)
 
-const changeContext = (value: string) => {
-  content.value = value
-}
-
 const submit = () => {
-  if (!title.value) return ElMessage({
-    type: 'error',
-    message: 'Title Cannot be Empty'
-  })
-  if (!content.value) return ElMessage({
-    type: 'error',
-    message: 'Context Cannot be Empty'
-  })
+  if (!title.value) return ElMessage.error('Title Cannot be Empty')
+  if (!content.value) return ElMessage.error('Content Cannot be Empty')
   dialogVisible.value = true
 }
 
@@ -81,15 +70,9 @@ const handleOperate = async (type: OperateType) => {
     }
     console.log(params)
     await createBlog(params as ICreateBlogParams)
-    ElMessage({
-      type: 'success',
-      message: 'Create Success'
-    })
+    ElMessage.success('Create Success')
   } catch (error) {
-    ElMessage({
-      type: 'error',
-      message: (error as Error).message
-    })
+    ElMessage.error((error as Error).message)
   } finally {
     dialogVisible.value = false
   }

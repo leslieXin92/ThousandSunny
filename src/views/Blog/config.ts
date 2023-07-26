@@ -13,7 +13,3 @@ export const schema: ISchema[] = [
     }
   }
 ]
-
-export const defaultFormData = {
-  type: 'public'
-}

@@ -28,10 +28,7 @@ const useTableOperate = (
     title.value === 'Edit'
       ? editConfirm()
       : deleteConfirm()
-    ElMessage({
-      type: 'success',
-      message: `${title.value} Success !`
-    })
+    ElMessage.success(`${title.value} Success !`)
     visible.value = false
     title.value = ''
     curId.value = undefined

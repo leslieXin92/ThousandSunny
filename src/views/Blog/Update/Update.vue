@@ -30,7 +30,7 @@
     <JForm
       ref='JFormRef'
       :schema='schema'
-      :defaultFormData='{type}'
+      :defaultFormData='formData'
     />
   </JDialog>
 </template>
@@ -42,13 +42,13 @@ import MDEditor from '@/components/MDEditor/MDEditor.vue'
 import JDialog from '@/components/JDialog/JDialog.vue'
 import JForm from '@/components/JForm/JForm.vue'
 import { editBlog } from '@/service/api/blog'
-import { schema } from './config'
+import useBlogItem from '@/hooks/useBlogItem'
+import { schema } from '../config'
 import { IJFrom } from '@/components/JForm/type'
 import { OperateType } from '@/components/JDialog/type'
 import { IEditBlogParams } from '@/service/api/blog/type'
-import useBlogItem from '@/hooks/useBlogItem'
 
-const { id, title, content, type } = useBlogItem('edit')
+const { id, title, content, formData } = useBlogItem('edit')
 
 const JFormRef = ref<IJFrom>()
 const dialogVisible = ref(false)
@@ -77,15 +77,9 @@ const handleOperate = async (type: OperateType) => {
     }
     console.log(params)
     await editBlog(params as IEditBlogParams)
-    ElMessage({
-      type: 'success',
-      message: 'Update Success'
-    })
+    ElMessage.success('Update Success')
   } catch (error) {
-    ElMessage({
-      type: 'error',
-      message: (error as Error).message
-    })
+    ElMessage.error((error as Error).message)
   } finally {
     dialogVisible.value = false
   }
