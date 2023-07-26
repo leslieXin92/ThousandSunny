@@ -12,30 +12,13 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/store/useUserStore'
 import useLoadBlog from '@/hooks/useLoadBlog'
-import { IBlogItem } from '@/service/api/blog/type'
 import dayjs from 'dayjs'
 
 const router = useRouter()
 
-const userStore = useUserStore()
-const { isLogin } = storeToRefs(userStore)
-
-const blogList = ref<Omit<IBlogItem, 'content'>[]>([])
-const params = ref({
-  type: isLogin ? 'private' : 'public' as 'public' | 'private',
-  pageNum: 1,
-  pageSize: 10
-})
-
-useLoadBlog({
-  params,
-  originList: blogList
-})
+const { blogList } = useLoadBlog()
 
 const skipBlogItem = (id: number) => {
   window.getSelection()!.removeAllRanges()

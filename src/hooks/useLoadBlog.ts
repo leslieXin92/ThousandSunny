@@ -1,36 +1,40 @@
 import { onMounted, ref, Ref, shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getBlogList } from '@/service/api/blog'
-import { IGetBlogListParams, IBlogItem } from '@/service/api/blog/type'
+import { IBlogItem, BlogType, IGetBlogListParams } from '@/service/api/blog/type'
 import { ElMessage } from 'element-plus'
 import { debounce } from 'lodash'
 import dayjs from 'dayjs'
+import { useUserStore } from '@/store/useUserStore'
+import { storeToRefs } from 'pinia'
 
-interface IProps {
-  params: Ref<IGetBlogListParams>
-  originList: Ref<Omit<IBlogItem, 'content'>[]>
-}
-
-const useLoadBlog = (props: IProps) => {
-  const { params, originList } = props
-
+const useLoadBlog = () => {
   const route = useRoute()
 
-  const isFetching = ref(false)
+  const userStore = useUserStore()
+  const { isLogin } = storeToRefs(userStore)
+
+  const params = ref<IGetBlogListParams>({
+    type: isLogin ? 'private' : 'public',
+    pageNum: 1,
+    pageSize: 10
+  })
+  const blogList = ref<Omit<IBlogItem, 'content'>[]>([])
   const totalCount = shallowRef<number>()
+  const isFetching = ref(false)
 
   const load = async () => {
     if (isFetching.value) return
-    if (originList.value.length === totalCount.value) return hasLoadAll()
+    if (blogList.value.length === totalCount.value) return hasLoadAll()
     isFetching.value = true
     try {
-      const { data: { blogList, total } } = await getBlogList(params.value)
-      const processedBlogList = blogList.map((blog, index) => ({
+      const { data: { blogList: list, total } } = await getBlogList(params.value)
+      const processedBlogList = list.map((blog, index) => ({
         ...blog,
-        showYear: dayjs(blogList[index - 1]?.createAt).year() !== dayjs(blog.createAt).year()
+        showYear: dayjs(list[index - 1]?.createAt).year() !== dayjs(blog.createAt).year()
       }))
       totalCount.value = total
-      originList.value.push(...processedBlogList)
+      blogList.value.push(...processedBlogList)
       params.value.pageNum++
     } catch (e) {
       ElMessage({
@@ -72,6 +76,13 @@ const useLoadBlog = (props: IProps) => {
   onMounted(async () => {
     await load()
   })
+
+  return {
+    blogList,
+    params,
+    isFetching,
+    totalCount
+  }
 }
 
 export default useLoadBlog

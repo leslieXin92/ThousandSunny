@@ -4,7 +4,7 @@ export interface IData<T = {}> {
   msg: string
 }
 
-type BlogType = 'public' | 'private'
+export type BlogType = 'public' | 'private'
 
 export interface IBlogItem {
   id: number
