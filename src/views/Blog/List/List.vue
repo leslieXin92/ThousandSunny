@@ -13,12 +13,12 @@
 
 <script setup lang='ts'>
 import { useRouter } from 'vue-router'
-import useLoadBlog from '@/hooks/useLoadBlog'
+import useBlogList from '@/hooks/useBlogList'
 import dayjs from 'dayjs'
 
 const router = useRouter()
 
-const { blogList } = useLoadBlog()
+const { blogList } = useBlogList()
 
 const skipBlogItem = (id: number) => {
   window.getSelection()!.removeAllRanges()

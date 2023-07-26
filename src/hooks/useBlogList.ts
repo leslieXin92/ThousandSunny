@@ -1,16 +1,14 @@
-import { onMounted, ref, Ref, shallowRef, watch } from 'vue'
+import { ref, shallowRef, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/useUserStore'
 import { getBlogList } from '@/service/api/blog'
-import { IBlogItem, BlogType, IGetBlogListParams } from '@/service/api/blog/type'
 import { ElMessage } from 'element-plus'
 import { debounce } from 'lodash'
 import dayjs from 'dayjs'
-import { useUserStore } from '@/store/useUserStore'
-import { storeToRefs } from 'pinia'
+import { IBlogItem, IGetBlogListParams } from '@/service/api/blog/type'
 
-const useLoadBlog = () => {
-  const route = useRoute()
-
+const useBlogList = () => {
   const userStore = useUserStore()
   const { isLogin } = storeToRefs(userStore)
 
@@ -62,6 +60,8 @@ const useLoadBlog = () => {
     if (scrollHeight - scrollTop - clientHeight <= 800) await load()
   }, 200)
 
+  const route = useRoute()
+
   watch(
     () => route.path,
     path => {
@@ -85,4 +85,4 @@ const useLoadBlog = () => {
   }
 }
 
-export default useLoadBlog
+export default useBlogList
