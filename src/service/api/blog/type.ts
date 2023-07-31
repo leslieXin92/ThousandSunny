@@ -1,9 +1,3 @@
-export interface IData<T = {}> {
-  code: number
-  data: T
-  msg: string
-}
-
 export type BlogType = 'public' | 'private'
 
 export interface IBlogItem {

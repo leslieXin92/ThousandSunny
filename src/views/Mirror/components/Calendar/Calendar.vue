@@ -27,18 +27,18 @@
         }'
         class='dateCell'
       >
-        {{ data.day.split('-')[2] }}
+        {{ data?.day.split('-')[2] }}
       </div>
     </template>
   </el-calendar>
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref, watch } from 'vue'
-import dayjs from 'dayjs'
-import { IDateCell } from './type'
+import { ref, watch, onMounted } from 'vue'
 import emitter from '@/utils/mitt'
 import { ElCalendar } from 'element-plus'
+import dayjs from 'dayjs'
+import { IDateCell } from './type'
 
 const calendarRef = ref<typeof ElCalendar>()
 

@@ -1,9 +1,3 @@
-export interface IData<T = any> {
-  code: number
-  data: T
-  msg: string
-}
-
 export interface ILoginParams {
   username: string
   password: string

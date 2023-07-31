@@ -1,14 +1,13 @@
 <template>
   <div class='mirror'>
-    <MirrorCalendar class='calendar' />
-    <MirrorTaskBoard class='board' />
+    <Calendar class='calendar' />
+    <TaskBoard class='board' />
   </div>
-
 </template>
 
 <script setup lang='ts'>
-import MirrorCalendar from '@/components/MirrorCalendar/MirrorCalendar.vue'
-import MirrorTaskBoard from '@/components/MirrorTaskBoard/MirrorTaskBoard.vue'
+import Calendar from '@/views/Mirror/components/Calendar/Calendar.vue'
+import TaskBoard from '@/views/Mirror/components/TaskBoard/TaskBoard.vue'
 </script>
 
 <style scoped lang='less'>

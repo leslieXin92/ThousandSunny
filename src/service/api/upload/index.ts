@@ -1,5 +1,6 @@
 import JRequest from '@/service'
-import { IData, IUploadImageRes } from './type'
+import { IData } from '@/service/api/type'
+import { IUploadImageRes } from './type'
 
 // 上传图片
 export function uploadImage(formData: FormData) {

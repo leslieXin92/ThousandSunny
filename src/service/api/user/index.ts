@@ -1,6 +1,6 @@
 import JRequest from '@/service'
+import { IData } from '@/service/api/type'
 import {
-  IData,
   ILoginParams,
   ILoginRes,
   ILogoutParams,
