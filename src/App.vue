@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header v-if='isNotFound'>
-      <PageHeader/>
+      <PageHeader />
     </el-header>
 
     <el-main>
@@ -21,15 +21,17 @@
 </template>
 
 <script setup lang='ts'>
-import { computed } from 'vue'
+import { shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import PageFooter from '@/components/PageFooter/PageFooter.vue'
 
 const route = useRoute()
 
-const isNotFound = computed(() => {
-  return route.name !== 'NotFound'
+const isNotFound = shallowRef(false)
+
+watch(() => route.name, (val) => {
+  isNotFound.value = val !== 'NotFound'
 })
 </script>
 
