@@ -26,8 +26,8 @@ export function deleteBlog(blogId: number) {
 
 // 编辑博客
 export function editBlog(blogInfo: IEditBlogParams) {
-  return JRequest.put<IData>({
-    url: '/blog',
+  return JRequest.patch<IData>({
+    url: `/blog${blogInfo.id}`,
     data: blogInfo
   })
 }
@@ -35,7 +35,7 @@ export function editBlog(blogInfo: IEditBlogParams) {
 // 获取博客列表
 export function getBlogList(data: IGetBlogListParams) {
   return JRequest.get<IData<IGetBlogListRes>>({
-    url: '/blogList',
+    url: '/blog',
     params: data,
     showLoading: true
   })

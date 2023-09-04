@@ -24,17 +24,10 @@ export interface IEditBlogParams {
 
 export interface IGetBlogListParams {
   type: BlogType
-  pageNum: number
-  pageSize: number
-}
-
-export interface IGetBlogListParams {
-  type: BlogType
-  pageNum: number
-  pageSize: number
+  page: number
 }
 
 export interface IGetBlogListRes {
   blogList: Omit<IBlogItem, 'content'>[]
-  total: number
+  totalCount: number
 }

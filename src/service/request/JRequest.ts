@@ -101,6 +101,10 @@ class JRequest {
     return this.request<T>({ ...config, method: 'PUT' })
   }
 
+  patch<T = any>(config: IJRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH' })
+  }
+
   delete<T = any>(config: IJRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }

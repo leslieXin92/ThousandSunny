@@ -13,9 +13,8 @@ const useBlogList = () => {
   const { isLogin } = storeToRefs(userStore)
 
   const params = ref<IGetBlogListParams>({
-    type: isLogin ? 'private' : 'public',
-    pageNum: 1,
-    pageSize: 10
+    type: isLogin.value ? 'private' : 'public',
+    page: 1
   })
   const blogList = ref<Omit<IBlogItem, 'content'>[]>([])
   const totalCount = shallowRef<number>()
@@ -26,14 +25,14 @@ const useBlogList = () => {
     if (blogList.value.length === totalCount.value) return hasLoadAll()
     isFetching.value = true
     try {
-      const { data: { blogList: list, total } } = await getBlogList(params.value)
+      const { data: { blogList: list, totalCount: total } } = await getBlogList(params.value)
       const processedBlogList = list.map((blog, index) => ({
         ...blog,
         showYear: dayjs(list[index - 1]?.createAt).year() !== dayjs(blog.createAt).year()
       }))
       totalCount.value = total
       blogList.value.push(...processedBlogList)
-      params.value.pageNum++
+      params.value.page++
     } catch (e) {
       ElMessage.error((e as Error).message)
     } finally {

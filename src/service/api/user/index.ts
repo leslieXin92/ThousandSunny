@@ -11,7 +11,7 @@ import {
 // 登陆
 export function login(userInfo: ILoginParams) {
   return JRequest.post<IData<ILoginRes>>({
-    url: '/login',
+    url: '/user/login',
     data: userInfo,
     showLoading: true,
     showMsg: true
@@ -21,17 +21,7 @@ export function login(userInfo: ILoginParams) {
 // 注册
 export function register(userInfo: IRegisterParams) {
   return JRequest.post<IData<IRegisterRes>>({
-    url: '/register',
-    data: userInfo,
-    showLoading: true,
-    showMsg: true
-  })
-}
-
-// 登出
-export function logout(userInfo: ILogoutParams) {
-  return JRequest.post<IData<{}>>({
-    url: '/logout',
+    url: '/user/register',
     data: userInfo,
     showLoading: true,
     showMsg: true
