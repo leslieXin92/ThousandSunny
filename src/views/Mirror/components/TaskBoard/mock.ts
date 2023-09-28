@@ -5,8 +5,7 @@ export const mockGetTask = (date: string) => {
         { taskId: 0, taskName: 'mysql', task: ['多表查询'] },
         { taskId: 1, taskName: 'node', task: ['mysql2的使用', 'ORM之sequelize'] },
         { taskId: 2, taskName: 'coderhub', task: ['封装errorType'] },
-        { taskId: 3, taskName: 'Time', task: [new Date()] },
       ])
-    }, 1000)
+    }, 200)
   })
 }

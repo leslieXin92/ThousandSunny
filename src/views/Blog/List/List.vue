@@ -18,7 +18,13 @@ import dayjs from 'dayjs'
 
 const router = useRouter()
 
-const { blogList } = useBlogList()
+// const { blogList } = useBlogList()
+const blogList = [{
+  id: 1,
+  showYear: true,
+  createAt: '2023-09-28',
+  title: 'Hello World'
+}]
 
 const skipBlogItem = (id: number) => {
   window.getSelection()!.removeAllRanges()
