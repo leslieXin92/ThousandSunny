@@ -1,25 +1,25 @@
 <template>
   <div class='editBlogPage'>
-    <el-input
-      class='el-input--suffix'
-      v-model='title'
-      size='large'
-      maxlength='15'
-      placeholder='blog title'
-    />
+    <div class='header'>
+      <el-input
+        v-model='title'
+        size='large'
+        placeholder='blog title'
+      />
+
+      <el-button
+        type='primary'
+        @click='submit'
+      >
+        提交
+      </el-button>
+    </div>
 
     <MdEditor
       class='mdEditor'
       type='edit'
       v-model='content'
     />
-
-    <el-button
-      type='primary'
-      @click='submit'
-    >
-      提交
-    </el-button>
 
     <JDialog
       :title='title'
@@ -83,36 +83,31 @@ const handleOperate = async (type: OperateType) => {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   height: calc(100vh - 196px);
 
-  :deep(.el-input) {
-    width: 400px;
-    justify-items: flex-start;
-  }
+  .header {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    padding-right: 20px;
 
-  :deep(.el-input__wrapper) {
-    box-shadow: none;
-    border-bottom: 1px solid darkcyan;
-  }
+    :deep(.el-input) {
+      flex: 1;
+    }
 
-  :deep(.el-input__inner) {
-    font-size: 24px;
-    text-align: center;
-    font-weight: bold;
-    color: darkcyan;
+    :deep(.el-input__wrapper) {
+      box-shadow: none;
+    }
+
+    :deep(.el-input__inner) {
+      font-size: 24px;
+      font-weight: bold;
+      color: darkcyan;
+    }
   }
 
   .mdEditor {
     flex: 1;
-    width: 100%;
-    margin: 20px 0;
-  }
-
-  .el-button {
-    width: 250px;
-    height: 50px;
-    border-radius: 10px;
   }
 }
 </style>
