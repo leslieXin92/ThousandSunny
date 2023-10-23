@@ -1,11 +1,10 @@
 import http from '@/service/axios/http'
+import type { Res } from '@/service/axios/type'
+import type { UploadImage } from './type'
 
-export function updateImages(formData: FormData) {
-  return http.post({
-    url: 'upload/image',
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    },
-    data: formData
+export function uploadImages(data: FormData) {
+  return http.post<Res<UploadImage>>({
+    url: '/upload/image',
+    data
   })
 }
