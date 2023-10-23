@@ -6,13 +6,11 @@ import { sessionCache } from '@/utils/cache'
 
 class Http {
   instance: AxiosInstance
-  // loading: boolean // 是否需要loading
   showSuccessMsg: boolean // 请求成功后是否自动toast success msg
   showErrorMsg: boolean // 请求失败后是否自动toast error msg
 
   constructor(config: HttpConfig) {
     this.instance = axios.create(config)
-    // this.loading = config.loading ?? false
     this.showSuccessMsg = config.showSuccessMsg ?? false
     this.showErrorMsg = config.showErrorMsg ?? false
 
@@ -20,9 +18,6 @@ class Http {
       (config) => {
         const userStore = sessionCache.get('userStore')
         if (userStore?.token) config.headers.authorization = 'Bearer ' + userStore.token
-        // if (this.loading) {
-        //   console.log(111, 'loading')
-        // }
         return config
       },
       (error: AxiosError) => {
@@ -52,9 +47,6 @@ class Http {
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
       }
-      // if (config.loading === true || config.loading === false) {
-      //   this.loading = config.loading
-      // }
       if (config.showSuccessMsg === true || config.showSuccessMsg === false) {
         this.showSuccessMsg = config.showSuccessMsg
       }
@@ -64,17 +56,12 @@ class Http {
       this.instance
         .request<unknown, T>(config)
         .then((res) => {
-          // 1、单个请求对数据的处理
           if (config.interceptors?.responseInterceptor) {
             res = config.interceptors.responseInterceptor(res)
           }
-          // 2、每次调用完再将loading设置为初始值
-          // this.loading = false
-          // 3、返回结果
           resolve(res)
         })
         .catch((error: Error) => {
-          // this.loading = false
           reject(error)
         })
     })

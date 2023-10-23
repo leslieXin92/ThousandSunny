@@ -9,6 +9,7 @@
       showCodeRowNumber
       :toolbars='toolbars'
       :footers='footers'
+      @onUploadImg='onUploadImg'
     />
   </template>
 
@@ -29,6 +30,7 @@ import { MdEditor, MdPreview } from 'md-editor-v3'
 import { useDark } from '@vueuse/core'
 import 'md-editor-v3/lib/style.css'
 import { toolbars, footers } from './config'
+import { updateImages } from '@/service/file'
 
 interface Props {
   type: 'readonly' | 'edit'
@@ -38,6 +40,22 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   value: ''
 })
+
+const onUploadImg = async (files: Array<File>, callback: (urls: Array<string>) => void) => {
+  const res = await Promise.all(
+    files.map((file) => {
+      return new Promise((rev, rej) => {
+        const form = new FormData()
+        form.append('file', file)
+        updateImages(form)
+          .then((res) => rev(res))
+          .catch((error) => rej(error))
+      })
+    })
+  )
+
+  callback(res.map((item) => item.data))
+}
 
 const isDark = useDark()
 
