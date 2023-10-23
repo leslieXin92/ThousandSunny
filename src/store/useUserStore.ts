@@ -1,30 +1,29 @@
-import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { ILoginParams, IRegisterParams } from '@/service/api/user/type'
-import { login, register } from '@/service/api/user'
 import { useRouter } from 'vue-router'
+import { defineStore } from 'pinia'
+import { login, register } from '@/service/user'
+import type { LoginParams, LoginRes, RegisterParams } from '@/service/user/type'
 
 export const useUserStore = defineStore(
   'user',
   () => {
-    type UserInfoType = { username: string } | null
-
     const router = useRouter()
 
-    const userInfo = ref<UserInfoType>(null)
+    const userInfo = ref<Omit<LoginRes, 'token'> | null>(null)
 
     const isLogin = ref(false)
+    const token = ref<string>()
 
-    const handleRegister = async (registerParams: IRegisterParams) => {
-      const { data } = await register(registerParams)
-      userInfo.value = data
-      isLogin.value = true
+    const handleRegister = async (registerParams: RegisterParams) => {
+      await register(registerParams)
+      await handleLogin(registerParams)
     }
 
-    const handleLogin = async (loginParams: ILoginParams) => {
+    const handleLogin = async (loginParams: LoginParams) => {
       const { data } = await login(loginParams)
       userInfo.value = data
       isLogin.value = true
+      token.value = data.token
     }
 
     const handleLogout = async () => {
@@ -36,6 +35,7 @@ export const useUserStore = defineStore(
     return {
       userInfo,
       isLogin,
+      token,
       handleRegister,
       handleLogin,
       handleLogout

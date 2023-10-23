@@ -1,8 +1,8 @@
-import { Ref } from 'vue'
+import type { Ref } from 'vue'
 
-export interface IMenuItem {
+export interface MenuItem {
   label: string
   routePath: string
   condition: boolean | Ref<Boolean>
-  contextmenuList?:IMenuItem[]
+  contextmenuList?: MenuItem[]
 }

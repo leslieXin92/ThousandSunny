@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
 export const normalRoutes: RouteRecordRaw[] = [
   {
@@ -8,12 +8,12 @@ export const normalRoutes: RouteRecordRaw[] = [
   {
     path: '/home',
     name: 'home',
-    component: () => import('@/views/Home/Home.vue')
+    component: () => import('@/view/Home/index.vue')
   },
   {
     path: '/blog',
     name: 'blog',
-    component: () => import('@/views/Blog/List/List.vue'),
+    component: () => import('@/view/Blog/List/index.vue'),
     meta: {
       keepAlive: true
     }
@@ -21,22 +21,22 @@ export const normalRoutes: RouteRecordRaw[] = [
   {
     path: '/blog/:id',
     name: 'blogItem',
-    component: () => import('@/views/Blog/Detail/Detail.vue')
+    component: () => import('@/view/Blog/Item/index.vue')
   },
   {
     path: '/project',
     name: 'project',
-    component: () => import('@/views/Project/Project.vue')
+    component: () => import('@/view/Project/index.vue')
   },
   {
     path: '/mirror',
     name: 'mirror',
-    component: () => import('@/views/Mirror/Mirror.vue')
+    component: () => import('@/view/Mirror/index.vue')
   },
   {
     path: '/:pathMatch(.*)',
     name: 'NotFound',
-    component: () => import('@/views/NotFound/NotFound.vue')
+    component: () => import('@/view/NotFound/index.vue')
   }
 ]
 
@@ -44,16 +44,16 @@ export const authRoutes: RouteRecordRaw[] = [
   {
     path: '/blog/create',
     name: 'createBlog',
-    component: () => import('@/views/Blog/Create/Create.vue')
+    component: () => import('@/view/Blog/Create/index.vue')
   },
   {
     path: '/blog/update/:id',
     name: 'updateBlog',
-    component: () => import('@/views/Blog/Update/Update.vue')
+    component: () => import('@/view/Blog/Update/index.vue')
   },
   {
     path: '/admin',
     name: 'admin',
-    component: () => import('@/views/Admin/Admin.vue')
+    component: () => import('@/view/Admin/index.vue')
   }
 ]

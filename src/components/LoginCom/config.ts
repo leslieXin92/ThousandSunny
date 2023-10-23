@@ -1,7 +1,7 @@
-import { ISchema } from '@/components/JForm/type'
-import { FormRules } from 'element-plus'
+import type { FormRules } from 'element-plus'
+import type { Schema } from '@/libComponents/JForm/type'
 
-export const registerSchema: ISchema[] = [
+export const registerSchema: Schema[] = [
   {
     component: 'input',
     key: 'username',
@@ -63,7 +63,7 @@ export const registerRules: FormRules = {
   ]
 }
 
-export const loginSchema: ISchema[] = [
+export const loginSchema: Schema[] = [
   {
     component: 'input',
     key: 'username',

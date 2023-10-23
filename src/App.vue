@@ -23,8 +23,8 @@
 <script setup lang='ts'>
 import { shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import PageHeader from '@/components/PageHeader/PageHeader.vue'
-import PageFooter from '@/components/PageFooter/PageFooter.vue'
+import PageHeader from '@/components/PageHeader/index.vue'
+import PageFooter from '@/components/PageFooter/index.vue'
 
 const route = useRoute()
 
@@ -35,7 +35,7 @@ watch(() => route.name, (val) => {
 })
 </script>
 
-<style lang='less' scoped>
+<style lang='scss' scoped>
 .el-container {
   min-width: 1000px;
   margin: 0 auto;

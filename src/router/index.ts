@@ -1,8 +1,9 @@
-import { createRouter, createWebHistory, RouterScrollBehavior } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { sessionCache } from '@/utils/cache'
 import { normalRoutes, authRoutes } from './config'
+import type { RouterScrollBehavior } from 'vue-router'
 
-const scrollBehavior: RouterScrollBehavior = (to, from, savedPosition) => {
+const scrollBehavior: RouterScrollBehavior = (to, _, savedPosition) => {
   if (savedPosition && to.meta.keepAlive) return savedPosition
   return { left: 0, top: 0 }
 }
@@ -14,9 +15,8 @@ const router = createRouter({
 })
 
 router.beforeEach(to => {
-  const userStore = sessionCache.getCache('userStore') || {}
-  const { isLogin } = userStore
-  if (!isLogin && authRoutes.some(route => route.path === to.path)) return '/NotFound'
+  const userStore = sessionCache.get('userStore')
+  if (!userStore?.isLogin && authRoutes.some(route => route.path === to.path)) return '/NotFound'
 })
 
 export default router

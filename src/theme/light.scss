@@ -1,0 +1,9 @@
+@forward '../../node_modules/element-plus/theme-chalk/src/common/var' with (
+  $colors: (
+    'primary': (
+      'base': darkcyan
+    ),
+  )
+);
+
+@use '../../node_modules/element-plus/theme-chalk/src/index' as *;

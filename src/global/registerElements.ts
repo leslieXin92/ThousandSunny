@@ -1,5 +1,3 @@
-import { App } from 'vue'
-import 'element-plus/theme-chalk/index.css'
 import {
   ElContainer,
   ElHeader,
@@ -26,6 +24,7 @@ import {
   ElPageHeader,
   ElSwitch
 } from 'element-plus'
+import type { App } from 'vue'
 
 const components = [
   ElContainer,

@@ -1,9 +1,7 @@
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useMarkdown2HTML } from '@/hooks/useMarkdown2HTML'
-import { getBlogDetail } from '@/service/api/blog'
-import { mockQueryBlogItem } from '@/views/Blog/Detail/mock'
 import { ElMessage } from 'element-plus'
+import { getBlogItem } from '@/service/blog'
 
 const useBlogItem = (type: 'show' | 'edit' | 'create') => {
   const route = useRoute()
@@ -26,14 +24,10 @@ const useBlogItem = (type: 'show' | 'edit' | 'create') => {
       if (type === 'create' || !newId) return
       loading.value = true
       try {
-        // const { data } = await getBlogDetail(newId)
-        // title.value = data.title
-        //  formData.value.type = data.type
-        // content.value = type === 'show' ? useMarkdown2HTML(data.content) : data.content
-        const blogItem = await mockQueryBlogItem(newId)
-        title.value = blogItem.title
-        formData.value.type = blogItem.type
-        content.value = type === 'show' ? useMarkdown2HTML(blogItem.content) : blogItem.content
+        const { data } = await getBlogItem(newId)
+        title.value = data.title
+        formData.value.type = data.type
+        content.value = data.content
       } catch (e) {
         ElMessage.error((e as Error).message)
       } finally {

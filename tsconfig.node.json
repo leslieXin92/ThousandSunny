@@ -1,9 +1,17 @@
 {
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "include": [
+    "vite.config.*",
+    "vitest.config.*",
+    "cypress.config.*",
+    "nightwatch.conf.*",
+    "playwright.config.*"
+  ],
   "compilerOptions": {
     "composite": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
+    "types": ["node"],
     "allowSyntheticDefaultImports": true
-  },
-  "include": ["vite.config.ts"]
+  }
 }
