@@ -4,6 +4,7 @@ import piniaPluginPersistedState from 'pinia-plugin-persistedstate'
 import App from '@/App.vue'
 import router from '@/router'
 import { globalRegister } from '@/global'
+import logChar from '@/utils/logChar'
 import '@/global/global.scss'
 import '@/theme/light.scss'
 import '@/theme/dark.scss'
@@ -17,3 +18,5 @@ app.use(router)
 app.use(pinia)
 
 app.mount('#app')
+
+logChar()
