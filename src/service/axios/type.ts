@@ -19,3 +19,5 @@ export interface HttpConfig<T = AxiosResponse> extends AxiosRequestConfig {
   showSuccessMsg?: boolean
   showErrorMsg?: boolean
 }
+
+export type EnvType = 'development' | 'production'
