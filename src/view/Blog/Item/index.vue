@@ -9,6 +9,7 @@
 
       <el-tooltip
         v-if='titleRef && isLogin'
+        class='tooltip'
         v-model:visible='tooltipVisible'
         :virtual-ref='titleRef'
         trigger='contextmenu'
@@ -25,6 +26,8 @@
           >
             Update
           </el-button>
+
+          <el-divider border-style='dashed' />
 
           <el-button
             type='primary'
@@ -58,6 +61,8 @@ import JDialog from '@/libComponents/JDialog/index.vue'
 import MdEditor from '@/components/MdEditor/index.vue'
 import { useUserStore } from '@/store/useUserStore'
 import useBlogItem from '@/hooks/useBlogItem'
+import useAuth from '@/hooks/useAuth'
+import message from '@/utils/message'
 import { deleteBlog } from '@/service/blog'
 import type { OperateType } from '@/libComponents/JDialog/type'
 
@@ -86,6 +91,8 @@ const openDialog = () => {
 
 const handleOperate = async (type: OperateType) => {
   if (type === 'cancel') return dialogVisible.value = false
+  const auth = useAuth('admin')
+  if (!auth) return message.error('Unauthorized!')
   await deleteBlog(id.value)
   dialogVisible.value = false
   router.back()
@@ -117,6 +124,22 @@ const handleOperate = async (type: OperateType) => {
         color: darkcyan;
       }
     }
+  }
+}
+
+.el-popper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .el-button {
+    margin: 5px 0;
+    width: 50px;
+  }
+
+  .el-divider {
+    margin: 5px 0;
   }
 }
 </style>

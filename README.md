@@ -1,6 +1,6 @@
 # Thousand Sunny
 
-#### [线上地址](https://www.leslie.xin)
+#### [线上地址](http://120.25.247.55/home)
 
 ### ~~一些废话：~~
 

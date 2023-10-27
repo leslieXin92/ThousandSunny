@@ -31,6 +31,7 @@
       ref='JFormRef'
       :schema='schema'
       :rules='rules'
+      @keyup.enter='operate'
     />
     <div v-else>Are you sure logout ?</div>
   </JDialog>
@@ -42,6 +43,7 @@ import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/useUserStore'
 import JDialog from '@/libComponents/JDialog/index.vue'
 import JForm from '@/libComponents/JForm/index.vue'
+import message from '@/utils/message'
 import { registerSchema, loginSchema, registerRules, loginRules } from './config'
 import type { Ref } from 'vue'
 import type { PopoverInstance } from 'element-plus'
@@ -104,7 +106,7 @@ const hideDialog = () => {
 
 const operate = async (type: OperateType) => {
   if (type === 'cancel') return hideDialog()
-  if (JFormRef.value && !await JFormRef.value.validate()) return
+  if (JFormRef.value && !await JFormRef.value.validate()) return message.error('Form Validate Fail!')
   await operateMap[curCase.value!]()
   hideDialog()
 }

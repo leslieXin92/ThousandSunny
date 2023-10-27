@@ -1,3 +1,4 @@
+import type { App } from 'vue'
 import {
   ElContainer,
   ElHeader,
@@ -22,9 +23,9 @@ import {
   ElTooltip,
   ElAffix,
   ElPageHeader,
-  ElSwitch
+  ElSwitch,
+  ElDivider
 } from 'element-plus'
-import type { App } from 'vue'
 
 const components = [
   ElContainer,
@@ -50,7 +51,8 @@ const components = [
   ElTooltip,
   ElAffix,
   ElPageHeader,
-  ElSwitch
+  ElSwitch,
+  ElDivider
 ]
 
 export default function(app: App<Element>): void {

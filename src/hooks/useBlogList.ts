@@ -1,24 +1,21 @@
 import { ref, shallowRef, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { storeToRefs } from 'pinia'
 import { cloneDeep, debounce } from 'lodash'
 import dayjs from 'dayjs'
-import { useUserStore } from '@/store/useUserStore'
 import { getBlogList } from '@/service/blog'
+import useAuth from '@/hooks/useAuth'
 import message from '@/utils/message'
-import type { GetBlogListParams } from '@/service/blog/type'
+import type { GetBlogListParams, BlogItem } from '@/service/blog/type'
 
 const useBlogList = () => {
   const route = useRoute()
 
-  const userStore = useUserStore()
-  const { isLogin } = storeToRefs(userStore)
-
+  const auth = useAuth('admin')
   const params = ref<GetBlogListParams>({
-    type: isLogin.value ? '' : 'public',
+    type: auth ? '' : 'public',
     page: 1
   })
-  const blogList = ref<Omit<any, 'content'>[]>([])
+  const blogList = ref<(Omit<BlogItem, 'content'> & { showYear: boolean })[]>([])
   const totalCount = shallowRef<number>()
   const isFetching = ref(false)
 
@@ -27,7 +24,7 @@ const useBlogList = () => {
     if (blogList.value.length === totalCount.value) return hasLoadAll()
     isFetching.value = true
     const { data } = await getBlogList(params.value)
-    const temp = cloneDeep(blogList.value).concat(data.blogList)
+    const temp = [...blogList.value, ...data.blogList]
     blogList.value = temp.map((blog, index) => ({
       ...blog,
       showYear: !index || dayjs(temp[index - 1]?.createdAt).year() !== dayjs(blog.createdAt).year()
@@ -38,7 +35,7 @@ const useBlogList = () => {
   }
 
   const hasLoadAll = () => {
-    message.success('that\'s all')
+    message.success('That\'s All')
     window.removeEventListener('scroll', loadOnReachBottom)
   }
 

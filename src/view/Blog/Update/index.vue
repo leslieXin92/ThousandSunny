@@ -43,6 +43,7 @@ import JForm from '@/libComponents/JForm/index.vue'
 import MdEditor from '@/components/MdEditor/index.vue'
 import { updateBlog } from '@/service/blog'
 import useBlogItem from '@/hooks/useBlogItem'
+import useAuth from '@/hooks/useAuth'
 import message from '@/utils/message'
 import { schema } from '../config'
 import type { OperateType } from '@/libComponents/JDialog/type'
@@ -64,7 +65,9 @@ const submit = () => {
 
 const handleOperate = async (type: OperateType) => {
   if (type === 'cancel') return dialogVisible.value = false
-  if (!await JFormRef.value?.validate()) return
+  if (!await JFormRef.value?.validate()) return message.error('Type Cannot be Empty!')
+  const auth = useAuth('admin')
+  if (!auth) return message.error('Unauthorized!')
   const params = {
     id: id.value,
     title: title.value,

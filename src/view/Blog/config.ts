@@ -1,6 +1,6 @@
-// import { ISchema } from '@/components/JForm/type'
+import type { Schema } from '@/libComponents/JForm/type'
 
-export const schema: any[] = [
+export const schema: Schema[] = [
   {
     component: 'switch',
     key: 'type',
