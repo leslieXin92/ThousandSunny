@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { sessionCache } from '@/utils/cache'
+import useAuth from '@/hooks/useAuth'
 import { normalRoutes, authRoutes } from './config'
 import type { RouterScrollBehavior } from 'vue-router'
 
@@ -15,8 +15,8 @@ const router = createRouter({
 })
 
 router.beforeEach(to => {
-  const userStore = sessionCache.get('userStore')
-  if (!userStore?.isLogin && authRoutes.some(route => route.path === to.path)) return '/NotFound'
+  const auth = useAuth('user')
+  if (!auth && authRoutes.some(route => route.path === to.path)) return '/NotFound'
 })
 
 export default router
