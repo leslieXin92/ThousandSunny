@@ -12,13 +12,26 @@
 
 ### 技术选型：
 
-- [vue3](https://github.com/vuejs/core)、[vue-router](https://github.com/vuejs/router)、[pinia](https://github.com/vuejs/pinia)搭建前端页面
-- [axios](https://github.com/axios/axios)实现前后端通讯
-- [element-plus](https://github.com/element-plus/element-plus)作为UI组件库
-- [lodash](https://github.com/lodash/lodash)、[vueuse](https://github.com/vueuse/vueuse)、[dayjs](https://github.com/iamkun/dayjs)做扩展支撑
-- [three.js](https://github.com/mrdoob/three.js)用来~~装逼~~
+- [vue3](https://github.com/vuejs/core)、
+  [vue-router](https://github.com/vuejs/router)、
+  [pinia](https://github.com/vuejs/pinia)
+  搭建前端页面
 
-### 引以为傲
+- [axios](https://github.com/axios/axios)
+  实现前后端通讯
+
+- [element-plus](https://github.com/element-plus/element-plus)
+  作为UI组件库
+
+- [lodash](https://github.com/lodash/lodash)、
+  [vueuse](https://github.com/vueuse/vueuse)、
+  [dayjs](https://github.com/iamkun/dayjs)
+  做扩展支撑
+
+- [three.js](https://github.com/mrdoob/three.js)
+  用来~~装逼~~
+
+### ~~引以为傲~~
 
 1. axios的class封装
 2. JForm、JDialog等类库输出
