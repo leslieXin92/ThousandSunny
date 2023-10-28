@@ -2,7 +2,6 @@ import axios from 'axios'
 import message from '@/utils/message'
 import type { AxiosResponse, AxiosError, AxiosInstance } from 'axios'
 import type { Res, HttpConfig } from './type'
-import { sessionCache } from '@/utils/cache'
 
 class Http {
   instance: AxiosInstance
@@ -16,8 +15,6 @@ class Http {
 
     this.instance.interceptors.request.use(
       (config) => {
-        const userStore = sessionCache.get('userStore')
-        if (userStore?.token) config.headers.authorization = 'Bearer ' + userStore.token
         return config
       },
       (error: AxiosError) => {
@@ -38,6 +35,15 @@ class Http {
         message.error('Network Error!')
         return Promise.reject('Network Error!')
       }
+    )
+
+    this.instance.interceptors.request.use(
+      config.interceptors?.requestInterceptor as any,
+      config.interceptors?.requestInterceptorCatch
+    )
+    this.instance.interceptors.response.use(
+      config.interceptors?.responseInterceptor,
+      config.interceptors?.responseInterceptorCatch
     )
   }
 
