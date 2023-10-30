@@ -32,7 +32,10 @@ jobs:
       - name: 🎉 Deploy
         uses: easingthemes/ssh-deploy@v4
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: blog/ThousandSunny/
+          SSH_PRIVATE_KEY: ${{ secrets.FTP_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.FTP_HOST }}
+          REMOTE_USER: ${{ secrets.FTP_USER }}
+          TARGET: ${{ secrets.FTP_TARGET }}
+          EXCLUDE: "/dist/, /node_modules/"
