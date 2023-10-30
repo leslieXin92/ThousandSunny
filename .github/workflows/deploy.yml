@@ -1,4 +1,4 @@
-name: 🚀 Deploy
+name: 💥 Deploy
 
 on:
   pull_request:
@@ -8,28 +8,28 @@ on:
       - closed
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [ 18.x ]
 
     steps:
-      - name: 📌 Checkout Code
+      - name: 🔥 Checkout Code
         uses: actions/checkout@v4
 
-      - name: ♻️ Setup Node ${{ matrix.node-version }}
+      - name: 🔥 Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: ⚙️ Install Dependencies
+      - name: ☄️ Install Dependencies
         run: npm install
 
-      - name: 🛠 Build
+      - name: ☄️ Build And Package
         run: npm run build
 
-      - name: 🎉 Deploy
+      - name: 💥 Deploy To Server
         uses: easingthemes/ssh-deploy@v4
         with:
           SSH_PRIVATE_KEY: ${{ secrets.FTP_PRIVATE_KEY }}
