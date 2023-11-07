@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Georgia, "Microsoft YaHei", serif;
+  font-family: Georgia, 'Microsoft YaHei', serif;
 }
 
 li {
@@ -11,7 +11,12 @@ li {
 
 a {
   text-decoration: none;
-  color: #000;
+  font-family: Arial, sans-serif;
+  color: #bcbcbc;
+}
+
+a:hover {
+  text-decoration: underline #ccc;
 }
 
 /* 滚动条相关 */
