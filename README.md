@@ -2,7 +2,7 @@
 
 > 万里阳光号
 
-#### [线上地址](http://120.25.247.55/home)
+#### [线上地址](https://leslie.xin/home)
 
 #### [后端仓库地址](https://github.com/leslieXin92/GoingMerry)
 
