@@ -29,6 +29,12 @@ jobs:
       - name: 🛠 Build And Package
         run: npm run build
 
+      - name: 📦 Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -36,6 +42,11 @@ jobs:
     steps:
       - name: 🛠 Checkout Code
         uses: actions/checkout@v4
+
+      - name: 📂 Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
 
       - name: 🚢 Deploy To Server
         uses: easingthemes/ssh-deploy@v4
