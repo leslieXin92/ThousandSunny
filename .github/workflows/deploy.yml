@@ -1,6 +1,7 @@
 name: 🚢 Set Sail
 
 on:
+  push:
   pull_request:
     branches:
       - main
@@ -32,8 +33,9 @@ jobs:
       - name: 📦 Archive artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: ThousandSunny/dist
+          name: thousand-sunny
+          path: dist
+          retention-days: 3
 
   deploy:
     needs: build
@@ -46,7 +48,7 @@ jobs:
       - name: 📂 Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: dist
+          name: thousand-sunny
 
       - name: 🚢 Deploy To Server
         uses: easingthemes/ssh-deploy@v4
