@@ -32,8 +32,9 @@ jobs:
       - name: 📦 Archive artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: ThousandSunny/dist
+          name: ThousandSunny
+          path: dist
+          retention-days: 7
 
   deploy:
     needs: build
@@ -46,14 +47,14 @@ jobs:
       - name: 📂 Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: dist
+          name: ThousandSunny
 
       - name: 🚢 Deploy To Server
         uses: easingthemes/ssh-deploy@v4
         with:
           SSH_PRIVATE_KEY: ${{ secrets.FTP_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "dist/"
+          SOURCE: "/"
           REMOTE_HOST: ${{ secrets.FTP_HOST }}
           REMOTE_USER: ${{ secrets.FTP_USER }}
           TARGET: ${{ secrets.FTP_TARGET }}
