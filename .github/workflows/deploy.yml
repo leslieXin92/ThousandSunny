@@ -53,15 +53,12 @@ jobs:
       - name: 📂 List Current Directory
         run: ls -al
 
-      - name: 📂 List Source Directory
-        run: ls -al thousand-sunny/dist
-
       - name: 🚢 Deploy To Server
         uses: easingthemes/ssh-deploy@v4
         with:
           SSH_PRIVATE_KEY: ${{ secrets.FTP_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "ThousandSunny/dist/"
+          SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.FTP_HOST }}
           REMOTE_USER: ${{ secrets.FTP_USER }}
           TARGET: ${{ secrets.FTP_TARGET }}
