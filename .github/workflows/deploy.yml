@@ -53,7 +53,7 @@ jobs:
         with:
           SSH_PRIVATE_KEY: ${{ secrets.FTP_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "ThousandSunny/dist/"
+          SOURCE: "/dist/"
           REMOTE_HOST: ${{ secrets.FTP_HOST }}
           REMOTE_USER: ${{ secrets.FTP_USER }}
           TARGET: ${{ secrets.FTP_TARGET }}
