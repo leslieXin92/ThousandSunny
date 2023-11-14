@@ -50,6 +50,12 @@ jobs:
         with:
           name: thousand-sunny
 
+      - name: 📂 List Current Directory
+        run: ls -al
+
+      - name: 📂 List Source Directory
+        run: ls -al thousand-sunny/dist
+
       - name: 🚢 Deploy To Server
         uses: easingthemes/ssh-deploy@v4
         with:
