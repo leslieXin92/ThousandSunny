@@ -1,6 +1,7 @@
 name: 🚢 Set Sail
 
 on:
+  push:
   pull_request:
     branches:
       - main
