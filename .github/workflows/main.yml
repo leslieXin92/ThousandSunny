@@ -50,6 +50,13 @@ jobs:
         with:
           name: ThousandSunny
 
+      - name: Debug SSH key
+        run: |
+          echo "Private key content:"
+          echo "${{ secrets.FTP_PRIVATE_KEY }}"
+          echo "Public key content:"
+          ssh-keygen -y -f <(echo "${{ secrets.FTP_PRIVATE_KEY }}")
+
       - name: 🚢 Deploy To Server
         uses: easingthemes/ssh-deploy@v4
         with:
