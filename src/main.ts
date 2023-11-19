@@ -20,3 +20,5 @@ app.use(pinia)
 app.mount('#app')
 
 logChar()
+
+console.log('test automated deployment!')
