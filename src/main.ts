@@ -21,4 +21,4 @@ app.mount('#app')
 
 logChar()
 
-console.log('test automated deployment')
+console.log('test automated deployment!!!')
