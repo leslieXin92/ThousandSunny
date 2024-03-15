@@ -1,6 +1,6 @@
 import { ref, shallowRef, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { cloneDeep, debounce } from 'lodash'
+import { debounce } from 'lodash'
 import dayjs from 'dayjs'
 import { getBlogList } from '@/service/blog'
 import useAuth from '@/hooks/useAuth'
@@ -24,10 +24,9 @@ const useBlogList = () => {
     if (blogList.value.length === totalCount.value) return hasLoadAll()
     isFetching.value = true
     const { data } = await getBlogList(params.value)
-    const temp = [...blogList.value, ...data.blogList]
-    blogList.value = temp.map((blog, index) => ({
+    blogList.value = [...blogList.value, ...data.blogList].map((blog, index, array) => ({
       ...blog,
-      showYear: !index || dayjs(temp[index - 1]?.createdAt).year() !== dayjs(blog.createdAt).year()
+      showYear: !index || dayjs(array[index - 1]?.createdAt).year() !== dayjs(blog.createdAt).year()
     }))
     totalCount.value = data.totalCount
     params.value.page++
