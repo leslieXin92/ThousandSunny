@@ -9,7 +9,7 @@ const useBlogItem = (type: 'show' | 'edit' | 'create') => {
   const title = ref('')
   const content = ref('')
   const formData = ref({
-    type: 'public'
+    visibility: 'public'
   })
 
   const loading = ref(false)
@@ -26,7 +26,7 @@ const useBlogItem = (type: 'show' | 'edit' | 'create') => {
       try {
         const { data } = await getBlogItem(newId)
         title.value = data.title
-        formData.value.type = data.type
+        formData.value.visibility = data.visibility
         content.value = data.content
       } catch (e) {
         ElMessage.error((e as Error).message)

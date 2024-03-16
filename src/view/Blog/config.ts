@@ -3,7 +3,7 @@ import type { Schema } from '@/libComponents/JForm/type'
 export const schema: Schema[] = [
   {
     component: 'switch',
-    key: 'type',
+    key: 'visibility',
     itemAttrs: {
       label: 'public'
     },
