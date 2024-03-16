@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import useAuth from '@/hooks/useAuth'
+import usePermission from '@/hooks/usePermission'
 import { normalRoutes, authRoutes } from './config'
 import type { RouterScrollBehavior } from 'vue-router'
 
@@ -15,7 +15,7 @@ const router = createRouter({
 })
 
 router.beforeEach(to => {
-  const auth = useAuth('user')
+  const auth = usePermission('normal')
   if (!auth && authRoutes.some(route => route.path === to.path)) return '/NotFound'
 })
 

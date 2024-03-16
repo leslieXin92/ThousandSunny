@@ -3,16 +3,16 @@ import { useRoute } from 'vue-router'
 import { debounce } from 'lodash'
 import dayjs from 'dayjs'
 import { getBlogList } from '@/service/blog'
-import useAuth from '@/hooks/useAuth'
+import usePermission from '@/hooks/usePermission'
 import message from '@/utils/message'
 import type { GetBlogListParams, BlogItem } from '@/service/blog/type'
 
 const useBlogList = () => {
   const route = useRoute()
 
-  const auth = useAuth('admin')
+  const auth = usePermission('normal')
   const params = ref<GetBlogListParams>({
-    type: auth ? '' : 'public',
+    visibility: auth ? '' : 'public',
     page: 1
   })
   const blogList = ref<(Omit<BlogItem, 'content'> & { showYear: boolean })[]>([])

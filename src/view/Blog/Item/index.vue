@@ -61,7 +61,7 @@ import JDialog from '@/libComponents/JDialog/index.vue'
 import MdEditor from '@/components/MdEditor/index.vue'
 import { useUserStore } from '@/store/useUserStore'
 import useBlogItem from '@/hooks/useBlogItem'
-import useAuth from '@/hooks/useAuth'
+import usePermission from '@/hooks/usePermission'
 import message from '@/utils/message'
 import { deleteBlog } from '@/service/blog'
 import type { OperateType } from '@/libComponents/JDialog/type'
@@ -91,7 +91,7 @@ const openDialog = () => {
 
 const handleOperate = async (type: OperateType) => {
   if (type === 'cancel') return dialogVisible.value = false
-  const auth = useAuth('admin')
+  const auth = usePermission('admin')
   if (!auth) return message.error('Unauthorized!')
   await deleteBlog(id.value)
   dialogVisible.value = false

@@ -4,7 +4,7 @@ import type { UploadImage } from './type'
 
 export function uploadImages(data: FormData) {
   return http.post<Res<UploadImage>>({
-    url: '/upload/image',
+    url: '/file/image',
     data
   })
 }
