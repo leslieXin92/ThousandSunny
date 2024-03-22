@@ -1,12 +1,16 @@
 <template>
   <div class='blogList'>
-    <template v-for='item in blogList' :key='item.id'>
+    <template v-if="blogList.length" v-for='item in blogList' :key='item.id'>
       <div class='year' v-if='item.showYear'>{{ dayjs(item.createdAt).year() }}</div>
       <div class='blogItem'>
         <div class='blogTitle' @click='skipBlogItem(item.id)'>{{ item.title }}</div>
         <div class='dot'></div>
         <div class='time'>{{ dayjs(item.createdAt).format('YYYY-MM-DD') }}</div>
       </div>
+    </template>
+
+    <template v-else>
+      <Empty />
     </template>
   </div>
 </template>
@@ -15,6 +19,7 @@
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
 import useBlogList from '@/hooks/useBlogList'
+import Empty from '@/components/Empty/index.vue'
 
 const router = useRouter()
 
