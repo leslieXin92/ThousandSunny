@@ -21,7 +21,7 @@
             :lg="8"
             :xl="8"
           >
-            <div class="projectItem">
+            <div class="projectItem hoverProjectItem" @click="clickProject(item.id)">
               <div class="icon">
                 <img :src="item.coverIcon" alt="" />
               </div>
@@ -54,14 +54,69 @@
         </ElCol>
       </template>
     </div>
+
+    <!--  create & show & update dialog  -->
+    <JDialog
+      :title="formData?.name || 'Create Project'"
+      :visible="dialogVisible"
+      :showFooter="['create', 'update'].includes(curType)"
+      :titleContextMenu="titleContextMenu"
+      @changeVisible="changeVisible"
+      @titleClickCallback="titleClickCallback"
+    >
+      {{ curType }}
+      {{ formData }}
+      {{ editable }}
+      <template #footer>
+        <el-button @click="operate('cancel')">Cancel</el-button>
+        <el-button
+          color='#008b8b'
+          :loading="loading"
+          @click="operate('confirm')"
+        >
+          Confirm
+        </el-button>
+      </template>
+    </JDialog>
+
+    <!--  delete dialog  -->
+    <JDialog
+      v-if="formData"
+      :title="formData!.name"
+      :visible="deleteDialogVisible"
+      :titleContextMenu="titleContextMenu"
+      @changeVisible='changeDeleteVisible'
+      @operate='deleteOperate'
+      @titleClickCallback="titleClickCallback"
+    >
+      <span>Are you sure to delete </span>
+      <i><b style="color: darkcyan">{{ formData?.name }}</b></i> ?
+
+      <template #footer>
+        <el-button @click="deleteOperate('cancel')">Cancel</el-button>
+        <el-button
+          color='#008b8b'
+          :loading="loading"
+          @click="deleteOperate('confirm')"
+        >
+          Delete
+        </el-button>
+      </template>
+    </JDialog>
   </div>
 </template>
 
 <script lang='ts' setup>
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { groupBy } from 'lodash'
-import { getProjectList, getProjectItem } from '@/service/project'
-import type { ProjectItem, ProjectStatus } from '@/service/project/type'
+import JDialog from '@/libComponents/JDialog/index.vue'
+import { getProjectList } from '@/service/project'
+import { useProjectStore } from '@/store/useProjectStore'
+import usePermission from '@/hooks/usePermission'
+import message from '@/utils/message'
+import type { CreateProjectParams, ProjectItem, ProjectStatus, UpdateProjectParams } from '@/service/project/type'
+import type { OperateType } from '@/libComponents/JDialog/type'
 
 const projectList = ref<ProjectItem[]>([])
 const groupedProjectList = ref<{ title: string, list: ProjectItem[] }[]>()
@@ -87,6 +142,96 @@ watch(projectList, (newList) => {
 onMounted(async () => {
   await handleGetProjectList()
 })
+
+const curProjectId = ref<number>()
+
+const clickProject = (projectId: number) => {
+  curProjectId.value = projectId
+  handleShowProject(projectId)
+}
+
+const projectStore = useProjectStore()
+const { curType, dialogVisible, loading, editable, formData } = storeToRefs(projectStore)
+const {
+  changeCurType,
+  changeDialogVisible,
+  handleCreateProject,
+  handleShowProject,
+  handleEditProject,
+  handleDeleteProject
+} = projectStore
+
+const tooltipVisible = ref(false)
+
+const titleClickCallback = () => {
+  tooltipVisible.value = !tooltipVisible.value
+}
+
+const changeVisible = (newVisible: boolean) => {
+  if (!newVisible) changeCurType('show')
+  changeDialogVisible(newVisible)
+}
+
+const showCallback = () => {
+  changeCurType('show')
+  deleteDialogVisible.value = false
+  changeDialogVisible(true)
+}
+
+const updateCallback = () => {
+  changeCurType('update')
+  deleteDialogVisible.value = false
+  changeDialogVisible(true)
+}
+
+const deleteCallback = () => {
+  changeCurType('delete')
+  changeDialogVisible(false)
+  deleteDialogVisible.value = true
+}
+
+const titleContextMenu = computed(() => {
+  const contextMenu = [
+    { label: 'show', callback: showCallback },
+    { label: 'update', callback: updateCallback },
+    { label: 'delete', callback: deleteCallback }
+  ]
+  return contextMenu.filter(i => i.label !== curType.value && curType.value !== 'create')
+})
+
+const normalPermission = usePermission('normal')
+const adminPermission = usePermission('admin')
+const superAdminPermission = usePermission('superAdmin')
+
+const operate = async (type: OperateType) => {
+  if (type === 'cancel') return changeDialogVisible(false)
+  if (curType.value === 'create') {
+    if (!normalPermission) return message.error('Unauthorized!')
+    await handleCreateProject({} as CreateProjectParams)
+  }
+  if (curType.value === 'update') {
+    if (!adminPermission) return message.error('Unauthorized!')
+    await handleEditProject({} as UpdateProjectParams, curProjectId.value!)
+  }
+  changeDialogVisible(false)
+  await handleGetProjectList()
+}
+
+// delete dialog
+const deleteDialogVisible = ref(false)
+
+const changeDeleteVisible = (newVisible: boolean) => {
+  deleteDialogVisible.value = newVisible
+  if (!newVisible) changeCurType('show')
+}
+
+const deleteOperate = async (type: OperateType) => {
+  if (type === 'cancel') return changeDeleteVisible(false)
+  if (!superAdminPermission) return message.error('Unauthorized!')
+  await handleDeleteProject(curProjectId.value!)
+  changeDeleteVisible(false)
+  await handleGetProjectList()
+}
 </script>
 
 <style lang='scss' scoped>
@@ -114,18 +259,20 @@ onMounted(async () => {
     .el-col {
       margin-bottom: 30px;
 
+      .hoverProjectItem {
+        &:hover {
+          cursor: pointer;
+          background-color: #f5f5f5;
+        }
+      }
+
       .projectItem {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
         height: 80px;
         padding: 0 10px 0 10px;
-        cursor: pointer;
         border-radius: 5px;
-
-        &:hover {
-          background-color: #f5f5f5;
-        }
 
         .icon {
           width: 50px;
@@ -159,6 +306,23 @@ onMounted(async () => {
         }
       }
     }
+  }
+}
+
+.el-popper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: red;
+
+  .el-button {
+    margin: 5px 0;
+    width: 50px;
+  }
+
+  .el-divider {
+    margin: 5px 0;
   }
 }
 </style>

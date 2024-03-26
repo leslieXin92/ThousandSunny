@@ -46,6 +46,7 @@
     <JDialog
       :title='title'
       :visible='dialogVisible'
+      :confirmLoading="loading"
       @operate='handleOperate'
     >
       Confirm to delete ?
@@ -75,6 +76,8 @@ const { isLogin } = storeToRefs(userStore)
 const titleRef = ref()
 const tooltipVisible = ref(false)
 
+const loading = ref(false)
+
 const goBack = () => {
   router.back()
 }
@@ -91,11 +94,15 @@ const openDialog = () => {
 
 const handleOperate = async (type: OperateType) => {
   if (type === 'cancel') return dialogVisible.value = false
-  const auth = usePermission('admin')
+  const auth = usePermission('superAdmin')
   if (!auth) return message.error('Unauthorized!')
-  await deleteBlog(id.value)
-  dialogVisible.value = false
-  router.back()
+  try {
+    loading.value = true
+    await deleteBlog(id.value)
+    router.back()
+  } finally {
+    dialogVisible.value = false
+  }
 }
 </script>
 

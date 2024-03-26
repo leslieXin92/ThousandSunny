@@ -10,15 +10,49 @@
     @close='close'
   >
     <template #header>
-      <div class='title' @contextmenu='handleClickTitle'>{{ title }}</div>
+      <el-tooltip
+        v-if="titleContextMenu?.length && isLogin"
+        trigger='contextmenu'
+        effect='light'
+        :showArrow='false'
+        v-model:visible="tooltipVisible"
+      >
+        <div class='title' @contextmenu='handleClickTitle'>{{ title }}</div>
+
+        <template #content>
+          <template v-for="(item, index) in titleContextMenu">
+            <el-button
+              type='primary'
+              size='small'
+              link
+              @click="() => {
+                tooltipVisible = false
+                item.callback()
+              }"
+            >
+              {{ item.label }}
+            </el-button>
+
+            <el-divider v-if="index + 1 !== titleContextMenu.length" border-style='dashed' />
+          </template>
+        </template>
+      </el-tooltip>
+
+      <div v-else class='title' @contextmenu='handleClickTitle'>{{ title }}</div>
     </template>
 
     <slot />
 
-    <template #footer>
+    <template #footer v-if="showFooter">
       <slot name='footer'>
         <el-button @click="handleOperate('cancel')">Cancel</el-button>
-        <el-button color='#008b8b' @click="handleOperate('confirm')">Confirm</el-button>
+        <el-button
+          color='#008b8b'
+          :loading="confirmLoading"
+          @click="handleOperate('confirm')"
+        >
+          Confirm
+        </el-button>
       </slot>
     </template>
   </el-dialog>
@@ -26,13 +60,18 @@
 
 <script setup lang='ts'>
 import { ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { clone } from 'lodash'
-import type { OperateType } from './type'
+import { useUserStore } from '@/store/useUserStore'
+import type { OperateType, TitleContextMenuItem } from './type'
 
 interface Props {
   visible: boolean
   title: string
   width?: string | number
+  showFooter?: boolean
+  confirmLoading?: boolean
+  titleContextMenu?: TitleContextMenuItem[]
 }
 
 interface Emits {
@@ -44,12 +83,17 @@ interface Emits {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  width: '500px'
+  width: '500px',
+  showFooter: true
 })
 
 const emits = defineEmits<Emits>()
 
+const userStore = useUserStore()
+const { isLogin } = storeToRefs(userStore)
+
 const dialogVisible = ref(clone(props.visible))
+const tooltipVisible = ref(false)
 
 watch(() => props.visible, (newValue: boolean) => {
   dialogVisible.value = newValue
@@ -76,7 +120,6 @@ const handleOperate = (type: OperateType) => {
 
 <style scoped lang='scss'>
 .title {
-  width: 100px;
   margin: 0 auto;
   font-size: 20px;
   font-weight: bold;
@@ -85,5 +128,21 @@ const handleOperate = (type: OperateType) => {
 
 .el-button {
   margin: 0 20px;
+}
+
+.el-popper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .el-button {
+    margin: 5px 0;
+    width: 50px;
+  }
+
+  .el-divider {
+    margin: 5px 0;
+  }
 }
 </style>
