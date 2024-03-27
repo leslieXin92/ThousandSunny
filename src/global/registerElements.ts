@@ -26,7 +26,8 @@ import {
   ElSwitch,
   ElDivider,
   ElRow,
-  ElCol
+  ElCol,
+  ElUpload
 } from 'element-plus'
 
 const components = [
@@ -56,7 +57,8 @@ const components = [
   ElSwitch,
   ElDivider,
   ElRow,
-  ElCol
+  ElCol,
+  ElUpload
 ]
 
 export default function (app: App<Element>) {

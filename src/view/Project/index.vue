@@ -45,7 +45,7 @@
         >
           <div class="projectItem">
             <div class="icon">
-              <img src="@/assets/unboxing.gif" alt="" />
+              <img src="../../assets/no_project.gif" alt="" />
             </div>
             <div class="info">
               <div class="name">No projects yet ~~</div>
@@ -63,20 +63,21 @@
       :titleContextMenu="titleContextMenu"
       @changeVisible="changeVisible"
       @titleClickCallback="titleClickCallback"
+      @operate="operate"
     >
-      {{ curType }}
-      {{ formData }}
-      {{ editable }}
-      <template #footer>
-        <el-button @click="operate('cancel')">Cancel</el-button>
-        <el-button
-          color='#008b8b'
-          :loading="loading"
-          @click="operate('confirm')"
-        >
-          Confirm
-        </el-button>
-      </template>
+      <!--        v-if="curType !== 'show'"-->
+      <JForm
+        ref="JFormRef"
+        :key="curType"
+        :schema="showProjectSchema"
+        :roles="projectRules"
+        :defaultFormData="formData"
+        :disabled="!editable"
+      >
+        <template #coverIcon="{ data }">
+          <JUpload :imageUrl="data" @onChange="onUploadChange" />
+        </template>
+      </JForm>
     </JDialog>
 
     <!--  delete dialog  -->
@@ -111,12 +112,16 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { groupBy } from 'lodash'
 import JDialog from '@/libComponents/JDialog/index.vue'
+import JForm from '@/libComponents/JForm/index.vue'
+import JUpload from '@/libComponents/JFormItem/JUpload/index.vue'
 import { getProjectList } from '@/service/project'
 import { useProjectStore } from '@/store/useProjectStore'
 import usePermission from '@/hooks/usePermission'
 import message from '@/utils/message'
-import type { CreateProjectParams, ProjectItem, ProjectStatus, UpdateProjectParams } from '@/service/project/type'
+import { projectRules, projectSchema } from './config'
+import type { CreateProjectParams, ProjectItem, ProjectStatus } from '@/service/project/type'
 import type { OperateType } from '@/libComponents/JDialog/type'
+import type { JFormRef } from '@/libComponents/JForm/type'
 
 const projectList = ref<ProjectItem[]>([])
 const groupedProjectList = ref<{ title: string, list: ProjectItem[] }[]>()
@@ -144,6 +149,7 @@ onMounted(async () => {
 })
 
 const curProjectId = ref<number>()
+const JFormRef = ref<JFormRef>()
 
 const clickProject = (projectId: number) => {
   curProjectId.value = projectId
@@ -207,11 +213,17 @@ const operate = async (type: OperateType) => {
   if (type === 'cancel') return changeDialogVisible(false)
   if (curType.value === 'create') {
     if (!normalPermission) return message.error('Unauthorized!')
-    await handleCreateProject({} as CreateProjectParams)
+    // TODO - validate失效
+    await JFormRef.value!.validate()
+    const projectData = JFormRef.value!.getFormData() as CreateProjectParams
+    await handleCreateProject(projectData)
   }
   if (curType.value === 'update') {
     if (!adminPermission) return message.error('Unauthorized!')
-    await handleEditProject({} as UpdateProjectParams, curProjectId.value!)
+    // TODO - validate失效
+    await JFormRef.value!.validate()
+    const projectData = JFormRef.value!.getFormData() as CreateProjectParams
+    await handleEditProject(projectData, curProjectId.value!)
   }
   changeDialogVisible(false)
   await handleGetProjectList()
@@ -231,6 +243,32 @@ const deleteOperate = async (type: OperateType) => {
   await handleDeleteProject(curProjectId.value!)
   changeDeleteVisible(false)
   await handleGetProjectList()
+}
+
+// project form
+const status = computed(() => {
+  const formStatus = JFormRef.value?.getFormData()?.status
+  return formStatus || formData.value.status
+})
+
+const showProjectSchema = ref(projectSchema)
+
+watch(
+  status,
+  (newStatus) => {
+    showProjectSchema.value = projectSchema.map(i => {
+      if (i.key === 'startAt') return { ...i, hide: newStatus === 'pending' }
+      if (i.key === 'doneAt') return { ...i, hide: newStatus !== 'done' }
+      if (i.key === 'codeAddress') return { ...i, hide: newStatus === 'pending' }
+      if (i.key === 'onlineAddress') return { ...i, hide: newStatus !== 'done' }
+      return i
+    })
+  },
+  { immediate: true }
+)
+
+const onUploadChange = (url: string) => {
+  JFormRef.value?.setFormData('coverIcon', url)
 }
 </script>
 
@@ -306,23 +344,6 @@ const deleteOperate = async (type: OperateType) => {
         }
       }
     }
-  }
-}
-
-.el-popper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: red;
-
-  .el-button {
-    margin: 5px 0;
-    width: 50px;
-  }
-
-  .el-divider {
-    margin: 5px 0;
   }
 }
 </style>

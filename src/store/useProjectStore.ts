@@ -5,23 +5,34 @@ import type { CreateProjectParams } from '@/service/project/type'
 
 type HandleProjectType = 'create' | 'show' | 'update' | 'delete'
 
+const initFormData: CreateProjectParams = {
+  name: '',
+  coverIcon: '',
+  technologyStack: [],
+  status: 'pending'
+}
+
 export const useProjectStore = defineStore(
   'project',
   () => {
     const curType = ref<HandleProjectType>('show')
-    const changeCurType = (newType: HandleProjectType) => curType.value = newType
+    const changeCurType = (newType: HandleProjectType) => {
+      curType.value = newType
+    }
 
     const dialogVisible = ref(false)
-    const changeDialogVisible = (newVisible: boolean) => dialogVisible.value = newVisible
+    const changeDialogVisible = (newVisible: boolean) => {
+      dialogVisible.value = newVisible
+    }
 
-    const formData = ref<CreateProjectParams>()
+    const formData = ref<CreateProjectParams>(initFormData)
 
     watch(curType, (newType) => {
-      if (newType === 'create') formData.value = undefined
+      if (newType === 'create') formData.value = initFormData
     })
 
     const editable = computed(() => {
-      return ['create', 'edit'].includes(curType.value)
+      return ['create', 'update'].includes(curType.value)
     })
 
     const loading = ref(false)

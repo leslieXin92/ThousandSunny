@@ -1,21 +1,10 @@
-import type {
-  InputProps,
-  DatePickerProps,
-  InputEmits,
-  ISelectProps,
-  SwitchProps
-} from 'element-plus'
+import JSelect from '@/libComponents/JFormItem/JSelect/index.vue'
+import JUpload from '@/libComponents/JFormItem/JUpload/index.vue'
 
 export const formItemMap = {
   'input': 'el-input',
-  'select': 'el-select',
+  'select': JSelect,
   'datePicker': 'ElDatePicker',
-  'switch': 'ElSwitch'
-}
-
-export type SchemaAttrsType = {
-  'input': Partial<InputProps> & Partial<InputEmits> | any // TODO - type
-  'select': Partial<ISelectProps>
-  'datePicker': Partial<DatePickerProps>
-  'switch': Partial<SwitchProps>
+  'switch': 'ElSwitch',
+  'upload': JUpload
 }
