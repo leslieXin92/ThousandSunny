@@ -19,6 +19,8 @@ export interface CreateProjectParams {
   description?: string
   technologyStack?: string[]
   status?: ProjectStatus
+  codeAddress?: string
+  onlineAddress?: string
   startAt?: string
   doneAt?: string
 }
@@ -30,6 +32,8 @@ export interface UpdateProjectParams {
   description?: string
   technologyStack?: string[]
   status?: ProjectStatus
+  codeAddress?: string
+  onlineAddress?: string
   startAt?: string
   doneAt?: string
 }

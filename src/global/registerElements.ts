@@ -27,7 +27,8 @@ import {
   ElDivider,
   ElRow,
   ElCol,
-  ElUpload
+  ElUpload,
+  ElTag
 } from 'element-plus'
 
 const components = [
@@ -58,7 +59,8 @@ const components = [
   ElDivider,
   ElRow,
   ElCol,
-  ElUpload
+  ElUpload,
+  ElTag
 ]
 
 export default function (app: App<Element>) {

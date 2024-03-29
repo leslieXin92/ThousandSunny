@@ -65,8 +65,65 @@
       @titleClickCallback="titleClickCallback"
       @operate="operate"
     >
-      <!--        v-if="curType !== 'show'"-->
+      <div v-if="curType === 'show'" class="projectCard">
+        <div class="projectInfo">
+          <div class="cover">
+            <img :src="formData.coverIcon" alt="" />
+          </div>
+
+          <div class="info">
+            <div class="description">{{ formData.description }}</div>
+
+            <div>
+              <ElTag
+                v-for="item in formData.technologyStack"
+                :key="item"
+                :type="randomTagType()"
+                effect="plain"
+                hit
+              >
+                {{ item }}
+              </ElTag>
+            </div>
+
+            <div v-if="formData.startAt" class="startAt">
+              <div class="label">start time:</div>
+              <div class="value">{{ formData.startAt }}</div>
+            </div>
+
+            <div v-if="formData.doneAt" class="doneAt">
+              <div class="label">done time:</div>
+              <div class="value">{{ formData.doneAt }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="address">
+          <div v-if="formData.codeAddress" class="codeAddress">
+            <ElButton
+              type='primary'
+              plain
+              @click="skip2web(formData.codeAddress)"
+            >
+              view code
+            </ElButton>
+          </div>
+
+          <div v-if="formData.onlineAddress" class="onlineAddress">
+            <ElButton
+              type='primary'
+              plain
+              @click="skip2web(formData.onlineAddress)"
+            >
+              view online
+            </ElButton>
+          </div>
+        </div>
+
+      </div>
+
       <JForm
+        v-else
         ref="JFormRef"
         :key="curType"
         :schema="showProjectSchema"
@@ -270,6 +327,16 @@ watch(
 const onUploadChange = (url: string) => {
   JFormRef.value?.setFormData('coverIcon', url)
 }
+
+const randomTagType = () => {
+  const pool = ['primary', 'success', 'warning', 'danger']
+  const random = Math.floor(Math.random() * 4)
+  return pool[random]
+}
+
+const skip2web = (url: string) => {
+  window.open(url)
+}
 </script>
 
 <style lang='scss' scoped>
@@ -342,6 +409,72 @@ const onUploadChange = (url: string) => {
             color: #666;
           }
         }
+      }
+    }
+  }
+
+  .projectCard {
+    display: flex;
+    flex-direction: column;
+
+    .projectInfo {
+      display: flex;
+      justify-content: space-around;
+
+      .cover {
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .info {
+        flex: 0.8;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        .description {
+          font-size: 16px;
+          font-style: italic;
+          color: #0a5050;
+        }
+
+        .el-tag {
+          margin: 15px 10px 0 0;
+        }
+
+        .startAt,
+        .doneAt {
+          display: flex;
+          margin-top: 15px;
+
+          .label {
+            color: #999;
+          }
+
+          .value {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+
+    .address {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      margin-top: 25px;
+
+      .codeAddress,
+      .onlineAddress {
+        margin-top: 10px;
+        margin-right: 10px;
       }
     }
   }
