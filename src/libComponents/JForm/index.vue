@@ -6,26 +6,28 @@
     labelSuffix=' :'
     hideRequiredAsterisk
   >
-    <el-form-item
-      v-for='item in schema'
-      :key='item.key'
-      v-bind='item.itemAttrs'
-      :prop='item.key'
-    >
-      <template v-if='item.custom'>
-        <slot :name='item.key' />
-      </template>
+    <template v-for='item in schema'>
+      <el-form-item
+        v-if="!item.hide"
+        :key='item.key'
+        v-bind='item.itemAttrs'
+        :prop='item.key'
+      >
+        <template v-if='item.custom'>
+          <slot :name='item.key' :data='model[item.key]' />
+        </template>
 
-      <template v-else>
-        <component
-          :is='formItemMap[item.component]'
-          v-bind='{ ...item.attrs }'
-          v-model='model[item.key]'
-          :data='model[item.key]'
-          clearable
-        />
-      </template>
-    </el-form-item>
+        <template v-else>
+          <component
+            :is='formItemMap[item.component]'
+            clearable
+            v-bind='{ ...item.attrs }'
+            v-model='model[item.key]'
+            :data='model[item.key]'
+          />
+        </template>
+      </el-form-item>
+    </template>
   </el-form>
 </template>
 
@@ -56,7 +58,7 @@ const emits = defineEmits<Emits>()
 
 const formRef = ref<FormInstance>()
 
-const model: Record<string, unknown> = reactive(cloneDeep(props.defaultFormData))
+const model: Record<string, any> = reactive(cloneDeep(props.defaultFormData))
 
 // 获取表单数据
 const getFormData = () => {

@@ -52,7 +52,7 @@ import type { UpdateBlogParams } from '@/service/blog/type'
 
 const router = useRouter()
 
-const { id, title, content, formData } = useBlogItem('edit')
+const { id, title, content, formData } = useBlogItem('update')
 
 const JFormRef = ref<JFormRef>()
 const dialogVisible = ref(false)
@@ -66,7 +66,7 @@ const submit = () => {
 const handleOperate = async (type: OperateType) => {
   if (type === 'cancel') return dialogVisible.value = false
   if (!await JFormRef.value?.validate()) return message.error('Type Cannot be Empty!')
-  const auth = usePermission('superAdmin')
+  const auth = usePermission('admin')
   if (!auth) return message.error('Unauthorized!')
   const params = {
     id: id.value,

@@ -5,7 +5,7 @@
       :key='item.label'
       :class="['menuItem', { active: route.path.includes(item.routePath.toLowerCase()) }]"
       @click='skipMenu(item.routePath)'
-      @contextmenu.prevent='handleContextmenu'
+      @contextmenu.prevent='handleContextMenu'
     >
       {{ item.label }}
     </div>
@@ -42,7 +42,7 @@
           type='primary'
           size='small'
           link
-          @click='skipMenu(i.routePath)'
+          @click='clickContextmenu(i)'
         >
           {{ i.label }}
         </el-button>
@@ -57,7 +57,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useDark } from '@vueuse/core'
 import { useUserStore } from '@/store/useUserStore'
-import type { MenuItem } from './type'
+import { useProjectStore } from '@/store/useProjectStore'
+import type { ContextmenuItem, MenuItem } from './type'
 
 const isDark = useDark()
 const toggleTheme = () => isDark.value = !isDark.value
@@ -70,6 +71,15 @@ const { isLogin } = storeToRefs(userStore)
 
 const curMenuRef = ref<HTMLElement>()
 const visible = ref(false)
+
+// project module
+const projectStore = useProjectStore()
+const { changeDialogVisible, changeCurType } = projectStore
+const createProject = () => {
+  router.push({ path: '/project' })
+  changeCurType('create')
+  changeDialogVisible(true)
+}
 
 const menuList = ref<MenuItem[]>([
   {
@@ -92,7 +102,14 @@ const menuList = ref<MenuItem[]>([
   {
     label: 'Project',
     routePath: '/project',
-    condition: true
+    condition: true,
+    contextmenuList: [
+      {
+        label: 'Create',
+        condition: isLogin,
+        customClickCallback: createProject
+      }
+    ]
   },
   {
     label: 'Mirror',
@@ -114,21 +131,26 @@ const showMenuList = computed(() => {
 })
 
 const curContextmenuList = computed(() => {
-  return showMenuList.value.find(item => item.label === curMenuRef.value?.innerText)?.contextmenuList || []
+  return (showMenuList.value.find(item => item.label === curMenuRef.value?.innerText)?.contextmenuList || []) as ContextmenuItem[]
 })
 
 const skipMenu = (routePath: string) => {
-  router.push({
-    path: routePath
-  })
+  router.push({ path: routePath })
 }
 
-const handleContextmenu = (e: MouseEvent) => {
+// handle context menu
+const handleContextMenu = (e: MouseEvent) => {
   if ((e.currentTarget as HTMLElement).innerText! !== curMenuRef.value?.innerText) {
     visible.value = false
   }
   curMenuRef.value = e.currentTarget as HTMLElement
   visible.value = !visible.value
+}
+
+// handle click contextmenu
+const clickContextmenu = (i: ContextmenuItem) => {
+  if (i.customClickCallback) return i.customClickCallback()
+  if (i.routePath) skipMenu(i.routePath)
 }
 
 watch(visible, (newVisible) => {

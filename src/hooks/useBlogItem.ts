@@ -1,9 +1,8 @@
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { getBlogItem } from '@/service/blog'
 
-const useBlogItem = (type: 'show' | 'edit' | 'create') => {
+const useBlogItem = (type: 'create' | 'show' | 'update') => {
   const route = useRoute()
 
   const title = ref('')
@@ -28,8 +27,6 @@ const useBlogItem = (type: 'show' | 'edit' | 'create') => {
         title.value = data.title
         formData.value.visibility = data.visibility
         content.value = data.content
-      } catch (e) {
-        ElMessage.error((e as Error).message)
       } finally {
         loading.value = false
       }
