@@ -1,8 +1,6 @@
 name: Set Sail
 
 on:
-  push:
-
   pull_request:
     branches:
       - main
@@ -31,7 +29,7 @@ jobs:
       - name: Build And Package
         run: npm run build
 
-      - name: 📦 Archive artifacts
+      - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ThousandSunny
