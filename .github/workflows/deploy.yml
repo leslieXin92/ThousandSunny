@@ -1,6 +1,8 @@
-name: 🚢 Set Sail
+name: Set Sail
 
 on:
+  push:
+
   pull_request:
     branches:
       - main
@@ -15,18 +17,18 @@ jobs:
         node-version: [ 18.x ]
 
     steps:
-      - name: 🔩 Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: 🔨 Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: ⚙️ Install Dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: 🛠 Build And Package
+      - name: Build And Package
         run: npm run build
 
       - name: 📦 Archive artifacts
@@ -41,16 +43,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🛠 Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: 📂 Download artifacts
-        uses: actions/download-artifact@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
           name: ThousandSunny
 
-      - name: 🚢 Deploy To Server
-        uses: easingthemes/ssh-deploy@v4
+      - name: Deploy To Server
+        uses: easingthemes/ssh-deploy@v5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.FTP_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i --delete"

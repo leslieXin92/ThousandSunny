@@ -16,7 +16,7 @@
     "element-plus": "^2.4.0",
     "gsap": "^3.12.2",
     "lodash": "^4.17.21",
-    "md-editor-v3": "^4.8.1",
+    "md-editor-v3": "^4.12.3",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",
     "qs": "^6.11.2",
