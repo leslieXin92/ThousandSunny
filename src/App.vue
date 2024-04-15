@@ -21,10 +21,11 @@
 </template>
 
 <script setup lang='ts'>
-import { shallowRef, watch } from 'vue'
+import { onMounted, shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import PageHeader from '@/components/PageHeader/index.vue'
 import PageFooter from '@/components/PageFooter/index.vue'
+import { useUserStore } from '@/store/useUserStore'
 
 const route = useRoute()
 
@@ -33,6 +34,17 @@ const isNotFound = shallowRef(false)
 watch(() => route.name, (val) => {
   isNotFound.value = val !== 'NotFound'
 })
+
+const userStore = useUserStore()
+const { handleAutoLogin, changeIsLogin } = userStore
+
+onMounted(async () => {
+  await handleAutoLogin()
+})
+
+window.onbeforeunload = () => {
+  changeIsLogin(false)
+}
 </script>
 
 <style lang='scss' scoped>

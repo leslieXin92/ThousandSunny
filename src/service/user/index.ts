@@ -19,3 +19,12 @@ export function login(data: LoginParams) {
     showErrorMsg: true
   })
 }
+
+export function autoLogin(data: any) {
+  return http.post<Res<LoginRes>>({
+    url: '/user/autoLogin',
+    data,
+    showSuccessMsg: false,
+    showErrorMsg: false
+  })
+}
