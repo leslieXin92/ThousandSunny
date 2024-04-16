@@ -44,13 +44,15 @@ export const useUserStore = defineStore(
       if (isLogin.value) return
       const userCache = localCache.get('userStore')
       if (!userCache?.userInfo) return
-      const { data } = await autoLogin({
+      const { code, data } = await autoLogin({
         id: userCache.userInfo.id,
         username: userCache.userInfo.username,
         permission: userCache.userInfo.permission
       })
-      changeIsLogin(true)
-      token.value = data.token
+      if (!code) {
+        changeIsLogin(true)
+        token.value = data.token
+      }
     }
 
     return {
